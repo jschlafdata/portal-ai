@@ -1,0 +1,45 @@
+nat_gateway_id: nat-0f9f0b334798c9fc5
+vpc_cidr_block: 174.64.0.0/16
+vpc_id: vpc-0b5087f6bdafd0497
+vpc_name: schlafdata-dev-vpc
+rds_username: schlafdata_rds_admin
+rds_instance_hostname: schlafdata-app-dev-db.cgczspewjg6d.us-west-2.rds.amazonaws.com:5432
+rds_instance_host_no_port: schlafdata-app-dev-db.cgczspewjg6d.us-west-2.rds.amazonaws.com
+efs_id: fs-026bbad7fecf19426
+efs_arn: arn:aws:elasticfilesystem:us-west-2:406622241617:file-system/fs-026bbad7fecf19426
+efs_access_point_arn: arn:aws:elasticfilesystem:us-west-2:406622241617:access-point/fsap-08f97f17b88e4d9ab
+kops_ssh_key_name: id_ed25519_kops
+aws_account_id: 406622241617
+iam_policy_arns:
+  efs-csi-controller-sa: arn:aws:iam::406622241617:policy/efs-csi-controller-sa
+  aws-lb-controller: arn:aws:iam::406622241617:policy/aws-lb-controller
+  ecr: arn:aws:iam::406622241617:policy/ecr
+  kops: arn:aws:iam::406622241617:policy/kops
+  external-dns: arn:aws:iam::406622241617:policy/external-dns
+  efs-access-point-policy: arn:aws:iam::406622241617:policy/efs-access-point-policy
+private_subnets:
+- availability_zone: us-west-2a
+  subnet_id: subnet-0d40e2efbf64ff3e5
+  subnet_cidr: 174.64.10.0/27
+- availability_zone: us-west-2b
+  subnet_id: subnet-0e40cf1b941ae1a15
+  subnet_cidr: 174.64.10.32/27
+- availability_zone: us-west-2c
+  subnet_id: subnet-0bbfb59f99e5fe7df
+  subnet_cidr: 174.64.10.64/27
+- availability_zone: us-west-2d
+  subnet_id: subnet-0a2db2a7865606f5c
+  subnet_cidr: 174.64.10.96/27
+public_subnets:
+- availability_zone: us-west-2a
+  subnet_id: subnet-05268c0edf1653894
+  subnet_cidr: 174.64.1.0/27
+- availability_zone: us-west-2b
+  subnet_id: subnet-0f0ac14021f953270
+  subnet_cidr: 174.64.1.32/27
+- availability_zone: us-west-2c
+  subnet_id: subnet-02dd7628aea17ea8d
+  subnet_cidr: 174.64.1.64/27
+- availability_zone: us-west-2d
+  subnet_id: subnet-0bec9f9e195635fa8
+  subnet_cidr: 174.64.1.96/27

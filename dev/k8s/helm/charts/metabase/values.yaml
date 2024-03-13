@@ -1,0 +1,108 @@
+replicaCount: 1
+pdb:
+  create: false
+  minAvailable: 1
+  maxUnavailable: ''
+deploymentAnnotations: {}
+deploymentLabels: {}
+podAnnotations: {}
+podLabels: {}
+image:
+  repository: metabase/metabase
+  tag: v0.48.3
+  command: []
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+listen:
+  host: 0.0.0.0
+  port: 3000
+monitoring:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+  port: 9191
+ssl:
+  enabled: false
+jetty: null
+database:
+  type: postgres
+  host: schlafdata-app-dev-db.cgczspewjg6d.us-west-2.rds.amazonaws.com
+  port: 5432
+  dbname: metabase_backend
+  username: schlafdata_rds_admin
+  existingSecret: eso-backend
+  existingSecretPasswordKey: rds_password
+  googleCloudSQL:
+    instanceConnectionNames: []
+    resources: {}
+    securityContext:
+      runAsNonRoot: true
+password:
+  complexity: normal
+  length: 6
+timeZone: UTC
+emojiLogging: true
+colorLogging: true
+session: {}
+extraInitContainers: []
+extraVolumeMounts: []
+extraVolumes: []
+livenessProbe:
+  path: /api/health
+  initialDelaySeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 6
+readinessProbe:
+  path: /api/health
+  initialDelaySeconds: 30
+  timeoutSeconds: 3
+  periodSeconds: 5
+service:
+  name: metabase
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 3000
+  nodePort: null
+  annotations: {}
+  loadBalancerSourceRanges: {}
+ingress:
+  enabled: true
+  className: nginx-internal
+  hosts:
+  - metabase.schlafdata.cloud
+  path: /
+  pathType: Prefix
+  labels:
+    app.kubernetes.io/instance: metabase
+    app.kubernetes.io/name: metabase
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: metabase.schlafdata.cloud
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+    nginx.ingress.kubernetes.io/proxy-buffering: 'on'
+    nginx.ingress.kubernetes.io/proxy-buffers-number: '4'
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 1024m
+  tls:
+  - secretName: wildcard-tls-cert-schlafdata-cloud
+    hosts:
+    - metabase.schlafdata.cloud
+route:
+  enabled: false
+  annotations: {}
+  path: ''
+  wildcardPolicy: None
+  tls: {}
+serviceAccount:
+  create: false
+  annotations: {}
+  name: null
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+awsEKS:
+  sgp:
+    enabled: false
+extraEnv: {}
+envFrom: []
+securityContext: {}
+sidecars: []

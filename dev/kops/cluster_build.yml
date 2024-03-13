@@ -1,0 +1,190 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  name: k8s-dev.schlafdata.cloud
+spec:
+  api:
+    loadBalancer:
+      class: Network
+      crossZoneLoadBalancing: true
+      type: Internal
+  authorization:
+    rbac: {}
+  iam:
+    allowContainerRegistry: true
+    useServiceAccountExternalPermissions: true
+    serviceAccountExternalPermissions:
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/efs-csi-controller-sa
+      name: efs-csi-controller-sa
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/aws-lb-controller
+      name: aws-lb-controller
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/ecr
+      name: ecr
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/kops
+      name: kops
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/external-dns
+      name: external-dns
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/efs-access-point-policy
+      name: efs-access-point-policy
+      namespace: default
+  containerd:
+    nvidiaGPU:
+      enabled: true
+      dcgmExporter:
+        enabled: true
+      package: nvidia-headless-535-server
+  channel: stable
+  cloudProvider: aws
+  clusterAutoscaler:
+    cpuRequest: 100m
+    enabled: true
+    memoryRequest: 300Mi
+  configBase: s3://kops-dev.schlafdata.cloud/k8s-dev.schlafdata.cloud
+  dnsZone: Z073043915ZSR6Y60ZWLQ
+  etcdClusters:
+  - cpuRequest: 200m
+    memoryRequest: 100Mi
+    name: main
+    etcdMembers:
+    - encryptedVolume: true
+      instanceGroup: master-us-west-2a
+      name: a
+  - cpuRequest: 100m
+    memoryRequest: 100Mi
+    name: events
+    etcdMembers:
+    - encryptedVolume: true
+      instanceGroup: master-us-west-2a
+      name: a
+  kubeDNS:
+    nodeLocalDNS:
+      cpuRequest: 25m
+      enabled: true
+      memoryRequest: 5Mi
+    provider: CoreDNS
+  kubeProxy:
+    ipvsScheduler: lc
+    proxyMode: ipvs
+  kubelet:
+    anonymousAuth: false
+    authenticationTokenWebhook: true
+    authorizationMode: Webhook
+  kubernetesApiAccess:
+  - 10.8.0.0/24
+  kubernetesVersion: 1.29.2
+  masterInternalName: internal.k8s-dev.schlafdata.cloud
+  masterPublicName: k8s-dev.schlafdata.cloud
+  networkCIDR: 174.64.0.0/16
+  networkID: vpc-0b5087f6bdafd0497
+  networking:
+    calico:
+      mtu: 8981
+  nonMasqueradeCIDR: 100.64.0.0/10
+  serviceAccountIssuerDiscovery:
+    enableAWSOIDCProvider: true
+    discoveryStore: s3://iam-http-dir-dev-schlafdata-cloud
+  podIdentityWebhook:
+    enabled: true
+  certManager:
+    enabled: true
+    managed: true
+    hostedZoneIDs:
+    - Z0874785XIHL4I3XGPM9
+    - Z0612241TJCICYF5G5HV
+    - Z05003623RKSQ1Y4SUJJ9
+    - Z073043915ZSR6Y60ZWLQ
+  sshAccess:
+  - 10.8.0.0/24
+  - 174.64.0.0/16
+  sshKeyName: id_ed25519_kops
+  subnets:
+  - cidr: 174.64.10.0/27
+    egress: nat-0f9f0b334798c9fc5
+    id: subnet-0d40e2efbf64ff3e5
+    name: us-west-2a
+    type: Private
+    zone: us-west-2a
+  - cidr: 174.64.1.0/27
+    id: subnet-05268c0edf1653894
+    name: utility-us-west-2a
+    type: Utility
+    zone: us-west-2a
+  topology:
+    dns:
+      type: Public
+    masters: private
+    nodes: private
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.schlafdata.cloud
+  name: master-us-west-2a
+spec:
+  image: ami-01b22a09b36812401
+  machineType: m5.large
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-us-west-2a
+  role: Master
+  rootVolumeEncryption: true
+  subnets:
+  - us-west-2a
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.schlafdata.cloud
+  name: nodes-us-west-2a
+spec:
+  image: ami-01b22a09b36812401
+  machineType: m5.large
+  maxSize: 3
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: nodes-us-west-2a
+  role: Node
+  rootVolumeEncryption: true
+  subnets:
+  - us-west-2a
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.schlafdata.cloud
+  name: gpu-nodes-g4dn-xl
+spec:
+  image: ami-01b22a09b36812401
+  machineType: g4dn.xlarge
+  maxSize: 1
+  minSize: 0
+  nodeLabels:
+    instance-group: gpu-nodes-g4dn-xl
+  role: Node
+  subnets:
+  - us-west-2a
+  cloudLabels:
+    node_type: gpu
+    instance_type: g4dn-xl
+    gpus: '1'

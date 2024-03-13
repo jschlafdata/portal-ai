@@ -1,0 +1,9 @@
+pcg-docs:
+  values_file: sub_charts/pcg-docs/values.yaml
+  tmpl_file: docs.tmpl.yaml
+  name: pcg-docs
+  ingress_class_name: nginx-external
+  ecrImage: 406622241617.dkr.ecr.us-west-2.amazonaws.com/dev.pcg-docs
+  vars:
+  - dnsDomain
+  - tlsSecretName

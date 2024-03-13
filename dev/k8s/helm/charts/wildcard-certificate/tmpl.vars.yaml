@@ -1,0 +1,10 @@
+wildcard-certificate:
+  values_file: values.yaml
+  tmpl_file: wildcard-certificate.values.tmpl.yaml
+  vars:
+  - aliasCommonName
+  - commonName
+  - dnsDomain
+  - gitAdminEmail
+  - awsRegion
+  - tlsSecretName

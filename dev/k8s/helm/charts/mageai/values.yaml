@@ -1,0 +1,96 @@
+replicaCount: 1
+image:
+  repository: mageai/mageai
+  pullPolicy: Always
+  tag: latest
+  workingDir: /home/src/schlafdata
+imagePullSecrets: []
+nameOverride: mageai
+fullnameOverride: mageai
+serviceAccount:
+  create: true
+  annotations: null
+  name: mageai
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+service:
+  type: NodePort
+  port: 6789
+ingress:
+  enabled: true
+  className: nginx-internal
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+    nginx.ingress.kubernetes.io/proxy-buffering: 'on'
+    nginx.ingress.kubernetes.io/proxy-buffers-number: '4'
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 1024m
+    external-dns.alpha.kubernetes.io/hostname: mage.manage.schlafdata.cloud
+  hosts:
+  - host: mage.manage.schlafdata.cloud
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
+      backend:
+        service:
+          name: mageai
+          port:
+            number: 6789
+  tls:
+  - hosts:
+    - mage.manage.schlafdata.cloud
+    secretName: wildcard-tls-cert-schlafdata-cloud
+resources: {}
+tolerations: []
+affinity: {}
+volumes:
+- name: mage-fs
+  persistentVolumeClaim:
+    claimName: efs-default-claim
+env:
+- name: KUBE_NAMESPACE
+  valueFrom:
+    fieldRef:
+      fieldPath: metadata.namespace
+- name: PROJECT_TYPE
+  value: main
+- name: USER_CODE_PATH
+  value: /home/src/schlafdata
+- name: MAGE_DATABASE_CONNECTION_URL
+  valueFrom:
+    secretKeyRef:
+      name: eso-backend
+      key: mageconnurl
+- name: REQUIRE_USER_AUTHENTICATION
+  value: '1'
+- name: DB_USER
+  valueFrom:
+    secretKeyRef:
+      name: eso-backend
+      key: rds_username
+- name: DB_PASS
+  valueFrom:
+    secretKeyRef:
+      name: eso-backend
+      key: rds_password
+- name: GIT_SSH_PUBLIC_KEY
+  valueFrom:
+    secretKeyRef:
+      name: eso-backend
+      key: git_public_key
+- name: GIT_SSH_PRIVATE_KEY
+  valueFrom:
+    secretKeyRef:
+      name: eso-backend
+      key: git_private_key
+- name: DB_NAME
+  valueFrom:
+    secretKeyRef:
+      name: eso-backend
+      key: mage_db
+- name: KUBE_SERVICE_TYPE
+  value: NodePort
+- name: SERVICE_ACCOUNT_CREDENTIAL_FILE_PATH
+  value: /var/run/secrets/kubernetes.io/serviceaccount/namespace
+- name: MAGE_DATA_DIR
+  value: /home/src/mage_data

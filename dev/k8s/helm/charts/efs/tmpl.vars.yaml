@@ -1,0 +1,5 @@
+efs:
+  values_file: values.yaml
+  tmpl_file: efs.values.tmpl.yaml
+  vars:
+  - efsVolumeHandle

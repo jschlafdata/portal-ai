@@ -1,0 +1,8 @@
+name: big-agi
+ingressName: big-agi-ingress
+dnsDomain: schlafdata.cloud
+tlsSecretName: wildcard-tls-cert-schlafdata-cloud
+ecrImage: ghcr.io/enricoros/big-agi
+ingress_class_name: nginx-internal
+service:
+  port: 3000

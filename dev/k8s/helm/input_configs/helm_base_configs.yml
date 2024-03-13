@@ -1,0 +1,20 @@
+awsRegion: us-west-2
+iamPolicies:
+  efs-csi-controller-sa: arn:aws:iam::406622241617:policy/efs-csi-controller-sa
+  aws-lb-controller: arn:aws:iam::406622241617:policy/aws-lb-controller
+  ecr: arn:aws:iam::406622241617:policy/ecr
+  kops: arn:aws:iam::406622241617:policy/kops
+  external-dns: arn:aws:iam::406622241617:policy/external-dns
+  efs-access-point-policy: arn:aws:iam::406622241617:policy/efs-access-point-policy
+efsVolumeHandle: fs-026bbad7fecf19426
+rdsInstanceHostname: schlafdata-app-dev-db.cgczspewjg6d.us-west-2.rds.amazonaws.com:5432
+rdsInstanceHostNoPort: schlafdata-app-dev-db.cgczspewjg6d.us-west-2.rds.amazonaws.com
+rdsUsername: schlafdata_rds_admin
+awsEfsDriver: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver
+dnsDomain: schlafdata.cloud
+gitAdminEmail: john@schlafdata.com
+gitAdminUsername: jschlafdata
+aliasCommonName: '*.schlafdata.cloud'
+commonName: schlafdata-cloud
+tlsSecretName: wildcard-tls-cert-schlafdata-cloud
+mageGitRepoLink: https://github.com/jschlafdata/mageai-schlafdata.git

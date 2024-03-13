@@ -1,0 +1,9 @@
+portal-docs:
+  values_file: sub_charts/portal-docs/values.yaml
+  tmpl_file: docs.tmpl.yaml
+  name: portal-docs
+  ingress_class_name: nginx-external
+  ecrImage: 406622241617.dkr.ecr.us-west-2.amazonaws.com/portal-docs
+  vars:
+  - dnsDomain
+  - tlsSecretName

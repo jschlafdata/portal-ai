@@ -1,0 +1,39 @@
+name: llama2-7b-cuda
+ingress_class_name: nginx-internal
+ingress:
+  domain_dns: schlafdata.cloud
+  tls_secret: wildcard-tls-cert-schlafdata-cloud
+  service_name: llama2-7b-cuda
+storage:
+  storageClassName: efs-dynamic-sc
+  storage: 25Gi
+  volume_handle: fs-026bbad7fecf19426
+  access_mode: ReadWriteOnce
+  aws_role: arn:aws:iam::406622241617:policy/efs-csi-controller-sa
+deployment:
+  image: ghcr.io/chenhunghan/ialacol-cuda12:latest
+  env:
+    DEFAULT_MODEL_HG_REPO_ID: TheBloke/Llama-2-7B-Chat-GGML
+    DEFAULT_MODEL_FILE: llama-2-7b-chat.ggmlv3.q4_0.bin
+    GPU_LAYERS: 40
+resources:
+  limits:
+    nvidia.com/gpu: 1
+model:
+  persistence:
+    size: 25Gi
+    accessModes:
+    - ReadWriteOnce
+    storageClassName: efs-dynamic-sc
+service:
+  type: NodePort
+  port: 8000
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '1200'
+nodeSelector:
+  instance-group: gpu-nodes-g4dn-xl
+tolerations:
+- effect: NoSchedule
+  key: nvidia.com/gpu
+  operator: Exists
+affinity: {}

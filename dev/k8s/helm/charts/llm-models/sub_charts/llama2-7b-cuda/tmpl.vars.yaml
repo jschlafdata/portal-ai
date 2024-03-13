@@ -1,0 +1,15 @@
+llama2-7b-cuda:
+  values_file: sub_charts/llama2-7b-cuda/values.yaml
+  tmpl_file: bots.tmpl.yaml
+  name: llama2-7b-cuda
+  ingress_class_name: nginx-internal
+  DEFAULT_MODEL_HG_REPO_ID: TheBloke/Llama-2-7B-Chat-GGML
+  DEFAULT_MODEL_FILE: llama-2-7b-chat.ggmlv3.q4_0.bin
+  GPU_LAYERS: "40"
+  persistenceSize: 25Gi
+  image: ghcr.io/chenhunghan/ialacol-cuda12:latest
+  vars:
+  - dnsDomain
+  - tlsSecretName
+  - efsVolumeHandle
+  sa_name: efs-csi-controller-sa

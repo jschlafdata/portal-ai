@@ -1,0 +1,81 @@
+aws_region: us-west-2
+aws_prefix: schlafdata
+aws_start_url: https://d-9267b09ec7.awsapps.com/start
+project_name: schlafdata
+environment: dev
+git_admin_email: john@schlafdata.com
+git_admin_username: jschlafdata
+mage_git_repo_link: https://github.com/jschlafdata/mageai-schlafdata.git
+dns:
+  domain: schlafdata
+  dns_domain: schlafdata.cloud
+  dns_zone: Z073043915ZSR6Y60ZWLQ
+networking:
+  vpc_cidr: 174.64.0.0/16
+  public_subnet_cidr: 174.64.1.0/24
+  private_subnet_cidr: 174.64.10.0/24
+  open_vpn_static_route_ip: 10.8.0.0/24
+aws_efs_driver: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver
+postgres_rds:
+  generated_token_path: ~/.ssh/schlafdata/rds.env
+remote_s3_bucket_configs:
+  kops_state_prefix: kops-dev.schlafdata.cloud
+  tfstate_prefix: tfstate-dev.schlafdata.cloud
+  k8s_prefix: k8s-dev.schlafdata.cloud
+  kops_iam_prefix: iam-http-dir-dev-schlafdata-cloud
+  k8s_terraform_prefix: k8s-tfstate-dev.schlafdata.cloud
+  global_manifest: project-manifest-dev.schlafdata.cloud
+terraform:
+  aws_base:
+    app_name: schlafdata-app
+    database_user: schlafdata_rds_admin
+    openvpn_config_directory: ~/.ssh/schlafdata/generated/ovpn-config
+    kops_private_key_file: ~/.ssh/schlafdata/id_ed25519_kops
+    kops_public_key_file: ~/.ssh/schlafdata/id_ed25519_kops.pub
+    kops_key_name: id_ed25519_kops
+    openvpn_private_key_file: ~/.ssh/schlafdata/id_ed25519_openvpn
+    openvpn_public_key_file: ~/.ssh/schlafdata/id_ed25519_openvpn.pub
+    openvpn_key_name: id_ed25519_openvpn
+    openvpn_configs:
+      users:
+      - john
+      - kevin
+kops:
+  node_ig_settings:
+    machineType: m5.large
+    maxNodeSize: 3
+    image: ami-01b22a09b36812401
+  gpu_node_group:
+  - machineType: g4dn.xlarge
+    igName: g4dn-xl
+    maxNodeSize: 1
+    gpus: 1
+  additional_dns_zones:
+  - Z0874785XIHL4I3XGPM9
+  - Z0612241TJCICYF5G5HV
+  - Z05003623RKSQ1Y4SUJJ9
+  additional_gpu_node_groups:
+  - machineType: g4dn.2xlarge
+    igName: g4dn-2xl
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g4dn.4xlarge
+    igName: g4dn-4xl
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g4dn.12xlarge
+    igName: g4dn-12xl
+    maxNodeSize: 1
+    gpus: 4
+  - machineType: g5.xlarge
+    igName: g5-xl
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g5.4xlarge
+    igName: g5-4xl
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g5.12xlarge
+    igName: g5-12xl
+    maxNodeSize: 1
+    gpus: 4

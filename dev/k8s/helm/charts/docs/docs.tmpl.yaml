@@ -1,0 +1,8 @@
+name: {{ name }}
+ingressName: {{ name }}-ingress
+dnsDomain: {{ dnsDomain }}
+tlsSecretName: {{ tlsSecretName }}
+ecrImage: {{ ecrImage }}
+ingress_class_name: {{ ingress_class_name }}
+service:
+  port: 3000

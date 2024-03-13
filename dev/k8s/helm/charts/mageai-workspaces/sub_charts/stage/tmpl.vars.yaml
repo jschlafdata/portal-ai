@@ -1,0 +1,20 @@
+stage:
+  values_file: sub_charts/stage/values.yaml
+  tmpl_file: mage-workspace.tmpl.yaml
+  ingress_class_name: nginx-internal
+  workspace_name: stage
+  web_alias: stage
+  gitBranch: stage
+  dbtEnv: "__$STAGE"
+  sa_name: efs-csi-controller-sa
+  port: '6789'
+  name: mageai-stage-wkspc
+  path: /stage
+  vars:
+  - dnsDomain
+  - tlsSecretName
+  - efsVolumeHandle
+  - awsRegion
+  - gitAdminEmail
+  - gitAdminUsername
+  - mageGitRepoLink

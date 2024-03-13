@@ -1,0 +1,4 @@
+apiVersion: v2
+name: efs-storage
+description: A Helm chart for Kubernetes to create Service Accounts
+version: 0.1.0

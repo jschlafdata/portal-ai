@@ -1,0 +1,12 @@
+aplications:
+  websites:
+    charts:
+      docs:
+      - sub_chart: pcg-docs
+      - sub_chart: portal-docs
+      - sub_chart: if-databricks-docs
+      - sub_chart: big-agi
+      mageai-workspaces:
+      - sub_chart: development
+      - sub_chart: production
+      - sub_chart: stage

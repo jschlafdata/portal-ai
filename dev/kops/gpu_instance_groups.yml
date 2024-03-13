@@ -1,0 +1,125 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.schlafdata.cloud
+  name: gpu-nodes-g4dn-2xl
+spec:
+  image: ami-01b22a09b36812401
+  machineType: g4dn.2xlarge
+  maxSize: 1
+  minSize: 0
+  nodeLabels:
+    instance-group: gpu-nodes-g4dn-2xl
+  role: Node
+  subnets:
+  - us-west-2a
+  cloudLabels:
+    node_type: gpu
+    instance_type: g4dn-2xl
+    gpus: '1'
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.schlafdata.cloud
+  name: gpu-nodes-g4dn-4xl
+spec:
+  image: ami-01b22a09b36812401
+  machineType: g4dn.4xlarge
+  maxSize: 1
+  minSize: 0
+  nodeLabels:
+    instance-group: gpu-nodes-g4dn-4xl
+  role: Node
+  subnets:
+  - us-west-2a
+  cloudLabels:
+    node_type: gpu
+    instance_type: g4dn-4xl
+    gpus: '1'
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.schlafdata.cloud
+  name: gpu-nodes-g4dn-12xl
+spec:
+  image: ami-01b22a09b36812401
+  machineType: g4dn.12xlarge
+  maxSize: 1
+  minSize: 0
+  nodeLabels:
+    instance-group: gpu-nodes-g4dn-12xl
+  role: Node
+  subnets:
+  - us-west-2a
+  cloudLabels:
+    node_type: gpu
+    instance_type: g4dn-12xl
+    gpus: '4'
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.schlafdata.cloud
+  name: gpu-nodes-g5-xl
+spec:
+  image: ami-01b22a09b36812401
+  machineType: g5.xlarge
+  maxSize: 1
+  minSize: 0
+  nodeLabels:
+    instance-group: gpu-nodes-g5-xl
+  role: Node
+  subnets:
+  - us-west-2a
+  cloudLabels:
+    node_type: gpu
+    instance_type: g5-xl
+    gpus: '1'
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.schlafdata.cloud
+  name: gpu-nodes-g5-4xl
+spec:
+  image: ami-01b22a09b36812401
+  machineType: g5.4xlarge
+  maxSize: 1
+  minSize: 0
+  nodeLabels:
+    instance-group: gpu-nodes-g5-4xl
+  role: Node
+  subnets:
+  - us-west-2a
+  cloudLabels:
+    node_type: gpu
+    instance_type: g5-4xl
+    gpus: '1'
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.schlafdata.cloud
+  name: gpu-nodes-g5-12xl
+spec:
+  image: ami-01b22a09b36812401
+  machineType: g5.12xlarge
+  maxSize: 1
+  minSize: 0
+  nodeLabels:
+    instance-group: gpu-nodes-g5-12xl
+  role: Node
+  subnets:
+  - us-west-2a
+  cloudLabels:
+    node_type: gpu
+    instance_type: g5-12xl
+    gpus: '4'

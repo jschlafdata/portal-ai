@@ -1,0 +1,7 @@
+rds_username: schlafdata_rds_admin
+rds_instance_hostname: schlafdata-app-dev-db.cgczspewjg6d.us-west-2.rds.amazonaws.com:5432
+aws_region: us-west-2
+project_name: schlafdata
+dns_domain: schlafdata.cloud
+rds_token_path: ~/.ssh/schlafdata/rds.env
+environment: dev

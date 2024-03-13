@@ -1,0 +1,9 @@
+if-databricks-docs:
+  values_file: sub_charts/if-databricks-docs/values.yaml
+  tmpl_file: docs.tmpl.yaml
+  name: if-databricks-docs
+  ingress_class_name: nginx-external
+  ecrImage: 406622241617.dkr.ecr.us-west-2.amazonaws.com/if-databricks-docs
+  vars:
+  - dnsDomain
+  - tlsSecretName

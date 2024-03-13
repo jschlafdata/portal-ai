@@ -1,0 +1,9 @@
+metabase:
+  values_file: values.yaml
+  tmpl_file: metabase.values.tmpl.yaml
+  dbname: 'metabase_backend'
+  vars:
+  - dnsDomain
+  - tlsSecretName
+  - rdsUsername
+  - rdsInstanceHostNoPort

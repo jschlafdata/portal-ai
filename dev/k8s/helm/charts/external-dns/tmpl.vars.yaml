@@ -1,0 +1,4 @@
+external-dns:
+  values_file: values.yaml
+  tmpl_file: external-dns.values.tmpl.yaml
+  sa_name: external-dns

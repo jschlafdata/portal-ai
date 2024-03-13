@@ -1,0 +1,39 @@
+server:
+  ingress:
+    enabled: true
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: vault.schlafdata.cloud
+      meta.helm.sh/release-name: vault-ingress
+      meta.helm.sh/release-namespace: default
+      nginx.ingress.kubernetes.io/proxy-buffer-size: "256k"
+      nginx.ingress.kubernetes.io/proxy-buffering: "on"
+      nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+      nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m"
+    labels:
+      app.kubernetes.io/instance: vault
+      app.kubernetes.io/name: vault
+    ingressClassName: nginx-internal
+    pathType: Prefix
+    hosts:
+      - host: vault.schlafdata.cloud
+        paths: 
+        - "/"
+    tls:
+      - hosts:
+          - vault.schlafdata.cloud
+        secretName: wildcard-tls-cert-schlafdata-cloud
+  dataStorage:
+    enabled: true
+    # Size of the PVC created
+    size: 10Gi
+    # Location where the PVC will be mounted.
+    mountPath: "/vault/data"
+    # Name of the storage class to use.  If null it will use the
+    # configured default Storage Class.
+    storageClass: vault-sc
+    # Access Mode of the storage device being used for the PVC
+    accessMode: ReadWriteOnce
+    # Annotations to apply to the PVC
+    annotations: {}
+    # Labels to apply to the PVC
+    labels: {}

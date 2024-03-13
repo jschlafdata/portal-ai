@@ -1,0 +1,8 @@
+name: if-databricks-docs
+ingressName: if-databricks-docs-ingress
+dnsDomain: schlafdata.cloud
+tlsSecretName: wildcard-tls-cert-schlafdata-cloud
+ecrImage: 406622241617.dkr.ecr.us-west-2.amazonaws.com/if-databricks-docs
+ingress_class_name: nginx-external
+service:
+  port: 3000

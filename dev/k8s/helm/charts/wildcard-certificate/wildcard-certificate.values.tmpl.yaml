@@ -1,0 +1,12 @@
+aliasCommonName: {{ aliasCommonName }}
+commonName: {{ commonName }}
+dnsDomain: {{ dnsDomain }}
+subdomains:
+- public
+- private
+- dev
+- stage
+- manage
+gitAdminEmail: {{ gitAdminEmail }}
+awsRegion: {{ awsRegion }}
+tlsSecretName: {{ tlsSecretName }}

@@ -1,0 +1,20 @@
+production:
+  values_file: sub_charts/production/values.yaml
+  tmpl_file: mage-workspace.tmpl.yaml
+  ingress_class_name: nginx-internal
+  workspace_name: production
+  web_alias: prod
+  gitBranch: prod
+  dbtEnv: ""
+  sa_name: efs-csi-controller-sa
+  port: '6789'
+  name: mageai-prod-wkspc
+  path: /production
+  vars:
+  - dnsDomain
+  - tlsSecretName
+  - efsVolumeHandle
+  - awsRegion
+  - gitAdminEmail
+  - gitAdminUsername
+  - mageGitRepoLink

@@ -1,0 +1,12 @@
+aliasCommonName: '*.schlafdata.cloud'
+commonName: schlafdata-cloud
+dnsDomain: schlafdata.cloud
+subdomains:
+- public
+- private
+- dev
+- stage
+- manage
+gitAdminEmail: john@schlafdata.com
+awsRegion: us-west-2
+tlsSecretName: wildcard-tls-cert-schlafdata-cloud

@@ -1,0 +1,3 @@
+kube-state-metrics:
+  values_file: sub_charts/kube-state-metrics/values.yaml
+  tmpl_file: kube-state-metrics.values.tmpl.yaml

@@ -1,0 +1,21 @@
+storage: 10Gi
+access_mode: ReadWriteMany
+mage_prefix: mage-data
+pod_index: '0'
+workspace_name: stage
+dnsDomain: schlafdata.cloud
+tlsSecretName: wildcard-tls-cert-schlafdata-cloud
+ingress_class_name: nginx-internal
+efsVolumeHandle: fs-026bbad7fecf19426
+iam_role: arn:aws:iam::406622241617:policy/efs-csi-controller-sa
+web_alias: stage
+service:
+  port: 6789
+name: mageai-stage-wkspc
+path: /stage
+awsRegion: us-west-2
+gitAdminEmail: john@schlafdata.com
+gitAdminUsername: jschlafdata
+mageGitRepoLink: https://github.com/jschlafdata/mageai-schlafdata.git
+gitBranch: stage
+dbtEnv: __$STAGE

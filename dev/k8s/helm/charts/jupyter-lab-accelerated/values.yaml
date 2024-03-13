@@ -1,0 +1,28 @@
+ingress_class_name: nginx-internal
+ingress:
+  domain_dns: schlafdata.cloud
+  tls_secret: wildcard-tls-cert-schlafdata-cloud
+deployment:
+  image: tensorflow/tensorflow:latest-gpu-jupyter
+resources:
+  limits:
+    nvidia.com/gpu: 1
+service:
+  type: NodePort
+  port: 8888
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '1200'
+nodeSelector:
+  instance-group: gpu-nodes-g5-xl
+tolerations:
+- effect: NoSchedule
+  key: nvidia.com/gpu
+  operator: Exists
+affinity: {}
+storage:
+  storageClassName: efs-dynamic-sc
+  storage: 100Gi
+  volume_handle: fs-09b3962c56074f973
+  access_mode: ReadWriteMany
+  aws_role: arn:aws:iam::406622241617:policy/efs-csi-controller-sa
+

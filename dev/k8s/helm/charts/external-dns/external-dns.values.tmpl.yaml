@@ -1,0 +1,26 @@
+namespace: default
+aws:
+  region: us-west-2
+interval: 5m
+logLevel: debug
+logFormat: json
+policy: sync
+registry: txt
+txtOwnerId: ZJQT16387AFJE3BZAM309
+replicas: 1
+rbac:
+  create: true
+  serviceAccountName: {{ service_account_name }}
+  serviceAccountAnnotations:
+    iam.amazonaws.com/role: {{ iam_role }}
+  apiVersion: v1
+  pspEnabled: false
+securityContext:
+  fsGroup: 65534
+volumes:
+- name: token-vol
+  projected:
+    sources:
+    - serviceAccountToken:
+        path: token
+resources: {}

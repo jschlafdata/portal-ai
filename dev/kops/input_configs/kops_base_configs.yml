@@ -1,0 +1,115 @@
+networkCIDR: 174.64.0.0/16
+networkID: vpc-0b5087f6bdafd0497
+awsRegion: us-west-2
+projectName: schlafdata
+natGatewayId: nat-0f9f0b334798c9fc5
+dnsZone: schlafdata
+dnsDomain: schlafdata.cloud
+dnsZoneId: Z073043915ZSR6Y60ZWLQ
+vpnInternalNetworkIp: 10.8.0.0/24
+machineType: m5.large
+maxNodeSize: 3
+kopsSshKeyName: id_ed25519_kops
+image: ami-01b22a09b36812401
+gpuGroups:
+- machineType: g4dn.xlarge
+  igName: g4dn-xl
+  maxNodeSize: 1
+  gpus: 1
+additionalDnsZones:
+- Z0874785XIHL4I3XGPM9
+- Z0612241TJCICYF5G5HV
+- Z05003623RKSQ1Y4SUJJ9
+additionalGpuNodeGroups:
+- machineType: g4dn.2xlarge
+  igName: g4dn-2xl
+  maxNodeSize: 1
+  gpus: 1
+- machineType: g4dn.4xlarge
+  igName: g4dn-4xl
+  maxNodeSize: 1
+  gpus: 1
+- machineType: g4dn.12xlarge
+  igName: g4dn-12xl
+  maxNodeSize: 1
+  gpus: 4
+- machineType: g5.xlarge
+  igName: g5-xl
+  maxNodeSize: 1
+  gpus: 1
+- machineType: g5.4xlarge
+  igName: g5-4xl
+  maxNodeSize: 1
+  gpus: 1
+- machineType: g5.12xlarge
+  igName: g5-12xl
+  maxNodeSize: 1
+  gpus: 4
+kopsStateStore: s3://kops-dev.schlafdata.cloud
+configBase: s3://kops-dev.schlafdata.cloud/k8s-dev.schlafdata.cloud
+clusterName: k8s-dev.schlafdata.cloud
+discoveryStore: s3://iam-http-dir-dev-schlafdata-cloud
+subnets:
+  us-west-2a:
+    private:
+      cidr: 174.64.10.0/27
+      id: subnet-0d40e2efbf64ff3e5
+    public:
+      cidr: 174.64.1.0/27
+      id: subnet-05268c0edf1653894
+  us-west-2b:
+    private:
+      cidr: 174.64.10.32/27
+      id: subnet-0e40cf1b941ae1a15
+    public:
+      cidr: 174.64.1.32/27
+      id: subnet-0f0ac14021f953270
+  us-west-2c:
+    private:
+      cidr: 174.64.10.64/27
+      id: subnet-0bbfb59f99e5fe7df
+    public:
+      cidr: 174.64.1.64/27
+      id: subnet-02dd7628aea17ea8d
+  us-west-2d:
+    private:
+      cidr: 174.64.10.96/27
+      id: subnet-0a2db2a7865606f5c
+    public:
+      cidr: 174.64.1.96/27
+      id: subnet-0bec9f9e195635fa8
+kopsIamConfigs:
+  iam:
+    allowContainerRegistry: true
+    useServiceAccountExternalPermissions: true
+    serviceAccountExternalPermissions:
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/efs-csi-controller-sa
+      name: efs-csi-controller-sa
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/aws-lb-controller
+      name: aws-lb-controller
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/ecr
+      name: ecr
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/kops
+      name: kops
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/external-dns
+      name: external-dns
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::406622241617:policy/efs-access-point-policy
+      name: efs-access-point-policy
+      namespace: default

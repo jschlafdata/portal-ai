@@ -1,0 +1,4 @@
+nginx-external:
+  values_file: values.yaml
+  tmpl_file: nginx-external.values.tmpl.yml
+  sa_name: aws-lb-controller

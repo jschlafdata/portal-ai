@@ -1,0 +1,17 @@
+scale:
+kubectl scale statefulsets development --replicas=0
+
+kubectl patch statefulset development \
+  --type=strategic \
+  --patch-file=./stage/k8s/helm/patches/mageai.patch.vault.yaml
+
+kubectl patch statefulset development \
+  --type=strategic \
+  --patch-file=./stage/k8s/helm/patches/mageai.patch.vars.yaml
+
+kubectl get statefulset development \
+  -o yaml > ./dev/k8s/statefulsets/development.yaml
+
+kubectl scale statefulsets development --replicas=1
+
+

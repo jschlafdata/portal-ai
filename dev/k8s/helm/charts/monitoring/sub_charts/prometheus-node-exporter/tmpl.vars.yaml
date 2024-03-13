@@ -1,0 +1,3 @@
+prometheus-node-exporter:
+  values_file: sub_charts/prometheus-node-exporter/values.yaml
+  tmpl_file: prometheus-node-exporter.values.tmpl.yaml

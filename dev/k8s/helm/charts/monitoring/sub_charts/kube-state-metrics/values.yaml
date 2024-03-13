@@ -1,0 +1,181 @@
+prometheusScrape: true
+image:
+  registry: registry.k8s.io
+  repository: kube-state-metrics/kube-state-metrics
+  tag: ''
+  sha: ''
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+global:
+  imagePullSecrets: []
+  imageRegistry: ''
+autosharding:
+  enabled: false
+revisionHistoryLimit: 10
+extraArgs: []
+service:
+  port: 8080
+  type: ClusterIP
+  nodePort: 0
+  loadBalancerIP: ''
+  loadBalancerSourceRanges: []
+  clusterIP: ''
+  annotations: {}
+customLabels: {}
+selectorOverride: {}
+releaseLabel: false
+hostNetwork: false
+rbac:
+  create: true
+  useClusterRole: true
+  extraRules: []
+kubeRBACProxy:
+  enabled: false
+  image:
+    registry: quay.io
+    repository: brancz/kube-rbac-proxy
+    tag: v0.14.0
+    sha: ''
+    pullPolicy: IfNotPresent
+  extraArgs: []
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+  resources: {}
+  volumeMounts: []
+serviceAccount:
+  create: true
+  name: null
+  imagePullSecrets: []
+  annotations: {}
+prometheus:
+  monitor:
+    enabled: false
+    annotations: {}
+    additionalLabels: {}
+    namespace: ''
+    namespaceSelector: []
+    jobLabel: ''
+    targetLabels: []
+    podTargetLabels: []
+    interval: ''
+    sampleLimit: 0
+    targetLimit: 0
+    labelLimit: 0
+    labelNameLengthLimit: 0
+    labelValueLengthLimit: 0
+    scrapeTimeout: ''
+    proxyUrl: ''
+    selectorOverride: {}
+    honorLabels: false
+    metricRelabelings: []
+    relabelings: []
+    scheme: ''
+    bearerTokenFile: ''
+    bearerTokenSecret: {}
+    tlsConfig: {}
+podSecurityPolicy:
+  enabled: false
+  annotations: {}
+  additionalVolumes: []
+networkPolicy:
+  enabled: false
+  flavor: kubernetes
+securityContext:
+  enabled: true
+  runAsGroup: 65534
+  runAsUser: 65534
+  fsGroup: 65534
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+containerSecurityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+nodeSelector: {}
+affinity: {}
+tolerations: []
+topologySpreadConstraints: []
+annotations: {}
+podAnnotations: {}
+podDisruptionBudget: {}
+metricAllowlist: []
+metricDenylist: []
+metricLabelsAllowlist: []
+metricAnnotationsAllowList: []
+collectors:
+- certificatesigningrequests
+- configmaps
+- cronjobs
+- daemonsets
+- deployments
+- endpoints
+- horizontalpodautoscalers
+- ingresses
+- jobs
+- leases
+- limitranges
+- mutatingwebhookconfigurations
+- namespaces
+- networkpolicies
+- nodes
+- persistentvolumeclaims
+- persistentvolumes
+- poddisruptionbudgets
+- pods
+- replicasets
+- replicationcontrollers
+- resourcequotas
+- secrets
+- services
+- statefulsets
+- storageclasses
+- validatingwebhookconfigurations
+- volumeattachments
+kubeconfig:
+  enabled: false
+  secret: null
+customResourceState:
+  enabled: false
+  config: {}
+releaseNamespace: false
+namespaces: ''
+namespacesDenylist: ''
+namespaceOverride: ''
+kubeTargetVersionOverride: ''
+selfMonitor:
+  enabled: false
+verticalPodAutoscaler:
+  enabled: false
+  controlledResources: []
+  maxAllowed: {}
+  minAllowed: {}
+volumeMounts: []
+volumes: []
+extraManifests: []
+containers: []
+initContainers: []
+livenessProbe:
+  failureThreshold: 3
+  httpGet:
+    httpHeaders: []
+    scheme: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 5
+readinessProbe:
+  failureThreshold: 3
+  httpGet:
+    httpHeaders: []
+    scheme: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 5
