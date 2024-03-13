@@ -18,6 +18,7 @@
 *.tfstate.backup
 
 dev/docs/pcg-docs
+dev/terraform/kops/data/*
 
 ./errored.tfstate
 # Ignore plan output files
