@@ -1,0 +1,139 @@
+aws_start_url: https://d-9267b09ec7.awsapps.com/start # sso login url
+data_portal_name: One Portal for All
+
+git_admin_email: john@schlafdata.com
+git_admin_username: jschlafdata
+mage_git_repo_link: https://github.com/jschlafdata/mageai-schlafdata.git
+
+aws_prefix: schlafdata # cannot have '-' in it.
+project_name: schlafdata
+
+dns_zone_id:
+  dev: 
+    domain: schlafdata
+    dns_domain: schlafdata.cloud
+    dns_zone: Z073043915ZSR6Y60ZWLQ
+  stage: 
+    domain: schlafdata
+    dns_domain: schlafdata.cloud
+    dns_zone: Z07608922AP33WAMU0KKB
+  prod:
+    domain: schlafdata
+    dns_domain: schlafdata.tools
+    dns_zone: Z07608922AP33WAMU0KKB
+
+aws_environments:
+  dev:
+    aws_region: us-west-2
+    prefix: dev
+    s3_prefix: "-dev" # used as an additional alias to meet s3 bucket naming requirements.
+    vpc_cidr: 174.64.0.0/16
+    public_subnet_cidr: 174.64.1.0/24
+    private_subnet_cidr: 174.64.10.0/24
+  stage:
+    aws_region: us-west-2
+    prefix: stage
+    s3_prefix: "-stage"
+    vpc_cidr: 174.65.0.0/16
+    public_subnet_cidr: 174.65.1.0/24
+    private_subnet_cidr: 174.65.10.0/24
+  prod:
+    aws_region: us-west-2
+    prefix: ''
+    s3_prefix: ''
+    vpc_cidr: 174.66.0.0/16
+    public_subnet_cidr: 174.66.1.0/24
+    private_subnet_cidr: 174.66.10.0/24    
+
+
+# prefixes for s3 buckets and aws resources created.
+# example: kops state store: kops-[environment].[dns_domain]
+# terraform state store: tfstate-[environment].[dns_domain]
+
+remote_s3_buckets:
+  kops_state_prefix: kops
+  tfstate_prefix: tfstate
+  k8s_prefix: k8s
+  kops_iam_prefix: iam-http-dir
+  k8s_terraform_prefix: k8s-tfstate
+  global_manifest: project-manifest
+
+# Directory '/Users/johnschlafly/.ssh/schlafdata' was created.
+# ssh-keygen -t ed25519 -C "john@schlafdata.com" -f "/Users/johnschlafly/.ssh/schlafdata/id_ed25519_openvpn" -N ""
+
+ssh_key_names:
+  - openvpn
+  - kops
+  - git
+
+## you can grab the image for your region in ./mapping_files/aws/efs.yml
+aws_efs_driver: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver
+
+kops_ig_settings:
+  base_image: ami-01b22a09b36812401 ## you can grab the latest image for your region in ./mapping_files/aws/ubuntu_images.yml
+  machineType: m5.large
+  maxNodeSize: 3
+
+## at least one initial GPU node for k8s.
+gpu_node_group:
+  - machineType: g4dn.xlarge
+    igName: g4dn-xl
+    maxNodeSize: 1
+    gpus: 1
+
+## configs for terraform modules.
+ovpn_configs:
+  open_vpn_static_route_ip: "10.8.0.0/24"
+  users:
+  - john
+  - kevin
+
+postgres_rds:
+  db_user: rds_admin
+  app_name: app   
+  generated_token_file: rds.env
+
+
+## OPTIONAL ADDITIONAL SETTINGS
+
+additional_dns_zones:
+  dev:
+  - Z0874785XIHL4I3XGPM9
+  - Z0612241TJCICYF5G5HV
+  - Z05003623RKSQ1Y4SUJJ9
+
+environment_prefixs:
+  snowflake:
+    dev: __dev
+    stage: __stage
+    prod: ''
+  databricks:
+    dev: __dev
+    stage: __stage
+    prod: ''
+
+additional_gpu_node_groups:
+  - machineType: g4dn.2xlarge
+    igName: g4dn-2xl
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g4dn.4xlarge
+    igName: g4dn-4xl
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g4dn.12xlarge
+    igName: g4dn-12xl
+    maxNodeSize: 1
+    gpus: 4
+  - machineType: g5.xlarge
+    igName: g5-xl
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g5.4xlarge
+    igName: g5-4xl
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g5.12xlarge
+    igName: g5-12xl
+    maxNodeSize: 1
+    gpus: 4
