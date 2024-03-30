@@ -3,32 +3,35 @@ import subprocess
 import sys
 
 from portal_ai.tests.settings.dir_test import DirectoryManager
-from portal_ai.settings.load_global_settings import load_global_configs
+from portal_ai.settings.load_global_settings import GlobalConfigLoader
+from portal_ai.settings.logger import LoggerConfig
 
 
 class SSHKeyGenerator:
-    def __init__(self, key_name, key_email, project_name):
-        self.key_name = key_name
-        self.key_email = key_email
+    def __init__(self, project_name, logger):
+
+        self.logger = logger
         self.project_name = project_name
 
-    def generate_ssh_key(self):
-        user_home = os.path.expanduser("~")
-        project_ssh_folder = os.path.join(user_home, '.ssh', self.project_name)
-        DirectoryManager(project_ssh_folder).ensure_directory_exists()
 
-        full_key_name = f"id_ed25519_{self.key_name}"
-        ssh_key_path = os.path.join(project_ssh_folder, full_key_name)
+    def ssh_key_path(self):
+        user_home = os.path.expanduser("~")
+        self.project_ssh_folder = os.path.join(user_home, '.ssh', self.project_name)
+        return DirectoryManager(self.project_ssh_folder).ensure_directory_exists()
+
+    def generate_ssh_key(self, key_name, key_email):
+
+        full_key_name = f"id_ed25519_{key_name}"
+        ssh_key_path = os.path.join(self.project_ssh_folder, full_key_name)
 
         if os.path.exists(ssh_key_path):
-            print(f"SSH key {full_key_name} already exists.")
+            self.logger.info(f"SSH key {full_key_name} already exists.")
             return
 
-        ssh_key_gen_command = f'ssh-keygen -t ed25519 -C "{self.key_email}" -f "{ssh_key_path}" -N ""'
-        print(ssh_key_gen_command)
+        ssh_key_gen_command = f'ssh-keygen -t ed25519 -C "{key_email}" -f "{ssh_key_path}" -N ""'
         subprocess.run(ssh_key_gen_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-        print(f"SSH key {full_key_name} created.")
+        self.logger.info(f"SSH key {full_key_name} created.")
         self.add_key_to_ssh_agent(ssh_key_path)
 
     def add_key_to_ssh_agent(self, ssh_key_path):
@@ -40,20 +43,28 @@ class SSHKeyGenerator:
 
 def main():
 
-    print(f"Current working directory: {os.getcwd()}")
-    configs = load_global_configs(environment=None)
+    logger = LoggerConfig.get_logger(__name__)
 
-    key_email = configs.get('git_admin_email')
-    ssh_key_names = configs.get('ssh_key_names')
-    project_name = configs.get('project_name')
+    custom_configs = GlobalConfigLoader().custom_configs()
+    constant_configs = GlobalConfigLoader().constant_configs()
+
+    key_email = custom_configs.get('git_admin_email')
+    project_name = custom_configs.get('project_name')
+    ssh_key_names = constant_configs.get('ssh_key_names')
 
     if not all([key_email, ssh_key_names, project_name]):
-        print("General settings YAML file missing key configuration.")
+        logger.info("General settings YAML file missing key configuration.")
         sys.exit(1)
 
-    for key_name in ssh_key_names:
-        ssh_key_generator = SSHKeyGenerator(key_name, key_email, project_name)
-        ssh_key_generator.generate_ssh_key()
+    key_generator = SSHKeyGenerator(project_name, logger)
+    key_directory = key_generator.ssh_key_path()
+
+    if key_directory == True:
+        for key_name in ssh_key_names:
+            key_generator.generate_ssh_key(key_name, key_email)
+    else:
+        logger.info("Portal-AI was unable to make a directory in your ~/.ssh folder. :(")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

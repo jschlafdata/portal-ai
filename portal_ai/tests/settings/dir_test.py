@@ -1,4 +1,6 @@
 import os
+from portal_ai.settings.logger import LoggerConfig
+
 
 class DirectoryManager:
     def __init__(self, folder_path):
@@ -7,6 +9,7 @@ class DirectoryManager:
 
         :param folder_path: The path to the folder to manage.
         """
+        self.logger = LoggerConfig.get_logger(__name__)
         self.folder_path = folder_path
 
     def ensure_directory_exists(self):
@@ -14,12 +17,16 @@ class DirectoryManager:
         Checks if the folder exists, and if not, creates it.
         """
         # Check if the folder exists
-        if not os.path.exists(self.folder_path):
+        dir_exists = os.path.exists(self.folder_path)
+        if not dir_exists:
             # The folder does not exist, so create it
             try:
                 os.makedirs(self.folder_path, exist_ok=True)
-                print(f"Directory '{self.folder_path}' was created.")
+                self.logger.info(f"Directory '{self.folder_path}' was created.")
+                return os.path.exists(self.folder_path)
             except OSError as error:
-                print(f"Creation of the directory '{self.folder_path}' failed due to: {error}")
+                self.logger.info(f"Creation of the directory '{self.folder_path}' failed due to: {error}")
+                return False
         else:
-            print(f"Directory '{self.folder_path}' already exists.")
+            self.logger.info(f"Directory '{self.folder_path}' already exists.")
+            return dir_exists

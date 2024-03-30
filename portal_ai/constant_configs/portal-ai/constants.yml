@@ -26,3 +26,4 @@ ssh_key_names:
 # OpenVPN configurations (object)
 ovpn_configs:
   open_vpn_static_route_ip: "10.8.0.0/24"
+
