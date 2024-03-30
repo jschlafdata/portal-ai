@@ -2,9 +2,8 @@ import os
 import subprocess
 import sys
 
-from tests.settings.dir_test import DirectoryManager
-from settings.load_global_settings import load_global_configs
-
+from portal_ai.tests.settings.dir_test import DirectoryManager
+from portal_ai.settings.load_global_settings import load_global_configs
 
 
 class SSHKeyGenerator:
