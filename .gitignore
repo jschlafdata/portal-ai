@@ -17,20 +17,11 @@
 *.tfstate.*.backup
 *.tfstate.backup
 
-portal_ai.egg-info/*
-portal_ai.egg-info
+**/portal_ai.egg-info/*
+*portal_ai.egg-info
 
-dist/*
-dist
 
-build/*
-build
-
-venv/*
-venv
-
-dev/docs/pcg-docs
-dev/terraform/kops/data/*
+portal_ai/terraform/kops/data/*
 
 ./errored.tfstate
 # Ignore plan output files
