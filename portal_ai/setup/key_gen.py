@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-from test.settings.dir_test import ensure_directory_exists
+from tests.settings.dir_test import DirectoryManager
 from settings.load_global_settings import load_global_configs
 
 
@@ -16,7 +16,7 @@ class SSHKeyGenerator:
     def generate_ssh_key(self):
         user_home = os.path.expanduser("~")
         project_ssh_folder = os.path.join(user_home, '.ssh', self.project_name)
-        ensure_directory_exists(project_ssh_folder)
+        DirectoryManager(project_ssh_folder).ensure_directory_exists()
 
         full_key_name = f"id_ed25519_{self.key_name}"
         ssh_key_path = os.path.join(project_ssh_folder, full_key_name)
