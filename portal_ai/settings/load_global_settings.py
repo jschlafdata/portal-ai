@@ -11,7 +11,7 @@ class GlobalConfigLoader:
         self.logger = LoggerConfig.get_logger(__name__)
 
         self.global_config_path = "./global_settings.yml"
-        self.constant_config_path = "./portal_ai/constant_configs/portal-ai/constants.yml"
+        self.constant_config_path = "./portal_ai/configs/constants/portal-ai/constants.yml"
 
     def custom_configs(self):
         
