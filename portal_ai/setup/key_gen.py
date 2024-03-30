@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-from tests.settings.dir_test import ensure_directory_exists
+from test.settings.dir_test import ensure_directory_exists
 from settings.load_global_settings import load_global_configs
 
 
