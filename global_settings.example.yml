@@ -1,3 +1,7 @@
+
+## required for setup:
+
+
 aws_start_url: https://d-9267b09ec7.awsapps.com/start # sso login url
 data_portal_name: One Portal for All
 
