@@ -1,4 +1,4 @@
-from templating.yaml.yaml_manager import YmlManager
+from portal_ai.templating.yaml.yaml_manager import YmlManager
 
 # Ensure that the base directory of your project is accessible
 # Note: This line might need adjustment based on your actual project structure and how you're executing the script.
