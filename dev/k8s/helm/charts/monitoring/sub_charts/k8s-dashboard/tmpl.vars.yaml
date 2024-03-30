@@ -1,6 +1,0 @@
-k8s-dashboard:
-  values_file: sub_charts/k8s-dashboard/values.yaml
-  tmpl_file: k8s-dashboard.values.tmpl.yaml
-  vars:
-  - dnsDomain
-  - tlsSecretName

@@ -1,6 +1,0 @@
-prometheus:
-  values_file: sub_charts/prometheus/values.yaml
-  tmpl_file: prometheus.values.tmpl.yaml
-  vars:
-  - dnsDomain
-  - tlsSecretName

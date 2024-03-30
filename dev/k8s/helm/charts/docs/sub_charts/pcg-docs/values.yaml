@@ -1,8 +1,0 @@
-name: pcg-docs
-ingressName: pcg-docs-ingress
-dnsDomain: schlafdata.cloud
-tlsSecretName: wildcard-tls-cert-schlafdata-cloud
-ecrImage: 406622241617.dkr.ecr.us-west-2.amazonaws.com/dev.pcg-docs
-ingress_class_name: nginx-external
-service:
-  port: 3000

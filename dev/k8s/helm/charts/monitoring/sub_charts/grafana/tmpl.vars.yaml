@@ -1,6 +1,0 @@
-grafana:
-  values_file: sub_charts/grafana/values.yaml
-  tmpl_file: grafana.values.tmpl.yaml
-  vars:
-  - dnsDomain
-  - tlsSecretName

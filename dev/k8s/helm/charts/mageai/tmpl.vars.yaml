@@ -1,8 +1,0 @@
-mageai:
-  values_file: values.yaml
-  tmpl_file: mageai.values.tmpl.yaml
-  pvc_claim_name: efs-default-claim
-  manage_host_name: mage.manage
-  vars:
-  - dnsDomain
-  - tlsSecretName

@@ -1,4 +1,0 @@
-paths:
-  kops_base: ./{environment}/kops/input_configs/_inputs.tmpl.yml
-  helm_base: ./{environment}/k8s/helm/input_configs/_inputs.tmpl.yml
-  mage_rbac: ./{environment}/rbac/input_configs/_inputs.tmpl.yml

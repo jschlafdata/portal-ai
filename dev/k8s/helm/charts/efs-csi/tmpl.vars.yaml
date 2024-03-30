@@ -1,7 +1,0 @@
-efs-csi:
-  values_file: values.yaml
-  tmpl_file: efs-csi.values.tmpl.yaml
-  vars:
-  - awsEfsDriver
-  - efsVolumeHandle
-  sa_name: efs-csi-controller-sa

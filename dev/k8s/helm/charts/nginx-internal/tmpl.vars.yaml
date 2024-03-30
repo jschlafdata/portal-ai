@@ -1,4 +1,0 @@
-nginx-internal:
-  values_file: values.yaml
-  tmpl_file: nginx-internal.values.tmpl.yaml
-  sa_name: aws-lb-controller

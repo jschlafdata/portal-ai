@@ -1,9 +1,0 @@
-big-agi:
-  values_file: sub_charts/big-agi/values.yaml
-  tmpl_file: docs.tmpl.yaml
-  name: big-agi
-  ingress_class_name: nginx-internal
-  ecrImage: ghcr.io/enricoros/big-agi
-  vars:
-  - dnsDomain
-  - tlsSecretName
