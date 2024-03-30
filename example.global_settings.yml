@@ -1,0 +1,98 @@
+## required for mac os initial setup:
+
+git_admin_email: admin@example.com
+git_admin_username: adminusername
+project_name: iheartdata
+
+
+# AWS SSO login URL (dummy URL)
+aws_start_url: https://d-xxxxxxx.awsapps.com/start 
+data_portal_name: My Swaggy Portal Name
+
+mage_git_repo_link: https://github.com/jschlafdata/mageai-portal-ai.git
+
+aws_prefix: swaggyprefix # cannot have '-' in it.
+
+dns_zone_id:
+  dev: 
+    domain: iheartdatadev
+    dns_domain: iheartdatadev.example.com
+    dns_zone: ZZZZZZZZZZZZZZ
+  stage: 
+    domain: iheartdatastage
+    dns_domain: iheartdatastage.example.com
+    dns_zone: ZZZZZZZZZZZZZZ
+  prod:
+    domain: iheartdataprod
+    dns_domain: iheartdataprod.example.com
+    dns_zone: ZZZZZZZZZZZZZZ
+
+aws_environments:
+  dev:
+    aws_region: us-west-2
+    prefix: dev
+    s3_prefix: "-dev"
+    vpc_cidr: 10.0.0.0/16
+    public_subnet_cidr: 10.0.1.0/24
+    private_subnet_cidr: 10.0.2.0/24
+  stage:
+    aws_region: us-west-2
+    prefix: stage
+    s3_prefix: "-stage"
+    vpc_cidr: 10.1.0.0/16
+    public_subnet_cidr: 10.1.1.0/24
+    private_subnet_cidr: 10.1.2.0/24
+  prod:
+    aws_region: us-west-2
+    prefix: ''
+    s3_prefix: ''
+    vpc_cidr: 10.2.0.0/16
+    public_subnet_cidr: 10.2.1.0/24
+    private_subnet_cidr: 10.2.2.0/24    
+
+
+
+## Start with at least one initial GPU node for k8s.
+gpu_node_group:
+  - machineType: g5.xlarge
+    igName: g5-xl
+    maxNodeSize: 1
+    gpus: 1
+
+## Configs for terraform modules.
+ovpn_configs:
+  users:
+  - user1
+  - user2
+
+postgres_rds:
+  db_user: dbuser
+  app_name: dummyapp   
+  generated_token_file: dummy.env
+
+
+## OPTIONAL ADDITIONAL SETTINGS
+
+additional_dns_zones:
+  include: true
+  zones:
+    dev:
+    - ZZZZZZZZZZZZZ1
+    - ZZZZZZZZZZZZZ2
+    - ZZZZZZZZZZZZZ3
+
+additional_gpu_node_groups:
+  include: true
+  groups:
+  - machineType: g4dn.xlarge
+    igName: g4dn-xl
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g4dn.12xlarge
+    igName: g4dn-12xl
+    maxNodeSize: 1
+    gpus: 4
+  - machineType: g5.12xlarge
+    igName: g5-12xl
+    maxNodeSize: 1
+    gpus: 4

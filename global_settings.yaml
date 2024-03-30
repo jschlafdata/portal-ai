@@ -1,0 +1,109 @@
+## Required for setup:
+
+# AWS SSO login URL (string)
+aws_start_url: 
+
+# Name of the data portal created (string)
+data_portal_name: 
+
+# Administrator's email for Git (string)
+git_admin_email: 
+
+# Administrator's username for Git (string)
+git_admin_username: 
+
+# Link to the Git repository for MAGE AI Portal (string)
+mage_git_repo_link: 
+
+# AWS resource prefix, must not contain '-' (string)
+aws_prefix: 
+
+# Name of the project (string)
+project_name: 
+
+# DNS Zone IDs and details for different environments (development, stage, production)
+dns_zone_id:
+  dev:
+    domain: 
+    dns_domain: 
+    dns_zone: 
+  stage:
+    domain: 
+    dns_domain: 
+    dns_zone: 
+  prod:
+    domain: 
+    dns_domain: 
+    dns_zone: 
+
+# AWS environment configurations
+aws_environments:
+  dev:
+    aws_region: 
+    prefix: 
+    s3_prefix: # Additional alias to meet S3 bucket naming requirements (string, optional)
+    vpc_cidr: 
+    public_subnet_cidr: 
+    private_subnet_cidr: 
+  stage:
+    aws_region: 
+    prefix: 
+    s3_prefix: 
+    vpc_cidr: 
+    public_subnet_cidr: 
+    private_subnet_cidr: 
+  prod:
+    aws_region: 
+    prefix: 
+    s3_prefix: 
+    vpc_cidr: 
+    public_subnet_cidr: 
+    private_subnet_cidr: 
+
+
+# Initial GPU node group for Kubernetes (list of objects)
+gpu_node_group:
+  - machineType: 
+    igName: 
+    maxNodeSize: 
+    gpus: 
+
+
+# OpenVPN configurations (object)
+ovpn_configs:
+  users: # List of usernames to create VPN authentication files for (list of strings)
+  -
+  -
+
+# PostgreSQL RDS configuration (object)
+postgres_rds:
+  db_user: 
+  app_name:    
+  generated_token_file: 
+
+
+## OPTIONAL ADDITIONAL SETTINGS:
+
+# Additional DNS zones configuration (object, optional)
+additional_dns_zones:
+  include: false # or false (boolean)
+  zones:
+    dev: # list of strings
+    -
+    -
+    -
+    stage:
+    prod:
+
+# Additional GPU node groups (list of objects, optional)
+additional_gpu_node_groups:
+  include: false # or false (boolean)
+  groups: # list of node group settings
+  - machineType: 
+    igName: 
+    maxNodeSize: 
+    gpus: 
+  - machineType: 
+    igName: 
+    maxNodeSize: 
+    gpus: 

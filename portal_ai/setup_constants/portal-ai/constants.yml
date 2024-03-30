@@ -1,0 +1,28 @@
+# these are constants required for application to work.
+# ** WIP to allow for changing these in the future. **
+
+# prefixes for s3 buckets and aws resources created.
+# example: kops state store: kops-[environment].[dns_domain]
+# terraform state store: tfstate-[environment].[dns_domain]
+
+remote_s3_buckets:
+  kops_state_prefix: kops
+  tfstate_prefix: tfstate
+  k8s_prefix: k8s
+  kops_iam_prefix: iam-http-dir
+  k8s_terraform_prefix: k8s-tfstate
+  global_manifest: project-manifest
+
+# Directory '/Users/[user_name]/.ssh/[project_name]' was created.
+# secrets necessary to initialize applications are stored here
+# you can update/ move/ rotate as needed after deploying.
+
+ssh_key_names:
+  - openvpn
+  - kops
+  - git
+
+
+# OpenVPN configurations (object)
+ovpn_configs:
+  open_vpn_static_route_ip: "10.8.0.0/24"
