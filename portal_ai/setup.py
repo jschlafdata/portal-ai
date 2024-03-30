@@ -22,7 +22,7 @@ setuptools.setup(
     description='Portal-AI is a tool for deploying AWS infrastructure to run GPU accelerated workflows and websites for LLMs.',
     long_description=readme(),
     long_description_content_type='text/markdown',
-    url='https://github.com/portal-ai/portal_ai',
+    url='https://github.com/jschlafdata/portal-ai/portal_ai',
     packages=setuptools.find_packages('.'),
     include_package_data=True,
     classifiers=[
