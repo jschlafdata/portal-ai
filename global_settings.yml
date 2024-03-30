@@ -15,7 +15,7 @@ project_name:
 
 
 # AWS SSO login URL (string)
-aws_start_url: 
+aws_start_url: tunatuna
 
 # Name of the data portal created (string)
 data_portal_name: 

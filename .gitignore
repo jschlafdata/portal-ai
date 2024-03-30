@@ -10,7 +10,6 @@
 **/.docusaurus/
 *.docusaurus
 
-global_settings.yml
 
 **/node_modules/
 
