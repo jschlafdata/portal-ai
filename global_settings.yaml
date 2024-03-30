@@ -1,4 +1,18 @@
-## Required for setup:
+### required for mac os initial setup: ###
+### ---------------------------------- ###
+
+# Administrator's username for Git (string)
+git_admin_email: 
+
+# Administrator's username for Git (string)
+git_admin_username: 
+
+# Name of your project or company (string)
+project_name: 
+
+### ********************************** ###
+### ---------------------------------- ###
+
 
 # AWS SSO login URL (string)
 aws_start_url: 
@@ -6,20 +20,21 @@ aws_start_url:
 # Name of the data portal created (string)
 data_portal_name: 
 
-# Administrator's email for Git (string)
-git_admin_email: 
 
-# Administrator's username for Git (string)
-git_admin_username: 
+k8s_deployment_size:
+  smol_fry: true
+  med_fy: false
+  large_fry: false
+  supersize_me: false
+
 
 # Link to the Git repository for MAGE AI Portal (string)
-mage_git_repo_link: 
+# you can use this open source example to see test ETL pipelines.
+
+mage_git_repo_link: https://github.com/jschlafdata/mageai-portal-ai.git
 
 # AWS resource prefix, must not contain '-' (string)
 aws_prefix: 
-
-# Name of the project (string)
-project_name: 
 
 # DNS Zone IDs and details for different environments (development, stage, production)
 dns_zone_id:
@@ -62,11 +77,15 @@ aws_environments:
 
 
 # Initial GPU node group for Kubernetes (list of objects)
+## Start with at least one initial GPU node for k8s.
+## recommended to start with g5, as they are the most
+## cost efficient when considering power & output.
+
 gpu_node_group:
-  - machineType: 
-    igName: 
-    maxNodeSize: 
-    gpus: 
+  - machineType: g5.xlarge
+    igName: g5-xl
+    maxNodeSize: 1
+    gpus: 1
 
 
 # OpenVPN configurations (object)

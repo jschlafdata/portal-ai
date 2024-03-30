@@ -9,6 +9,13 @@ project_name: iheartdata
 aws_start_url: https://d-xxxxxxx.awsapps.com/start 
 data_portal_name: My Swaggy Portal Name
 
+
+k8s_deployment_size:
+  smol_fry: true
+  med_fy: false
+  large_fry: false
+  supersize_me: false
+
 mage_git_repo_link: https://github.com/jschlafdata/mageai-portal-ai.git
 
 aws_prefix: swaggyprefix # cannot have '-' in it.
@@ -26,6 +33,11 @@ dns_zone_id:
     domain: iheartdataprod
     dns_domain: iheartdataprod.example.com
     dns_zone: ZZZZZZZZZZZZZZ
+
+# It's crucial to use non-overlapping CIDR blocks for VPCs across different environments (dev, stage, prod) or AWS accounts 
+# when planning to establish VPC peering connections. VPC peering allows two VPCs to communicate using private IP addresses. 
+# However, if the CIDR blocks overlap, AWS cannot route traffic between the peered VPCs because it cannot differentiate 
+# the network addresses.
 
 aws_environments:
   dev:
@@ -51,7 +63,6 @@ aws_environments:
     private_subnet_cidr: 10.2.2.0/24    
 
 
-
 ## Start with at least one initial GPU node for k8s.
 gpu_node_group:
   - machineType: g5.xlarge
@@ -73,15 +84,22 @@ postgres_rds:
 
 ## OPTIONAL ADDITIONAL SETTINGS
 
-additional_dns_zones:
-  include: true
+additional_dns_zones: 
+  # allow for the ability to use nginx+loadbalancer to create TLS certified 
+  # websites for additional domains you own.
+  include: false
   zones:
     dev:
     - ZZZZZZZZZZZZZ1
     - ZZZZZZZZZZZZZ2
     - ZZZZZZZZZZZZZ3
+    stage:
+    prod:
+
 
 additional_gpu_node_groups:
+  ## can add any type of aws instance that allows for GPU access.
+  ## however, you must have enough allowed quota for the instances you put here.
   include: true
   groups:
   - machineType: g4dn.xlarge
