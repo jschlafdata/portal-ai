@@ -1,0 +1,27 @@
+ingress_class_name: {{ ingress_class_name }}
+ingress:
+  domain_dns: {{ dnsDomain }}
+  tls_secret: {{ tlsSecretName }}
+deployment:
+  image: tensorflow/tensorflow:latest-gpu-jupyter
+resources:
+  limits:
+    nvidia.com/gpu: {{ gpuRequests }}
+service:
+  type: NodePort
+  port: 8888
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '1200'
+nodeSelector:
+  instance-group: {{ gpuNodeGroup }}
+tolerations:
+- effect: NoSchedule
+  key: nvidia.com/gpu
+  operator: Exists
+affinity: {}
+storage:
+  storageClassName: efs-dynamic-sc
+  storage: 100Gi
+  volume_handle: {{ efsVolumeHandle }}
+  access_mode: ReadWriteMany
+  aws_role: "{{ iamPolicies['efs-csi-controller-sa'] }}"

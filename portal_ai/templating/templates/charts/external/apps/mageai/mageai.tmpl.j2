@@ -1,0 +1,116 @@
+# Default values for mageai.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: mageai/mageai
+  pullPolicy: Always
+  tag: "latest"
+  workingDir: /home/src/schlafdata
+
+imagePullSecrets: []
+nameOverride: "mageai"
+fullnameOverride: "mageai"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations:
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "mageai"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+service:
+  type: NodePort
+  port: 6789
+
+ingress:
+  enabled: true
+  className: nginx-internal
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 1024m
+    external-dns.alpha.kubernetes.io/hostname: {{ manage_host_name ~ '.' ~ dnsDomain }}
+  hosts:
+    - host: {{ manage_host_name ~ '.' ~ dnsDomain }}
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: mageai
+              port:
+                number: 6789
+  tls:
+    - hosts:
+        - {{ manage_host_name ~ '.' ~ dnsDomain }}
+      secretName: {{ tlsSecretName }}
+
+resources: {}
+
+tolerations: []
+
+affinity: {}
+
+volumes:
+  - name: mage-fs
+    persistentVolumeClaim:
+      claimName: {{ pvc_claim_name }}
+
+env:
+  - name: KUBE_NAMESPACE
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.namespace
+  - name: PROJECT_TYPE
+    value: main
+  - name: USER_CODE_PATH
+    value: /home/src/schlafdata
+  - name: MAGE_DATABASE_CONNECTION_URL
+    valueFrom:
+      secretKeyRef:
+        name: eso-backend
+        key: mageconnurl
+  - name: REQUIRE_USER_AUTHENTICATION
+    value: "1"
+  - name: DB_USER
+    valueFrom:
+      secretKeyRef:
+        name: eso-backend
+        key: rds_username
+  - name: DB_PASS
+    valueFrom:
+      secretKeyRef:
+        name: eso-backend
+        key: rds_password
+  - name: GIT_SSH_PUBLIC_KEY
+    valueFrom:
+      secretKeyRef:
+        name: eso-backend
+        key: git_public_key
+  - name: GIT_SSH_PRIVATE_KEY
+    valueFrom:
+      secretKeyRef:
+        name: eso-backend
+        key: git_private_key
+  - name: DB_NAME
+    valueFrom:
+      secretKeyRef:
+        name: eso-backend
+        key: mage_db
+  - name: KUBE_SERVICE_TYPE
+    value: NodePort
+  - name: SERVICE_ACCOUNT_CREDENTIAL_FILE_PATH
+    value: /var/run/secrets/kubernetes.io/serviceaccount/namespace
+  - name: MAGE_DATA_DIR
+    value: /home/src/mage_data

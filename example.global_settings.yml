@@ -9,12 +9,55 @@ project_name: iheartdata
 aws_start_url: https://d-xxxxxxx.awsapps.com/start 
 data_portal_name: My Swaggy Portal Name
 
-
+## are you a big boi?
 k8s_deployment_size:
   smol_fry: true
   med_fy: false
   large_fry: false
   supersize_me: false
+
+## choose which applications you want dpeloyed!!
+helm_deployments:
+  required:
+  - wildcard-certificate
+  - nginx-internal
+  - external-dns
+  - vault
+  - external-secrets
+  - eso-secrets-operators
+  - efs
+  - efs-csi
+  optional:
+    mageai:
+      include: true
+      charts:
+      - mageai
+      - mageai-workspaces
+    monitoring:
+      include: true
+      charts:
+      - grafana
+      - kube-state-metrics
+      - prometheus
+      - prometheus-node-exporter
+    dashoards:
+      include: false
+      charts:  
+      - k8s-dashboard
+      - metabase
+    llms:
+      include: false
+      charts:
+      - jupyter-lab-accelerated
+      - llm-models
+    system:
+      include: false
+      charts:
+      - nginx-external
+    apps:
+      include: false
+      charts:
+      - websites
 
 mage_git_repo_link: https://github.com/jschlafdata/mageai-portal-ai.git
 
@@ -72,6 +115,7 @@ gpu_node_group:
 
 ## Configs for terraform modules.
 ovpn_configs:
+  istance_type: t3.small
   users:
   - user1
   - user2
@@ -80,7 +124,7 @@ postgres_rds:
   db_user: dbuser
   app_name: dummyapp   
   generated_token_file: dummy.env
-
+  instance_type: db.t3.micro
 
 ## OPTIONAL ADDITIONAL SETTINGS
 
@@ -97,20 +141,11 @@ additional_dns_zones:
     prod:
 
 
-additional_gpu_node_groups:
-  ## can add any type of aws instance that allows for GPU access.
-  ## however, you must have enough allowed quota for the instances you put here.
-  include: true
-  groups:
-  - machineType: g4dn.xlarge
-    igName: g4dn-xl
-    maxNodeSize: 1
-    gpus: 1
-  - machineType: g4dn.12xlarge
-    igName: g4dn-12xl
-    maxNodeSize: 1
-    gpus: 4
-  - machineType: g5.12xlarge
-    igName: g5-12xl
-    maxNodeSize: 1
-    gpus: 4
+included_gpu_node_groups:
+- g5
+# - g4dn
+# - p2
+# - p3
+# - p3dn
+# - p4d
+# - p5

@@ -1,0 +1,57 @@
+{% set s3_prefix = aws_environments[env].s3_prefix %}
+{% set dns_zone_info = dns_zone_id[env] %}
+{% set aws = aws_environments[env] %}
+
+aws_region: {{ aws.aws_region }}
+aws_prefix: {{ aws_prefix }}
+project_name: {{ project_name }}
+environment: {{ env }}
+git_admin_email: {{ git_admin_email }}
+git_admin_username: {{ git_admin_username }}
+mage_git_repo_link: {{ mage_git_repo_link }}
+cluster_name: {{ 'k8s' ~ s3_prefix ~ '.' ~ dns_zone_info.dns_domain }}
+dns:
+  domain: {{ dns_zone_info.domain }}
+  dns_domain: {{ dns_zone_info.dns_domain }}
+  dns_zone: {{ dns_zone_info.dns_zone }}
+networking:
+  vpc_cidr: {{ aws.vpc_cidr }}
+  public_subnet_cidr: {{ aws.public_subnet_cidr }}
+  private_subnet_cidr: {{ aws.private_subnet_cidr }}
+  open_vpn_static_route_ip: {{ open_vpn_static_route_ip }}
+aws_efs_driver: {{ aws_efs_driver }}
+postgres_rds:
+  generated_token_path: {{ '~/.ssh/' ~ project_name ~ '/' ~ postgres_rds.generated_token_file }}
+  instance_type: {{ postgres_rds.instance_type }}
+remote_s3_bucket_configs:
+  {% for key, prefix in remote_s3_buckets.items() %}
+    {% if key == 'kops_iam_prefix' %}
+      {{ key }}: {{ prefix ~ s3_prefix ~ '-' ~ dns_zone_info.dns_domain.replace('.', '-') }}
+    {% else %}
+      {{ key }}: {{ prefix ~ s3_prefix ~ '.' ~ dns_zone_info.dns_domain }}
+    {% endif %}
+  {% endfor %}
+terraform:
+  aws_base:
+    app_name: {{ project_name ~ '-' ~ postgres_rds.app_name }}
+    database_user: {{ project_name ~ '_' ~ postgres_rds.db_user }}
+    openvpn_config_directory: {{ '~/.ssh/' ~  project_name  ~'/generated/ovpn-config' }}
+    {% for key_name in ['kops', 'openvpn'] %}
+    {{ key_name ~ '_private_key_file' }}: {{ '~/.ssh/' ~ project_name ~ '/id_ed25519_' ~ key_name }}
+    {{ key_name ~ '_public_key_file' }}: {{ '~/.ssh/' ~ project_name ~ '/id_ed25519_' ~ key_name ~ '.pub' }}
+    {{ key_name ~ '_key_name' }}: {{ 'id_ed25519_' ~ key_name }}
+    {% endfor %}
+    openvpn_configs: 
+      users: {{ ovpn_configs.users }}
+      instance_type: {{ ovpn_configs.istance_type }}
+kops:
+  node_ig_settings: {{ kops_node_settings }}
+  gpu_instance_groups: {{ gpu_instance_groups }}
+  
+  {% if additional_dns_zones.include %}
+  additional_dns_zones: {{ additional_dns_zones.zones[env] }}
+  {% else %}
+  additional_dns_zones: 
+  {% endif %}
+
+helm_deployments: {{ helm_deployments }}

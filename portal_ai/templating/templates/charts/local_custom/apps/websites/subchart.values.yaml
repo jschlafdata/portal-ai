@@ -1,0 +1,9 @@
+charts:
+  big-agi:
+    name: big-agi
+    ecrImage: ghcr.io/enricoros/big-agi
+    ingress_class_name: nginx-internal
+  portal-docs: 
+    name: big-agi
+    ecrImage: 406622241617.dkr.ecr.us-west-2.amazonaws.com/portal-docs
+    ingress_class_name: nginx-internal

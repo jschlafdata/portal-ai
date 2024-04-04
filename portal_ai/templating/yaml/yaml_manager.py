@@ -1,103 +1,42 @@
 import yaml
 from functools import reduce
 from jinja2 import Template
-# from tools.templating.render_jinja_templates.py_filters import *
+from portal_ai.settings.get_environment import get_project_env
+from portal_ai.templating.yaml.py_filters import *
+import os
 
 class YmlManager:
-    def __init__(self, path, environment=None):
+    def __init__(self, path):
         self.path = path
-        self.environment = environment
+        self.environment = get_project_env()
 
     def load(self):
         with open(self.path, 'r') as file:
             return yaml.safe_load(file)
 
     def save(self, data):
+        # Extract the directory path from the full file path
+        directory = os.path.dirname(self.path)
+
+        # Check if the directory exists, and if not, create it (including any necessary intermediate directories)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        # Proceed to write the file as before
         with open(self.path, 'w') as outfile:
             yaml.dump(data, outfile, default_flow_style=False, sort_keys=False)
             print(f"Successfully wrote to file: {self.path}")
 
-    def format_data(self, data):
-        if isinstance(data, dict):
-            return {key: self.format_data(value) for key, value in data.items()}
-        elif isinstance(data, list):
-            return [self.format_data(item) for item in data]
-        elif isinstance(data, str):
-            return data.format(environment=self.environment)
-        return data
-
-    def load_and_format(self):
-        return self.format_data(self.load())
-    
-
-class ConfigExtractor:
-    def __init__(self,
-                 input_dict):
-        
-        self.input_dict = input_dict
-        self.extract_dict = {}
-        
-
-    def load_source( self,
-                     source_path ):
-        
-        source_dict = YmlManager(source_path).load()
-        return source_dict
-    
-    def get_value_by_path(self, 
-                          path):
-        """
-        Extracts a value from a nested dictionary using a dot-separated string path.
-
-        Parameters:
-        - config_dict: The dictionary to search.
-        - path: A dot-separated string indicating the path to the desired value.
-
-        Returns:
-        - The value found at the specified path, or None if the path is invalid.
-        """
-        keys = [key for key in path.split('.') if key]
-        current_value = self.config_dict
-        try:
-            for key in keys:
-                current_value = current_value[key]
-            return current_value
-        except (KeyError, TypeError):
-            # KeyError if a key doesn't exist, TypeError if an attempt is made
-            # to index a non-dictionary type along the path.
-            return None
-
-    def key_extract(self, extract_items):
-        for key, key_path in extract_items.items():
-            path_value = self.get_value_by_path(key_path)
-            self.extract_dict[key]=path_value
-
-    def var_extract(self, input_dict):
-        source_path = input_dict.get('source_path')
-        input_dict.pop('source_path')
-        
-        self.config_dict = self.load_source(source_path)
-        self.key_extract(input_dict)
-
-    def extract(self):
-        # print(self.input_dict)
-        for input_dict in self.input_dict:
-            self.var_extract( input_dict )
-        return self.extract_dict
-
 
 class JinjaRender:
     def __init__( self, 
-                  source_config_path, 
+                  source_config, 
                   render_tmpl_path, 
-                  environment,
                   render_funcs=None ):
         
-        self.source_config    = YmlManager( source_config_path, 
-                                            environment=environment ).load()
-        
+        self.source_config    = source_config
         self.render_tmpl_path = render_tmpl_path
-        self.environment      = environment
+        self.environment      = get_project_env()
         self.render_funcs     = render_funcs
 
     def render_template(self):
@@ -134,3 +73,23 @@ class JinjaRender:
         render_values = template.render(self.source_config)
         rendered_data = yaml.safe_load(render_values)
         return rendered_data
+
+class TemplateRenderer:
+    def __init__(self, loader):
+        self.loader = loader
+        self.constant_configs = self.loader.global_base_config_loader('constant_config')
+
+    def render(self, settings_base, render_config_key):
+
+        render_tmplate_configs = self.constant_configs.get('jinja_template_paths').get(render_config_key)
+
+        render_tmpl_path = render_tmplate_configs.get('template_path')
+        render_funcs = render_tmplate_configs.get('render_funcs')
+
+        return JinjaRender(settings_base, render_tmpl_path, render_funcs).render_j2()
+
+    def render_and_save(self, settings_base, render_config_key):
+        rendered_configs = self.render(settings_base, render_config_key)
+        render_output_paths = self.constant_configs.get('generated_output_paths').get(render_config_key)
+        for path in render_output_paths:
+            YmlManager(path).save(rendered_configs)

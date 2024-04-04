@@ -1,6 +1,7 @@
 ## located here: 
 ## https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html
 
+
 regions:
   af-south-1: 877085696533.dkr.ecr.af-south-1.amazonaws.com
   ap-east-1: 800184023465.dkr.ecr.ap-east-1.amazonaws.com

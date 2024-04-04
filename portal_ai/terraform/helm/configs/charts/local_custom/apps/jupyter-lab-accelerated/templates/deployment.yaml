@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app.kubernetes.io/instance: {{ .Chart.Name }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Chart.Name }}
+      app.kubernetes.io/name: {{ .Release.Name }}
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}
+      labels:
+        app.kubernetes.io/instance: {{ .Chart.Name }}
+        app.kubernetes.io/name: {{ .Release.Name }}
+    spec:
+      runtimeClassName: nvidia
+      containers:
+        - name: {{ .Release.Name }}
+          image: {{ .Values.deployment.image }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          ports:
+          - containerPort: {{ .Values.service.port }}
+            name: notebook
+          volumeMounts:
+          - mountPath: /tf/app/models
+            name: model
+      volumes:
+      - name: model
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-models
+      tolerations:
+{{- if .Values.tolerations }}
+{{ toYaml .Values.tolerations | indent 8 }}
+{{- end }}
+      nodeSelector:
+{{- if .Values.nodeSelector }}
+{{ toYaml .Values.nodeSelector | indent 8 }}
+{{- end }}

@@ -1,0 +1,49 @@
+controller:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: release
+            operator: In
+            values:
+            - nginx-external
+        topologyKey: kubernetes.io/hostname
+  admissionWebhooks:
+    objectSelector:
+      matchLabels:
+        ingress-class: nginx-external
+  config:
+    large-client-header-buffers: 4 16k
+    use-proxy-protocol: 'true'
+  ingressClassByName: true
+  ingressClassResource:
+    name: nginx-external
+    enabled: true
+    default: false
+    controllerValue: k8s.io/ingress-nginx-external
+  podLabels:
+    app: nginx-external
+  autoscaling:
+    enabled: 'true'
+    minReplicas: 1
+    maxReplicas: 2
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+  service:
+    enabled: 'true'
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
+      external-dns.alpha.kubernetes.io/alias: 'true'
+  metrics:
+    enabled: 'true'
+defaultBackend:
+  enabled: 'false'
+rbac:
+  create: true
+serviceAccount:
+  create: false
+  name: aws-lb-controller
+  annotations:
+    iam.amazonaws.com/role: "{{ iamPolicies['aws-lb-controller'] }}"

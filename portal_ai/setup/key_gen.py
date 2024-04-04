@@ -3,16 +3,44 @@ import subprocess
 import sys
 
 from portal_ai.tests.settings.dir_test import DirectoryManager
-from portal_ai.settings.load_global_settings import GlobalConfigLoader
 from portal_ai.settings.logger import LoggerConfig
 
+from portal_ai.settings.load_settings import (
+    ConfigReader,
+    ConfigurationLoader
+)
 
 class SSHKeyGenerator:
     def __init__(self, project_name, logger):
-
         self.logger = logger
         self.project_name = project_name
+        self.project_ssh_folder = None
 
+    @classmethod
+    def generate_keys(cls):
+        logger = LoggerConfig.get_logger(__name__)
+
+        loader = ConfigurationLoader(ConfigReader)
+        constant_configs = loader.global_base_config_loader('constant_config')
+        custom_configs = loader.global_base_config_loader('global_config_base')
+
+        key_email = custom_configs.get('git_admin_email')
+        project_name = custom_configs.get('project_name')
+        ssh_key_names = constant_configs.get('ssh_key_names')
+
+        if not all([key_email, ssh_key_names, project_name]):
+            logger.info("General settings YAML file missing key configuration.")
+            sys.exit(1)
+
+        key_generator = cls(project_name, logger)
+        key_directory = key_generator.ssh_key_path()
+
+        if key_directory:
+            for key_name in ssh_key_names:
+                key_generator.generate_ssh_key(key_name, key_email)
+        else:
+            logger.info("Portal-AI was unable to make a directory in your ~/.ssh folder. :(")
+            sys.exit(1)
 
     def ssh_key_path(self):
         user_home = os.path.expanduser("~")
@@ -20,7 +48,6 @@ class SSHKeyGenerator:
         return DirectoryManager(self.project_ssh_folder).ensure_directory_exists()
 
     def generate_ssh_key(self, key_name, key_email):
-
         full_key_name = f"id_ed25519_{key_name}"
         ssh_key_path = os.path.join(self.project_ssh_folder, full_key_name)
 
@@ -40,31 +67,3 @@ class SSHKeyGenerator:
 
         keychain_add_command = f'ssh-add --apple-use-keychain {ssh_key_path}'
         subprocess.call(keychain_add_command, shell=True)
-
-def main():
-
-    logger = LoggerConfig.get_logger(__name__)
-
-    custom_configs = GlobalConfigLoader().custom_configs()
-    constant_configs = GlobalConfigLoader().constant_configs()
-
-    key_email = custom_configs.get('git_admin_email')
-    project_name = custom_configs.get('project_name')
-    ssh_key_names = constant_configs.get('ssh_key_names')
-
-    if not all([key_email, ssh_key_names, project_name]):
-        logger.info("General settings YAML file missing key configuration.")
-        sys.exit(1)
-
-    key_generator = SSHKeyGenerator(project_name, logger)
-    key_directory = key_generator.ssh_key_path()
-
-    if key_directory == True:
-        for key_name in ssh_key_names:
-            key_generator.generate_ssh_key(key_name, key_email)
-    else:
-        logger.info("Portal-AI was unable to make a directory in your ~/.ssh folder. :(")
-        sys.exit(1)
-
-if __name__ == "__main__":
-    main()

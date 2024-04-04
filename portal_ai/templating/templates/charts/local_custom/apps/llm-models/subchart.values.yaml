@@ -1,0 +1,11 @@
+charts:
+  llama2-7b-cuda:
+    name: llama2-7b-cuda
+    ingress_class_name: nginx-internal
+    DEFAULT_MODEL_HG_REPO_ID: TheBloke/Llama-2-7B-Chat-GGML
+    DEFAULT_MODEL_FILE: llama-2-7b-chat.ggmlv3.q4_0.bin
+    GPU_LAYERS: "40"
+    persistenceSize: 25Gi
+    image: ghcr.io/chenhunghan/ialacol-cuda12:latest
+    gpuRequests: 1
+    gpuNodeGroup: gpu-nodes-g5-xlarge-us-east-1a

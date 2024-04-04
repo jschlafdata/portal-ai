@@ -1,0 +1,73 @@
+masters:
+{% for zone in active_zones %}
+  - apiVersion: 'kops.k8s.io/v1alpha2'
+    kind: 'InstanceGroup'
+    metadata:
+      labels:
+        kops.k8s.io/cluster: '{{ clusterName }}'
+      name: 'master-{{ zone }}'
+    spec:
+      image: '{{ image }}'
+      machineType: '{{ masterMachineType }}'
+      maxSize: 1
+      minSize: 1
+      nodeLabels:
+        kops.k8s.io/instancegroup: 'master-{{ zone }}'
+      role: 'Master'
+      rootVolumeEncryption: true
+      subnets:
+      - '{{ zone }}'
+{% endfor %}
+nodes:
+{% for zone in active_zones %}
+  - apiVersion: 'kops.k8s.io/v1alpha2'
+    kind: 'InstanceGroup'
+    metadata:
+      labels:
+        kops.k8s.io/cluster: '{{ clusterName }}'
+      name: 'nodes-{{ zone }}'
+    spec:
+      image: '{{ image }}'
+      machineType: '{{ nodeMachineType }}'
+      maxSize: {{ maxNodeSize }}
+      minSize: 1
+      mixedInstancesPolicy:
+        instances: {{ mixedInstancesPolicy.instances }}
+        onDemandAboveBase: 0
+        onDemandBase: 0
+        spotAllocationStrategy: capacity-optimized
+      nodeLabels:
+        kops.k8s.io/instancegroup: 'nodes-{{ zone }}'
+      role: 'Node'
+      rootVolumeEncryption: true
+      subnets:
+      - '{{ zone }}'
+{% endfor %}
+gpu_nodes:
+{% for zone in active_zones %}
+  - apiVersion: 'kops.k8s.io/v1alpha2'
+    kind: 'InstanceGroup'
+    metadata:
+      labels:
+        kops.k8s.io/cluster: '{{ clusterName }}'
+      name: 'gpu-nodes-{{ gpuMixedInstancesPolicy.igName }}-{{ zone }}'
+    spec:
+      image: '{{ image }}'
+      machineType: '{{ gpuMixedInstancesPolicy.gpuMachineType }}'
+      maxSize: {{ gpuMixedInstancesPolicy.gpuMaxNodeSize }}
+      minSize: 0
+      mixedInstancesPolicy:
+        instances: {{ gpuMixedInstancesPolicy.instances }}
+        onDemandAboveBase: 0
+        onDemandBase: 0
+        spotAllocationStrategy: capacity-optimized
+      nodeLabels:
+        instance-group: 'gpu-nodes-{{ gpuMixedInstancesPolicy.igName }}-{{ zone }}'
+      role: 'Node'
+      subnets:
+        - '{{ zone }}'
+      cloudLabels:
+        node_type: 'gpu'
+        instance_type: '{{ gpuMixedInstancesPolicy.igName }}'
+        gpus: '{{ gpuMixedInstancesPolicy.gpus }}'
+{% endfor %}

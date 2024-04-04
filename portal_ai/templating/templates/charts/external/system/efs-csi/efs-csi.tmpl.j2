@@ -1,0 +1,20 @@
+image:
+  repository: {{ awsEfsDriver }}
+controller:
+  serviceAccount:
+    create: true
+    name: efs-csi-controller-sa
+    annotations:
+      iam.amazonaws.com/role: "{{ iamPolicies['efs-csi-controller-sa'] }}"
+storageClasses:
+- name: efs-dynamic-sc
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  parameters:
+    provisioningMode: efs-ap
+    fileSystemId: {{ efsVolumeHandle }}
+    directoryPerms: "700"
+    gidRangeStart: "1000"
+    gidRangeEnd: "2000"
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate

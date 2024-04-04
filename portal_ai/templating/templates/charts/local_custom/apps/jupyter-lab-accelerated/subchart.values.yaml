@@ -1,0 +1,11 @@
+charts:
+  g5-xl:
+    name: accelerated-jupyter-g5-xl
+    gpuNodeGroup: gpu-nodes-g5-2xlarge-us-east-1a
+    gpuRequests: 1
+    ingress_class_name: nginx-internal
+  g5-12xl:
+    name: accelerated-jupyter-g5-12xl
+    gpuNodeGroup: gpu-nodes-g5-12xlarge-us-east-1a
+    gpuRequests: 4
+    ingress_class_name: nginx-internal

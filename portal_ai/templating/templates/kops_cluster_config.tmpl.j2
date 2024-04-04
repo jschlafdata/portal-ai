@@ -1,0 +1,110 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  name: {{ clusterName }}
+spec:
+  api:
+    loadBalancer:
+      class: Network
+      crossZoneLoadBalancing: True
+      type: Internal
+  authorization:
+    rbac: {}
+  iam: {{ kopsIamConfigs.iam }}
+  containerd:
+    nvidiaGPU:
+      enabled: True
+      dcgmExporter:
+        enabled: True
+      package: nvidia-headless-535-server
+  channel: stable
+  cloudProvider: aws
+  cloudControllerManager:
+    cloudProvider: aws
+    cpuRequest: 10m
+  clusterAutoscaler:
+    cpuRequest: '10m'
+    enabled: True
+    memoryRequest: '10Mi'
+  configBase: {{ configBase }}
+  dnsZone: {{ dnsZoneId }}
+  etcdClusters:
+  {% for name in ['main', 'events'] %}
+    - cpuRequest: '{{ "10m" if name == "main" else "10m" }}'
+      memoryRequest: '10Mi'
+      name: {{ name }}
+      etcdMembers:
+      {% for zone in active_zones %}
+        - encryptedVolume: True
+          instanceGroup: master-{{ zone }}
+          name: {{ zone[-1] }}
+      {% endfor %}
+  {% endfor %}
+  kubeDNS:
+    nodeLocalDNS:
+      cpuRequest: '10m'
+      enabled: True
+      memoryRequest: '10Mi'
+    provider: CoreDNS
+  KubeAPIServer: 
+    cpuRequest: 10m
+  KubeScheduler:
+    cpuRequest: 10m
+  KubeControllerManager:
+    cpuRequest: 10m
+  kubeProxy:
+    ipvsScheduler: lc
+    proxyMode: ipvs
+  kubelet:
+    anonymousAuth: False
+    authenticationTokenWebhook: True
+    authorizationMode: Webhook
+    cpuCFSQuota: false
+  kubernetesApiAccess:
+    - {{ vpnInternalNetworkIp }}
+  kubernetesVersion: '1.29.2'
+  masterInternalName: internal.{{ clusterName }}
+  masterPublicName: {{ clusterName }}
+  networkCIDR: {{ networkCIDR }}
+  networkID: {{ networkID }}
+  networking:
+    calico:
+      mtu: 8981
+  nonMasqueradeCIDR: '100.64.0.0/10'
+  serviceAccountIssuerDiscovery:
+    enableAWSOIDCProvider: True
+    discoveryStore: {{ discoveryStore }}
+  podIdentityWebhook:
+    enabled: True
+    replicas: {{ podIdentityReplicas }}
+  certManager:
+    enabled: True
+    managed: True
+    hostedZoneIDs:
+    {% if additionalDnsZones and additionalDnsZones != 'None' %}
+      {% for zone in additionalDnsZones %}
+      - {{ zone }}
+      {% endfor %}
+    {% else %}
+      - {{ dnsZoneId }}
+    {% endif %}
+  sshAccess: 
+    - {{ vpnInternalNetworkIp }}
+    - {{ networkCIDR }}
+  sshKeyName: {{ kopsSshKeyName }}
+  subnets:
+  {% for zone, zone_details in active_zones.items() %}
+    {% for net_type, details in zone_details.items() %}
+    - cidr: {{ details['cidr'] }}
+      {% if net_type == 'private' %}egress: {{ natGatewayId }}{% endif %}
+      id: {{ details['id'] }}
+      name: {{ "utility-" + zone if net_type == 'public' else zone }}
+      type: {{ 'Private' if net_type == 'private' else 'Utility' }}
+      zone: {{ zone }}
+    {% endfor %}
+  {% endfor %}
+  topology:
+    dns:
+      type: Public
+    masters: private
+    nodes: private

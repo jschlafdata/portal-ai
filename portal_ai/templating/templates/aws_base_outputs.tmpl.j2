@@ -1,0 +1,35 @@
+aws_region: {{ aws_region }}
+aws_prefix: {{ aws_prefix }}
+project_name: {{ project_name }}
+environment: {{ environment }}
+cluster_name: {{ cluster_name }}
+git_admin_email: {{ git_admin_email }}
+git_admin_username: {{ git_admin_username }}
+mage_git_repo_link: {{ mage_git_repo_link }}
+dns: {{ dns }}
+aws_efs_driver: {{ aws_efs_driver }}
+postgres_rds: {{ postgres_rds }}
+remote_s3_bucket_configs: {{ remote_s3_bucket_configs }}
+terraform: {{ terraform }}
+open_vpn_static_route_ip: {{ networking.open_vpn_static_route_ip }}
+kops: {{ kops }}
+nat_gateway_id: {{ nat_gateway_id }}
+vpc_cidr_block: {{ vpc_cidr_block }}
+vpc_id: {{ vpc_id }}
+vpc_name: {{vpc_name }}
+rds_username: {{ rds_username }}
+rds_instance_hostname: {{ rds_instance_hostname }}
+rds_instance_host_no_port: "{{ rds_instance_hostname.split(':')[0] | trim('\'"') }}"
+efs_id: {{ efs_id }}
+efs_arn: {{ efs_arn}}
+efs_access_point_arn: {{ efs_access_point_arn }}
+kops_ssh_key_name: {{ kops_ssh_key_name }}
+aws_account_id: {{ aws_account_id }}
+iam_policy_arns: {{ get_iam_policy_arns(iam_policy_arns) }}
+private_subnets: {{ get_subnet_values( private_subnet_cidrs, 
+                                       private_subnet_ids, 
+                                       availability_zone_private) }}
+public_subnets: {{ get_subnet_values( public_subnet_cidrs, 
+                                      public_subnet_ids, 
+                                      availability_zone_public) }}
+helm_deployments: {{ helm_deployments }}

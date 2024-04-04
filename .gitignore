@@ -3,6 +3,7 @@
 
 **/__pycache__/
 **/.terraform/
+**/.terraform/*
 *.DS_Store
 
 .env
@@ -10,6 +11,14 @@
 **/.docusaurus/
 *.docusaurus
 
+
+# Ignore all generated YAML configurations with users generated deployment settings
+
+portal_ai/configs/generated/*
+portal_ai/terraform/helm/configs/charts/**/values.yaml
+portal_ai/terraform/helm/configs/deployment_settings.yml
+portal_ai/terraform/*remote.tf
+portal_ai/terraform/aws_base/global_settings_base.yml
 
 **/node_modules/
 
@@ -34,6 +43,7 @@ secret.auto.tfvars
 *.DS_Store
 
 # Ignore Terraform lock files
+**.terraform.lock.hcl
 .terraform.lock.hcl
 
 # Optionally ignore all log files

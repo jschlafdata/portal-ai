@@ -1,0 +1,14 @@
+awsRegion: {{ aws_region }}
+iamPolicies: {{ iam_policy_arns }}
+efsVolumeHandle: {{ efs_id }}
+rdsInstanceHostname: {{ rds_instance_hostname }}
+rdsInstanceHostNoPort: {{ rds_instance_host_no_port }}
+rdsUsername: {{ rds_username }}
+awsEfsDriver: {{ aws_efs_driver }}
+dnsDomain: {{ dns.dns_domain }}
+gitAdminEmail: {{ git_admin_email }}
+gitAdminUsername: {{ git_admin_username }}
+aliasCommonName: "{{ '*.' ~ dns.dns_domain }}"
+commonName: {{ dns.dns_domain.replace('.','-') }}
+tlsSecretName: {{ 'wildcard-tls-cert-' ~ dns.dns_domain.replace('.','-') }}
+mageGitRepoLink: {{ mage_git_repo_link }}
