@@ -1,17 +1,13 @@
-data "external" "sub_chart_dirs" {
-  program = ["sh", "-c", "cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.list_sub_charts '${var.abs_helm_chart_dir}/local_custom/apps/llm_endpoints/sub_charts'"]
-
-}
 
 locals {
-  sub_chart_names = split("*", data.external.sub_chart_dirs.result.sub_chart_names)
+  module_namespace = "mageai"
 }
 
 
 resource "helm_release" "mageai" {
 
   name       = "mageai"
-  namespace  = "default"
+  namespace  = local.module_namespace
   repository = "https://mage-ai.github.io/helm-charts"
   chart      = "mageai"
   version    = "0.2.1"
@@ -19,7 +15,6 @@ resource "helm_release" "mageai" {
   values = [
     file("${var.helm_chart_path}/external/apps/mageai/values.yaml")
   ]
-
   wait         = true
   reset_values = true
 }
@@ -27,10 +22,10 @@ resource "helm_release" "mageai" {
 
 resource "helm_release" "mage-workspaces" {
 
-  for_each   = { for idx, name in local.sub_chart_names : name => name }
+  for_each   = { for idx, name in var.release_charts : name => name }
   name       = each.value
-  namespace  = "default"
-  repository = "${var.helm_chart_path}/local_custom/apps/mageai-workspaces"
+  namespace  = local.module_namespace
+  repository = "${var.helm_chart_path}/local_custom/apps"
   chart      = "mageai-workspaces"
 
   values = [

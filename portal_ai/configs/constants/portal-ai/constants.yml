@@ -34,27 +34,30 @@ jinja_template_paths:
 generated_output_paths:
   global_settings_base: 
   - portal_ai/configs/generated/global_settings_base.yml
-  - portal_ai/terraform/aws_base/global_settings_base.yml
+  - portal_ai/terraform/aws_base/configs/generated/global_settings_base.yml
   aws_settings_base:
   - portal_ai/configs/generated/aws+global_settings_base.yml
+  - portal_ai/terraform/helm/configs/generated/aws+global_settings_base.yml
   kops_settings_base:
   - portal_ai/configs/generated/kops_settings_base.yml
+  - portal_ai/terraform/helm/configs/generated/kops_settings_base.yml
   kops_cluster_base:
   - portal_ai/configs/generated/kops_cluster_base.yml
-  - portal_ai/kops/kops_cluster_base.yml
+  - portal_ai/terraform/helm/configs/generated/kops_cluster_base.yml
   helm_settings_base: 
   - portal_ai/configs/generated/helm_values_base.yml
-  - portal_ai/terraform/helm/configs/deployment_settings.yml
+  - portal_ai/terraform/helm/configs/generated/helm_values_base.yml
 
 generated_load_paths:
   global_settings_base: portal_ai/configs/generated/global_settings_base.yml
   aws_settings_base: portal_ai/terraform/aws_base/generated/module_outputs.json
   aws_plus_global_base:  portal_ai/configs/generated/aws+global_settings_base.yml
   kops_settings_base: portal_ai/configs/generated/kops_settings_base.yml
-  helm_deployment_settings: portal_ai/terraform/helm/configs/deployment_vars.yaml
+  helm_deployment_settings: portal_ai/terraform/helm/configs/generated/helm_deployment_settings.yml
 
 # these are constants required for application to work.
 # ** WIP to allow for changing these in the future. **
+
 
 # prefixes for s3 buckets and aws resources created.
 # example: kops state store: kops-[environment].[dns_domain]
@@ -81,7 +84,7 @@ open_vpn_static_route_ip: "10.8.0.0/24"
 # the base for kubernetes master and worker nodes
 k8s_deployment_settings:
   smol_fry:
-    masterMachineType: t3.medium
+    masterMachineType: t3a.medium
     nodeMachineType: m5.large
     podIdentityReplicas: 1
     mixedInstancesPolicy: 

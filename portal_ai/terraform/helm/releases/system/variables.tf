@@ -14,4 +14,6 @@ variable "environment" {
 
 variable "release_settings" {}
 variable "release_configs" {}
+variable "generated_dir" {}
 
+variable "project_name" {}

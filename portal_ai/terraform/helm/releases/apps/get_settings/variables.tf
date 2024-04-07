@@ -1,0 +1,1 @@
+variable "abs_helm_chart_dir" {}

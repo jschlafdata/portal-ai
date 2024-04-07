@@ -1,0 +1,17 @@
+tls_mirror:
+  tlsSecretName: {{ tlsSecretName }}
+  namespaces:
+  - mageai
+  - monitoring
+  - internal-apps
+  - external-apps
+  - gpu-apps
+
+eso_mirror:
+  esoSecret: eso-backend
+  namespaces:
+  - mageai
+  - monitoring
+  - internal-apps
+  - external-apps
+  - gpu-apps

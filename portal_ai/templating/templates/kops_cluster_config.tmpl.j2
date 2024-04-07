@@ -19,20 +19,13 @@ spec:
       package: nvidia-headless-535-server
   channel: stable
   cloudProvider: aws
-  cloudControllerManager:
-    cloudProvider: aws
-    cpuRequest: 10m
   clusterAutoscaler:
-    cpuRequest: '10m'
     enabled: True
-    memoryRequest: '10Mi'
   configBase: {{ configBase }}
   dnsZone: {{ dnsZoneId }}
   etcdClusters:
   {% for name in ['main', 'events'] %}
-    - cpuRequest: '{{ "10m" if name == "main" else "10m" }}'
-      memoryRequest: '10Mi'
-      name: {{ name }}
+    - name: {{ name }}
       etcdMembers:
       {% for zone in active_zones %}
         - encryptedVolume: True
@@ -42,16 +35,8 @@ spec:
   {% endfor %}
   kubeDNS:
     nodeLocalDNS:
-      cpuRequest: '10m'
       enabled: True
-      memoryRequest: '10Mi'
     provider: CoreDNS
-  KubeAPIServer: 
-    cpuRequest: 10m
-  KubeScheduler:
-    cpuRequest: 10m
-  KubeControllerManager:
-    cpuRequest: 10m
   kubeProxy:
     ipvsScheduler: lc
     proxyMode: ipvs
@@ -59,7 +44,6 @@ spec:
     anonymousAuth: False
     authenticationTokenWebhook: True
     authorizationMode: Webhook
-    cpuCFSQuota: false
   kubernetesApiAccess:
     - {{ vpnInternalNetworkIp }}
   kubernetesVersion: '1.29.2'

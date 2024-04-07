@@ -6,7 +6,7 @@ metadata:
 spec:
   provider:
     vault: #specifies vault as the provider
-      server: {{ .Values.vault_addr }}
+      server: http://vault.default.svc.cluster.local:8200
       path: "eso" #path for accessing the secrets
       version: "v1" #Vault API version
       auth:

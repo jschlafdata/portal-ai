@@ -1,4 +1,0 @@
-apiVersion: v2
-name: wildcard-certificate
-description: A Helm chart for creating a wildcard certificate with cert-manager
-version: 0.1.0

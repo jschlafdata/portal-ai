@@ -1,5 +1,7 @@
+
+
 locals {
-  global_settings     = yamldecode(file("./global_settings_base.yml"))
+  global_settings     = yamldecode(file("./configs/generated/global_settings_base.yml"))
   module_name         = basename(abspath(path.module))
   networking_vars     = local.global_settings.networking
   aws_base_vars       = local.global_settings.terraform.aws_base

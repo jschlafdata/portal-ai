@@ -1,55 +1,52 @@
 ubuntu_latest_jammy:
-  us-west-2:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-008fe2fc65df48dac
-  ap-south-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-03f4878755434977f
-  eu-west-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0905a3c97561e0b69
-  eu-north-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0014ce3e52359afbd
-  us-east-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0c7217cdde317cfec
-  ca-central-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0a2e7efb4257c0907
-  us-west-2-ubuntu-jammy:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-008fe2fc65df48dac
   ap-northeast-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-07c589821f2b353aa
-  ap-southeast-2:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-04f5097681773b989
-  ap-northeast-3:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-05ff0b3a7128cd6f8
-  ap-southeast-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0fa377108253bf620
+    image_ami: ami-0e00e89380cb2a63b
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
   ap-northeast-2:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0f3a440bbcff3d043
-  us-east-2:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-05fb0b8c1424f266b
-  eu-west-2:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0e5f882be1900e43b
+    image_ami: ami-05f82245cbdf5daa7
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  ap-northeast-3:
+    image_ami: ami-076b1577f815a0e3a
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  ap-south-1:
+    image_ami: ami-0ddf51b8a2b282a3d
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  ap-southeast-1:
+    image_ami: ami-0868aa3dfd305c7d0
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  ap-southeast-2:
+    image_ami: ami-0ddc5249fca511c94
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  ca-central-1:
+    image_ami: ami-06aaee54f1c7fb715
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
   eu-central-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0faab6bdbac9486fb
-  us-west-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0ce2cb35386fc22e9
-  sa-east-1:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-0fb4cf3a99aa89f72
+    image_ami: ami-099245c5effbaf603
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  eu-north-1:
+    image_ami: ami-0407a4995711db777
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  eu-west-1:
+    image_ami: ami-01dbabda256db26e7
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  eu-west-2:
+    image_ami: ami-0660cbd2af1273a49
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
   eu-west-3:
-    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20231207
-    image_ami: ami-01d21b7be69801c2f
+    image_ami: ami-08ed95ff0b0be68d1
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  sa-east-1:
+    image_ami: ami-01cc5b3d73b604084
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  us-east-1:
+    image_ami: ami-0ba8e031ca32ab37f
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  us-east-2:
+    image_ami: ami-097be5247ed769f68
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  us-west-1:
+    image_ami: ami-0208b2eb1c17d9733
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+  us-west-2:
+    image_ami: ami-005414fb846dc12d1
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708

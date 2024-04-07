@@ -40,9 +40,9 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-buffering: "on"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
     nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 1024m
-    external-dns.alpha.kubernetes.io/hostname: {{ manage_host_name ~ '.' ~ dnsDomain }}
+    external-dns.alpha.kubernetes.io/hostname: {{ 'mage.manage.' ~ dnsDomain }}
   hosts:
-    - host: {{ manage_host_name ~ '.' ~ dnsDomain }}
+    - host: {{ 'mage.manage.' ~ dnsDomain }}
       paths:
         - path: /
           pathType: ImplementationSpecific
@@ -53,7 +53,7 @@ ingress:
                 number: 6789
   tls:
     - hosts:
-        - {{ manage_host_name ~ '.' ~ dnsDomain }}
+        - {{ 'mage.manage.' ~ dnsDomain }}
       secretName: {{ tlsSecretName }}
 
 resources: {}
@@ -65,7 +65,7 @@ affinity: {}
 volumes:
   - name: mage-fs
     persistentVolumeClaim:
-      claimName: {{ pvc_claim_name }}
+      claimName: efs-mageai-claim
 
 env:
   - name: KUBE_NAMESPACE
@@ -93,21 +93,8 @@ env:
       secretKeyRef:
         name: eso-backend
         key: rds_password
-  - name: GIT_SSH_PUBLIC_KEY
-    valueFrom:
-      secretKeyRef:
-        name: eso-backend
-        key: git_public_key
-  - name: GIT_SSH_PRIVATE_KEY
-    valueFrom:
-      secretKeyRef:
-        name: eso-backend
-        key: git_private_key
   - name: DB_NAME
-    valueFrom:
-      secretKeyRef:
-        name: eso-backend
-        key: mage_db
+    value: mageai
   - name: KUBE_SERVICE_TYPE
     value: NodePort
   - name: SERVICE_ACCOUNT_CREDENTIAL_FILE_PATH

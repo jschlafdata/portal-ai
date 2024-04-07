@@ -1,13 +1,15 @@
 locals {
-  vault_url = "https://vault.${var.release_settings.dnsDomain}"
-  tls_secret_name = var.release_settings.tlsSecretName
+  module_namespace = "monitoring"
 }
 
+resource "kubernetes_manifest" "service_monitor_crd" {
+  manifest = yamldecode(file("${var.helm_chart_path}/external/monitoring/servicemonitor/service_monitor_crd.yaml"))
+}
 
 
 resource "helm_release" "kube-state-metrics" {
   name       = "kube-state-metrics"
-  namespace  = "default"
+  namespace  = local.module_namespace
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-state-metrics"
   version    = "5.16.4"
@@ -29,11 +31,9 @@ resource "helm_release" "kube-state-metrics" {
 
 }
 
-
-
 resource "helm_release" "prometheus-node-exporter" {
   name       = "prometheus-node-exporter"
-  namespace  = "default"
+  namespace  = local.module_namespace
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "prometheus-node-exporter"
   version    = "4.31.0"
@@ -53,12 +53,14 @@ resource "helm_release" "prometheus-node-exporter" {
   wait          = true
   reset_values  = true
 
+  depends_on = [ kubernetes_manifest.service_monitor_crd ]
+
 }
 
 
 resource "helm_release" "prometheus" {
   name       = "prometheus"
-  namespace  = "default"
+  namespace  = local.module_namespace
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "prometheus"
   version    = "25.17.0"
@@ -83,7 +85,7 @@ resource "helm_release" "prometheus" {
 
 resource "helm_release" "grafana" {
   name       = "grafana"
-  namespace  = "default"
+  namespace  = local.module_namespace
   repository = "https://grafana.github.io/helm-charts"
   chart      = "grafana"
   version    = "7.3.6"
@@ -103,46 +105,9 @@ resource "helm_release" "grafana" {
   wait          = true
   reset_values  = true
 
+  depends_on = [ kubernetes_manifest.service_monitor_crd ]
+
 }
-
-data "external" "validate_gafana_endpoint" {
-  program = ["sh", "-c", "cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.endpoint_test grafana"]
-
-  depends_on = [ helm_release.grafana ]
-}
-
-data "external" "validate_prometheus_endpoint" {
-  program = ["sh", "-c", "cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.endpoint_test prometheus"]
-
-  depends_on = [ helm_release.prometheus ]
-}
-
-resource "time_sleep" "post_endpoint_validation" {
-  create_duration = "5s"
-  depends_on = [
-    data.external.validate_prometheus_endpoint,
-    helm_release.grafana,
-    helm_release.prometheus,
-    data.external.validate_gafana_endpoint
-  ]
-}
-
-
-# resource "helm_release" "kubelet-monitor" {
-
-#   name       = "kubelet-monitor"
-#   namespace  = "default"
-#   repository = "${var.helm_chart_path}"
-#   chart      = "monitoring"
-
-#   values = [
-#     "${file("${var.helm_chart_path}/monitoring/kubelet.values.yaml")}"
-#   ]
-
-#   wait          = true
-#   reset_values  = true
-
-# }
 
 resource "helm_release" "k8s-dashboard" {
 
@@ -192,7 +157,7 @@ resource "kubernetes_cluster_role_binding" "k8s_dashboard_clusterrolebinding" {
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
-    name      = kubernetes_cluster_role.k8s_dashboard_clusterrole.metadata[0].name
+    name      = kubernetes_cluster_role.k8s_dashboard_clusterrole[count.index].metadata[0].name
   }
 
   subject {
@@ -204,3 +169,49 @@ resource "kubernetes_cluster_role_binding" "k8s_dashboard_clusterrolebinding" {
   depends_on = [ helm_release.k8s-dashboard ]
 
 }
+
+
+
+
+# kub delete secret vault-token
+# kub delete pvc data-vault-0
+
+
+# data "external" "validate_gafana_endpoint" {
+#   program = ["sh", "-c", "cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.endpoint_test grafana"]
+
+#   depends_on = [ helm_release.grafana ]
+# }
+
+# data "external" "validate_prometheus_endpoint" {
+#   program = ["sh", "-c", "cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.endpoint_test prometheus"]
+
+#   depends_on = [ helm_release.prometheus ]
+# }
+
+# resource "time_sleep" "post_endpoint_validation" {
+#   create_duration = "5s"
+#   depends_on = [
+#     data.external.validate_prometheus_endpoint,
+#     helm_release.grafana,
+#     helm_release.prometheus,
+#     data.external.validate_gafana_endpoint
+#   ]
+# }
+
+
+# resource "helm_release" "kubelet-monitor" {
+
+#   name       = "kubelet-monitor"
+#   namespace  = "default"
+#   repository = "${var.helm_chart_path}"
+#   chart      = "monitoring"
+
+#   values = [
+#     "${file("${var.helm_chart_path}/monitoring/kubelet.values.yaml")}"
+#   ]
+
+#   wait          = true
+#   reset_values  = true
+
+# }

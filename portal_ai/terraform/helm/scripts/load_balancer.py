@@ -26,7 +26,6 @@ def update_target_group_attributes(client, target_group_arn, tag_value, logger):
 
 def check_target_groups(tag_key, tag_values, client, logger):
     all_target_groups_updated = True  # Assume success until proven otherwise
-    
     try:
         response = client.describe_target_groups()
         for tg in response['TargetGroups']:

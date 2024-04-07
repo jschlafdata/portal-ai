@@ -32,31 +32,6 @@ variable "external_secrets_requests" {
 }
 
 
-variable "kube_prometheus_requests" {
-  description = "Map of resource request paths and values"
-  type = map(string)
-  default = {
-    "resources.requests.memory"                                                 = "10Mi"
-    "resources.requests.cpu"                                                    = "10m"
-    "prometheusOperator.resources.requests.memory"                              = "10Mi"
-    "prometheusOperator.resources.requests.cpu"                                 = "10m"
-    "prometheusOperator.admissionWebhooks.deployment.resources.requests.memory" = "10Mi"
-    "prometheusOperator.admissionWebhooks.deployment.resources.requests.cpu"    = "10m"
-    "prometheusOperator.prometheusConfigReloader.resources.requests.memory"     = "10Mi"
-    "prometheusOperator.prometheusConfigReloader.resources.requests.cpu"        = "10m"
-    "prometheus.prometheusSpec.resources.requests.memory"                       = "10Mi"
-    "prometheus.prometheusSpec.resources.requests.cpu"                          = "10m"
-    "prometheus.grafana.resources.requests.memory"                              = "10Mi"
-    "prometheus.grafana.resources.requests.cpu"                                 = "10m"
-    "prometheus.kube-state-metrics.resources.requests.memory"                   = "10Mi"
-    "prometheus.kube-state-metrics.resources.requests.cpu"                      = "10m"
-    "prometheus.prometheus-node-exporter.resources.requests.memory"             = "10Mi"
-    "prometheus.prometheus-node-exporter.resources.requests.cpu"                = "10m"
-
-  }
-}
-
-
 
 variable "vault_requests" {
   description = "Map of resource request paths and values"

@@ -8,10 +8,6 @@ locals {
   sub_chart_names = split("*", data.external.sub_chart_dirs.result.sub_chart_names)
 }
 
-output "decoded_json" {
-  value = local.sub_chart_names
-}
-
 resource "helm_release" "accelerated-jupyter" {
 
   for_each = { for idx, name in local.sub_chart_names : name => name }

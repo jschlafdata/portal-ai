@@ -61,8 +61,10 @@ class HelmDeploymentManager:
     def parse_yaml(self):
         self.deploy_charts.extend(self.deploment_configs['required'])
         for category, details in self.deploment_configs['optional'].items():
-            if details['include']:
-                self.deploy_charts.extend(details['charts'])
+            include = details.get('include').get('charts')
+            if include:
+                print(include)
+                self.deploy_charts.extend(include)
 
     def generate_full_paths(self) -> List[str]:
         return [os.path.join(self.base_template_dir, helm_dir) for helm_dir in self.helm_directories]
@@ -102,7 +104,6 @@ class HelmDeploymentManager:
             sub_chart_val_path = os.path.join(chart_path, 'subchart.values.yaml')
             sub_chart_values = YmlManager(sub_chart_val_path).load()['charts']
             for chart, vals in sub_chart_values.items():
-                print(chart)
                 chart_input_vals = {**vals, **self.global_values}
                 rendered_values = JinjaRender(chart_input_vals, render_tmpl_path).render_j2()
 
@@ -125,11 +126,16 @@ class HelmDeploymentManager:
         deploy_dict = defaultdict(dict)
         deploy_list = self.deploment_configs['required']
         defaults = {x: True for x in deploy_list}
-    
+
         for k, v in self.deploment_configs['optional'].items():
-            charts = v['charts']
-            for chart in charts:
-                deploy_dict[chart] = v['include']
+            include = v.get('include').get('charts')
+            exclude = v.get('exclude').get('charts')
+            if include:
+                for chart in include:
+                    deploy_dict[chart] = True
+            if exclude:
+                for chart in exclude:
+                    deploy_dict[chart] = False
 
         self.deploy_dict = {**deploy_dict, **defaults}
 
@@ -146,7 +152,7 @@ class HelmDeploymentManager:
                 chart_path = os.path.join(base_dest_dir, chart).replace('/', '.')
                 terraform_deploy_values[chart_path] = self.deploy_dict.get(chart, False)
 
-        YmlManager('portal_ai/terraform/helm/configs/deployment_vars.yaml').save(dict(terraform_deploy_values))
+        YmlManager('portal_ai/terraform/helm/configs/generated/helm_deployment_settings.yml').save(dict(terraform_deploy_values))
 
 
 

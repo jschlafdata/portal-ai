@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/name: {{ .Values.ingressName }}
     app.kubernetes.io/version: 0.9.16
   name: {{ .Values.ingressName }}
-  namespace: default
+  namespace: {{ .Release.namespace }}
 spec:
   ingressClassName: {{ .Values.ingress_class_name }}
   rules:

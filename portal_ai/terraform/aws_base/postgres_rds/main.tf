@@ -88,18 +88,32 @@ resource "aws_db_instance" "rds" {
   }
 }
 
+locals {
 
-resource "null_resource" "write_rds_password" {
-  depends_on = [aws_db_instance.rds]
-
-  triggers = {
-    rds_password = random_password.password.result
+  ssm_map = {
+    "${var.project_name}-rds-password" = random_password.password.result
+    "${var.project_name}-rds-user" = var.database_user
+    "${var.project_name}-rds-endpoint-port" = aws_db_instance.rds.endpoint
+    "${var.project_name}-rds-endpoint" = split(":", aws_db_instance.rds.endpoint)[0]
   }
 
-  provisioner "local-exec" {
-    command = <<-EOT
-      mkdir -p ~/.ssh/${var.project_name}/
-      echo "DATABASE_PASSWORD=${self.triggers.rds_password}" > ~/.ssh/${var.project_name}/rds.env
-    EOT
+}
+
+resource "aws_secretsmanager_secret" "db_secrets" {
+  for_each = local.ssm_map
+
+  name = each.key
+  tags = {
+    Environment = var.environment
+    App = var.app_name
   }
+}
+
+resource "aws_secretsmanager_secret_version" "db_secrets_version" {
+  for_each = local.ssm_map
+
+  secret_id     = aws_secretsmanager_secret.db_secrets[each.key].id
+  secret_string = jsonencode({
+    value = each.value
+  })
 }

@@ -22,7 +22,6 @@ if __name__ == "__main__":
 
     output = {'status': '200', 'sub_chart_names': '*'.join(sub_charts)}
 
-
     print(json.dumps(output))
 
 

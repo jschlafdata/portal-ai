@@ -58,7 +58,11 @@ resource "aws_iam_policy" "kops_policy" {
                 "ec2:CreateVpc",
                 "ec2:DescribeVpcs",
                 "ec2:DeleteVpc",
-                "elasticloadbalancing:*"
+                "elasticloadbalancing:*",
+                "secretsmanager:CreateSecret",
+                "secretsmanager:UpdateSecret",
+                "secretsmanager:BatchGetSecretValue",
+                "secretsmanager:GetSecretValue"
             ],
             "Resource": "*"
         }
@@ -67,6 +71,33 @@ resource "aws_iam_policy" "kops_policy" {
 EOF
 
 }
+
+
+resource "aws_iam_policy" "awssm_policy" {
+  name        = "awssm"
+  path        = "/"
+  description = "Allows KOPs to scale clusters"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "secretsmanager:CreateSecret",
+                "secretsmanager:UpdateSecret",
+                "secretsmanager:BatchGetSecretValue",
+                "secretsmanager:GetSecretValue"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+
+}
+
 
 
 resource "aws_iam_policy" "ecr_policy" {
