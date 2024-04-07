@@ -6,7 +6,6 @@ locals {
   release_configs = yamldecode(file("${path.module}/configs/generated/helm_deployment_settings.yml"))
   release_settings = yamldecode(file("${path.module}/configs/generated/helm_values_base.yml"))
   project_settings = yamldecode(file("${path.module}/configs/generated/kops_settings_base.yml"))
-
 }
 
 
@@ -21,6 +20,8 @@ module "system-base-helm-releases" {
     project_name    = local.project_settings.projectName
 
 }
+
+
 
 module "get-settings" {
     source     = "./releases/apps/get_settings"

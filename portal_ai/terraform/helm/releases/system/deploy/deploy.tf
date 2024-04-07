@@ -3,9 +3,24 @@ locals {
 }
 
 
-data "external" "update_alb_load_balancer" {
-  program = ["sh", "-c", "cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.load_balancer"]
+# data "external" "update_alb_load_balancer" {
+#   program = ["sh", "-c", "cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.load_balancer"]
+# }
+
+# output "example" {
+#   value = data.external.update_alb_load_balancer.result
+# }
+
+resource "null_resource" "load_balancer" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+
+  provisioner "local-exec" {
+    command = "sh -c 'cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.load_balancer'"
+  }
 }
+
 
 resource "kubernetes_config_map" "python_script_config" {
   metadata {
@@ -170,3 +185,20 @@ resource "helm_release" "tls_reflections" {
 
 }
 
+
+resource "helm_release" "atlantis" {
+
+  name       = "atlantis"
+  namespace  = local.module_namespace
+  repository = "https://runatlantis.github.io/helm-charts"
+  chart      = "atlantis"
+
+  values = [
+    "${file("${var.helm_chart_path}/external/apps/atlantis/values.yaml")}"
+  ]
+  wait          = true
+  reset_values  = true
+
+  wait_for_jobs = true
+
+}

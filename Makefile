@@ -28,10 +28,8 @@ deploy:
 	terraform init && \
 	terraform apply && \
 	cd $(INITIAL_DIR) && \
-	poetry run python -m portal_ai.deployments.aggregate_configs 
-	
-	# && \
-	# ./portal_ai/scripts/kops/create_cluster.sh $(AWS_PROFILE)
+	poetry run python -m portal_ai.deployments.aggregate_configs && \
+	./portal_ai/scripts/kops/create_cluster.sh $(AWS_PROFILE)
 
 
 destroy:
