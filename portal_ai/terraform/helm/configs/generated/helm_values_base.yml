@@ -1,0 +1,20 @@
+awsRegion: us-west-2
+iamPolicies:
+  efs-csi-controller-sa: arn:aws:iam::730335480997:policy/efs-csi-controller-sa
+  aws-lb-controller: arn:aws:iam::730335480997:policy/aws-lb-controller
+  ecr: arn:aws:iam::730335480997:policy/ecr
+  kops: arn:aws:iam::730335480997:policy/kops
+  external-dns: arn:aws:iam::730335480997:policy/external-dns
+  awssm: arn:aws:iam::730335480997:policy/awssm
+efsVolumeHandle: fs-050d826d6945e4b86
+rdsInstanceHostname: pcg-pcg-dev-db.cj48ug4amzlu.us-west-2.rds.amazonaws.com:5432
+rdsInstanceHostNoPort: pcg-pcg-dev-db.cj48ug4amzlu.us-west-2.rds.amazonaws.com
+rdsUsername: pcg_pcg_rds_admin
+awsEfsDriver: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver
+dnsDomain: principalcg.cloud
+gitAdminEmail: john.schlafly@principalcg.com
+gitAdminUsername: pcg-schlaf
+aliasCommonName: '*.principalcg.cloud'
+commonName: principalcg-cloud
+tlsSecretName: wildcard-tls-cert-principalcg-cloud
+mageGitRepoLink: None

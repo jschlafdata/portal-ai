@@ -1,0 +1,198 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  name: k8s-dev.principalcg.cloud
+spec:
+  api:
+    loadBalancer:
+      class: Network
+      crossZoneLoadBalancing: true
+      type: Internal
+  authorization:
+    rbac: {}
+  iam:
+    allowContainerRegistry: true
+    useServiceAccountExternalPermissions: true
+    serviceAccountExternalPermissions:
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/efs-csi-controller-sa
+      name: efs-csi-controller-sa
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/aws-lb-controller
+      name: aws-lb-controller
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/ecr
+      name: ecr
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/kops
+      name: kops
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/external-dns
+      name: external-dns
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/awssm
+      name: awssm
+      namespace: default
+  containerd:
+    nvidiaGPU:
+      enabled: true
+      dcgmExporter:
+        enabled: true
+      package: nvidia-headless-535-server
+  channel: stable
+  cloudProvider: aws
+  clusterAutoscaler:
+    enabled: true
+  configBase: s3://kops-dev.principalcg.cloud/k8s-dev.principalcg.cloud
+  dnsZone: Z05055605F6PEGC7INCO
+  etcdClusters:
+  - name: main
+    etcdMembers:
+    - encryptedVolume: true
+      instanceGroup: master-us-west-2a
+      name: a
+  - name: events
+    etcdMembers:
+    - encryptedVolume: true
+      instanceGroup: master-us-west-2a
+      name: a
+  kubeDNS:
+    nodeLocalDNS:
+      enabled: true
+    provider: CoreDNS
+  kubeProxy:
+    ipvsScheduler: lc
+    proxyMode: ipvs
+  kubelet:
+    anonymousAuth: false
+    authenticationTokenWebhook: true
+    authorizationMode: Webhook
+  kubernetesApiAccess:
+  - 10.8.0.0/24
+  kubernetesVersion: 1.29.2
+  masterInternalName: internal.k8s-dev.principalcg.cloud
+  masterPublicName: k8s-dev.principalcg.cloud
+  networkCIDR: 174.64.0.0/16
+  networkID: vpc-033146cf5a7c861ea
+  networking:
+    calico:
+      mtu: 8981
+  nonMasqueradeCIDR: 100.64.0.0/10
+  serviceAccountIssuerDiscovery:
+    enableAWSOIDCProvider: true
+    discoveryStore: s3://iam-http-dir-dev-principalcg-cloud
+  podIdentityWebhook:
+    enabled: true
+    replicas: 1
+  certManager:
+    enabled: true
+    managed: true
+    hostedZoneIDs:
+    - Z05055605F6PEGC7INCO
+  sshAccess:
+  - 10.8.0.0/24
+  - 174.64.0.0/16
+  sshKeyName: id_ed25519_kops
+  subnets:
+  - cidr: 174.64.10.0/26
+    egress: nat-03a9d759f8599f669
+    id: subnet-0461c87102d23fdfc
+    name: us-west-2a
+    type: Private
+    zone: us-west-2a
+  - cidr: 174.64.0.0/26
+    id: subnet-08ee241533f3abdb1
+    name: utility-us-west-2a
+    type: Utility
+    zone: us-west-2a
+  topology:
+    dns:
+      type: Public
+    masters: private
+    nodes: private
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.principalcg.cloud
+  name: master-us-west-2a
+spec:
+  image: ami-005414fb846dc12d1
+  machineType: t3a.medium
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-us-west-2a
+  role: Master
+  rootVolumeEncryption: true
+  subnets:
+  - us-west-2a
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.principalcg.cloud
+  name: nodes-us-west-2a
+spec:
+  image: ami-005414fb846dc12d1
+  machineType: t3.medium
+  maxSize: 1
+  minSize: 1
+  mixedInstancesPolicy:
+    instances:
+    - t3a.medium
+    - m7a.medium
+    - t3.medium
+    - t2.medium
+    onDemandAboveBase: 0
+    onDemandBase: 0
+    spotAllocationStrategy: capacity-optimized
+  nodeLabels:
+    kops.k8s.io/instancegroup: nodes-us-west-2a
+  role: Node
+  rootVolumeEncryption: true
+  subnets:
+  - us-west-2a
+---
+apiVersion: kops.k8s.io/v1alpha2
+kind: InstanceGroup
+metadata:
+  labels:
+    kops.k8s.io/cluster: k8s-dev.principalcg.cloud
+  name: gpu-nodes-spot-group-us-west-2a
+spec:
+  image: ami-005414fb846dc12d1
+  machineType: g5.xlarge
+  maxSize: 1
+  minSize: 0
+  mixedInstancesPolicy:
+    instances:
+    - g3.8xlarge
+    - g4dn.xlarge
+    - g5.xlarge
+    - p3.2xlarge
+    onDemandAboveBase: 0
+    onDemandBase: 0
+    spotAllocationStrategy: capacity-optimized
+  nodeLabels:
+    instance-group: gpu-nodes-spot-group-us-west-2a
+  role: Node
+  subnets:
+  - us-west-2a
+  cloudLabels:
+    node_type: gpu
+    instance_type: spot-group
+    gpus: '1'

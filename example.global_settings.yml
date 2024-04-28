@@ -1,144 +1,90 @@
-## required for mac os initial setup:
+### required for mac os initial setup: ###
+### ---------------------------------- ###
 
-git_admin_email: admin@example.com
-git_admin_username: adminusername
-project_name: iheartdata
+# Administrator's username for Git (string)
+git_admin_email: schlafdata@gmail.com
+
+# Administrator's username for Git (string)
+git_admin_username: jschlafdata
+
+# Name of your project or company (string)
+project_name: portalai
+
+### ********************************** ###
+### ---------------------------------- ###
 
 
-# AWS SSO login URL (dummy URL)
-aws_start_url: https://d-xxxxxxx.awsapps.com/start 
-data_portal_name: My Swaggy Portal Name
+# AWS SSO login URL (string)
+aws_start_url: 
 
-## are you a big boi?
-k8s_deployment_size:
+# Name of the data portal created (string)
+data_portal_name: One Portal to Rule them All
+
+cost:
+  - 0.0376
+  - 0.0208
+  - 0.0416
+
+k8s_deployment_size: 
   smol_fry: true
   med_fy: false
   large_fry: false
   supersize_me: false
 
-## choose which applications you want dpeloyed!!
-helm_deployments:
-  required:
-  - wildcard-certificate
-  - nginx-internal
-  - external-dns
-  - vault
-  - external-secrets
-  - eso-secrets-operators
-  - efs
-  - efs-csi
-  optional:
-    mageai:
-      include: true
-      charts:
-      - mageai
-      - mageai-workspaces
-    monitoring:
-      include: true
-      charts:
-      - grafana
-      - kube-state-metrics
-      - prometheus
-      - prometheus-node-exporter
-    dashoards:
-      include: false
-      charts:  
-      - k8s-dashboard
-      - metabase
-    llms:
-      include: false
-      charts:
-      - jupyter-lab-accelerated
-      - llm-models
-    system:
-      include: false
-      charts:
-      - nginx-external
-    apps:
-      include: false
-      charts:
-      - websites
 
-mage_git_repo_link: https://github.com/jschlafdata/mageai-portal-ai.git
+# Link to the Git repository for MAGE AI Portal (string)
+# you can use this open source example to see test ETL pipelines.
 
-aws_prefix: swaggyprefix # cannot have '-' in it.
+mage_git_repo_link: 
 
+# AWS resource prefix, must not contain '-' (string)
+aws_prefix: portalai
+
+# DNS Zone IDs and details for different environments (development, stage, production)
 dns_zone_id:
-  dev: 
-    domain: iheartdatadev
-    dns_domain: iheartdatadev.example.com
-    dns_zone: ZZZZZZZZZZZZZZ
-  stage: 
-    domain: iheartdatastage
-    dns_domain: iheartdatastage.example.com
-    dns_zone: ZZZZZZZZZZZZZZ
+  dev:
+    domain: schlaf-data
+    dns_domain: schlaf-data.engineering
+    dns_zone: Z00777581CD3CU97IP3IQ
+  stage:
+    domain: 
+    dns_domain: 
+    dns_zone: 
   prod:
-    domain: iheartdataprod
-    dns_domain: iheartdataprod.example.com
-    dns_zone: ZZZZZZZZZZZZZZ
+    domain: 
+    dns_domain: 
+    dns_zone: 
 
-# It's crucial to use non-overlapping CIDR blocks for VPCs across different environments (dev, stage, prod) or AWS accounts 
-# when planning to establish VPC peering connections. VPC peering allows two VPCs to communicate using private IP addresses. 
-# However, if the CIDR blocks overlap, AWS cannot route traffic between the peered VPCs because it cannot differentiate 
-# the network addresses.
-
+# AWS environment configurations
 aws_environments:
   dev:
-    aws_region: us-west-2
+    aws_region: us-east-1
     prefix: dev
     s3_prefix: "-dev"
-    vpc_cidr: 10.0.0.0/16
-    public_subnet_cidr: 10.0.1.0/24
-    private_subnet_cidr: 10.0.2.0/24
+    tfstate: portalai.tfstate
+    vpc_cidr: 174.64.0.0/16
+    public_subnet_cidr: 174.64.1.0/23
+    private_subnet_cidr: 174.64.10.0/23
   stage:
-    aws_region: us-west-2
-    prefix: stage
-    s3_prefix: "-stage"
-    vpc_cidr: 10.1.0.0/16
-    public_subnet_cidr: 10.1.1.0/24
-    private_subnet_cidr: 10.1.2.0/24
+    aws_region: 
+    prefix: 
+    s3_prefix: 
+    vpc_cidr: 
+    public_subnet_cidr: 
+    private_subnet_cidr: 
   prod:
-    aws_region: us-west-2
-    prefix: ''
-    s3_prefix: ''
-    vpc_cidr: 10.2.0.0/16
-    public_subnet_cidr: 10.2.1.0/24
-    private_subnet_cidr: 10.2.2.0/24    
+    aws_region: 
+    prefix: 
+    s3_prefix: 
+    vpc_cidr: 
+    public_subnet_cidr: 
+    private_subnet_cidr: 
 
 
+# Initial GPU node group for Kubernetes (list of objects)
 ## Start with at least one initial GPU node for k8s.
-gpu_node_group:
-  - machineType: g5.xlarge
-    igName: g5-xl
-    maxNodeSize: 1
-    gpus: 1
-
-## Configs for terraform modules.
-ovpn_configs:
-  istance_type: t3.small
-  users:
-  - user1
-  - user2
-
-postgres_rds:
-  db_user: dbuser
-  app_name: dummyapp   
-  generated_token_file: dummy.env
-  instance_type: db.t3.micro
-
-## OPTIONAL ADDITIONAL SETTINGS
-
-additional_dns_zones: 
-  # allow for the ability to use nginx+loadbalancer to create TLS certified 
-  # websites for additional domains you own.
-  include: false
-  zones:
-    dev:
-    - ZZZZZZZZZZZZZ1
-    - ZZZZZZZZZZZZZ2
-    - ZZZZZZZZZZZZZ3
-    stage:
-    prod:
+## recommended to start with g5, as they are the most
+## cost efficient when considering power & output.
 
 
 included_gpu_node_groups:
@@ -149,3 +95,91 @@ included_gpu_node_groups:
 # - p3dn
 # - p4d
 # - p5
+
+# OpenVPN configurations (object)
+ovpn_configs:
+  istance_type: t3.small
+  users: # List of usernames to create VPN authentication files for (list of strings)
+  - john
+
+# PostgreSQL RDS configuration (object)
+postgres_rds:
+  db_user: rds_admin
+  app_name: portalai
+  generated_token_file: rds.env
+  instance_type: db.t3.micro
+
+
+## OPTIONAL ADDITIONAL SETTINGS:
+
+# Additional DNS zones configuration (object, optional)
+additional_dns_zones:
+  include: false # or false (boolean)
+  zones:
+    dev: # list of strings
+    -
+    -
+    -
+    stage:
+    prod:
+
+helm_deployments:
+  required:
+  - wildcard-certificate
+  - nginx-internal
+  - external-dns
+  - vault
+  - external-secrets
+  - eso-secrets-operators
+  - efs
+  - efs-csi
+  - tls-reflections
+  optional:
+    mageai:
+      include:
+        charts:
+      exclude:
+        charts:
+        - mageai
+        - mageai-workspaces
+    atlantis:
+      include:
+        charts:
+        - atlantis
+      exclude:
+        charts:
+    monitoring:
+      include:
+        charts:
+      exclude:
+        charts:
+        - k8s-dashboard
+        - grafana
+        - kube-state-metrics
+        - prometheus
+        - prometheus-node-exporter
+    dashoards:
+      include:
+        charts:
+      exclude:
+        charts:
+        - metabase
+    llms:
+      include:
+        charts:
+      exclude:
+        charts:
+    system:
+      include:
+        charts:
+        - nginx-external
+      exclude:
+        charts:
+        - jupyter-lab-accelerated
+        - llm-models
+    apps:
+      include:
+        charts:
+      exclude:
+        charts:
+        - websites

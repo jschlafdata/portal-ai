@@ -1,0 +1,143 @@
+aws_region: us-west-2
+aws_prefix: pcg
+project_name: pcg
+environment: dev
+git_admin_email: john.schlafly@principalcg.com
+git_admin_username: pcg-schlaf
+mage_git_repo_link: None
+cluster_name: k8s-dev.principalcg.cloud
+dns:
+  domain: principalcg
+  dns_domain: principalcg.cloud
+  dns_zone: Z05055605F6PEGC7INCO
+networking:
+  vpc_cidr: 174.64.0.0/16
+  public_subnet_cidr: 174.64.1.0/23
+  private_subnet_cidr: 174.64.10.0/23
+  open_vpn_static_route_ip: 10.8.0.0/24
+aws_efs_driver: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver
+postgres_rds:
+  generated_token_path: ~/.ssh/pcg/rds.env
+  instance_type: db.t3.micro
+remote_s3_bucket_configs:
+  kops_state_prefix: kops-dev.principalcg.cloud
+  tfstate_prefix: tfstate-dev.principalcg.cloud
+  kops_iam_prefix: iam-http-dir-dev-principalcg-cloud
+  global_manifest: project-manifest-dev.principalcg.cloud
+terraform:
+  aws_base:
+    app_name: pcg-pcg
+    database_user: pcg_pcg_rds_admin
+    openvpn_config_directory: ~/.ssh/pcg/generated/ovpn-config
+    kops_private_key_file: ~/.ssh/pcg/id_ed25519_kops
+    kops_public_key_file: ~/.ssh/pcg/id_ed25519_kops.pub
+    kops_key_name: id_ed25519_kops
+    openvpn_private_key_file: ~/.ssh/pcg/id_ed25519_openvpn
+    openvpn_public_key_file: ~/.ssh/pcg/id_ed25519_openvpn.pub
+    openvpn_key_name: id_ed25519_openvpn
+    openvpn_configs:
+      users:
+      - john
+      - max
+      instance_type: t3.small
+kops:
+  node_ig_settings:
+    image_name: ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220708
+    image: ami-005414fb846dc12d1
+    nodes:
+      masterMachineType: t3a.medium
+      nodeMachineType: t3.medium
+      podIdentityReplicas: 1
+      mixedInstancesPolicy:
+        instances:
+        - t3a.medium
+        - m7a.medium
+        - t3.medium
+        - t2.medium
+      gpuMixedInstancesPolicy:
+        instances:
+        - g3.8xlarge
+        - g4dn.xlarge
+        - g5.xlarge
+        - p3.2xlarge
+        igName: spot-group
+        gpus: 1
+        gpuMachineType: g5.xlarge
+        gpuMaxNodeSize: 1
+      maxNodeSize: 1
+      zones: 1
+      azs: None
+  gpu_instance_groups:
+  - machineType: g5.xlarge
+    igName: g5-xlarge
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g5.2xlarge
+    igName: g5-2xlarge
+    maxNodeSize: 1
+    gpus: 1
+  - machineType: g5.12xlarge
+    igName: g5-12xlarge
+    maxNodeSize: 1
+    gpus: 4
+  additional_dns_zones: null
+helm_deployments:
+  required:
+  - wildcard-certificate
+  - nginx-internal
+  - external-dns
+  - vault
+  - external-secrets
+  - eso-secrets-operators
+  - efs
+  - efs-csi
+  - tls-reflections
+  optional:
+    mageai:
+      include:
+        charts: None
+      exclude:
+        charts:
+        - mageai
+        - mageai-workspaces
+    atlantis:
+      include:
+        charts:
+        - atlantis
+      exclude:
+        charts: None
+    monitoring:
+      include:
+        charts: None
+      exclude:
+        charts:
+        - k8s-dashboard
+        - grafana
+        - kube-state-metrics
+        - prometheus
+        - prometheus-node-exporter
+    dashoards:
+      include:
+        charts: None
+      exclude:
+        charts:
+        - metabase
+    llms:
+      include:
+        charts: None
+      exclude:
+        charts: None
+    system:
+      include:
+        charts:
+        - nginx-external
+      exclude:
+        charts:
+        - jupyter-lab-accelerated
+        - llm-models
+    apps:
+      include:
+        charts: None
+      exclude:
+        charts:
+        - websites

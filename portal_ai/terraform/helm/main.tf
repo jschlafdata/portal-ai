@@ -29,28 +29,29 @@ module "get-settings" {
     depends_on = [ module.system-base-helm-releases ]
 }
 
-# module "website-apps-helm-releases" {
 
-#     count                   = local.release_configs["local_custom.apps.websites"] ? 1 : 0
+module "website-apps-helm-releases" {
 
-#     source                  = "./releases/apps/websites"
-#     helm_chart_path         = local.helm_chart_dir
-#     abs_helm_chart_dir      = local.abs_helm_chart_dir
-#     release_settings        = local.release_settings
-#     release_configs         = local.release_configs
+    count                   = local.release_configs["local_custom.apps.websites"] ? 1 : 0
 
-    # release_charts          = module.get-settings.subchart_names.websites
+    source                  = "./releases/apps/websites"
+    helm_chart_path         = local.helm_chart_dir
+    abs_helm_chart_dir      = local.abs_helm_chart_dir
+    release_settings        = local.release_settings
+    release_configs         = local.release_configs
 
-#     depends_on = [ 
-#         module.system-base-helm-releases,
-#         module.get-settings
-#     ]
+    release_charts          = module.get-settings.subchart_names.websites
 
-# }
+    depends_on = [ 
+        module.system-base-helm-releases,
+        module.get-settings
+    ]
 
-
+}
 
 module "mageai-helm-releases" {
+
+    count                   = local.release_configs["external.apps.mageai"] ? 1 : 0
 
     source                  = "./releases/apps/mageai"
     helm_chart_path         = local.helm_chart_dir
@@ -66,38 +67,38 @@ module "mageai-helm-releases" {
 }
 
 
-# module "llm-endpoints-helm-releases" {
+module "llm-endpoints-helm-releases" {
 
-#     count                   = local.release_configs["local_custom.apps.llm-models"] ? 1 : 0
+    count                   = local.release_configs["local_custom.apps.llm-models"] ? 1 : 0
 
-#     source                  = "./releases/apps/llm_endpoints"
-#     helm_chart_path         = local.helm_chart_dir
-#     abs_helm_chart_dir      = local.abs_helm_chart_dir
-#     script_dir              = local.script_dir
-#     release_settings        = local.release_settings
-#     release_configs         = local.release_configs
+    source                  = "./releases/apps/llm_endpoints"
+    helm_chart_path         = local.helm_chart_dir
+    abs_helm_chart_dir      = local.abs_helm_chart_dir
+    script_dir              = local.script_dir
+    release_settings        = local.release_settings
+    release_configs         = local.release_configs
 
-#     depends_on = [ 
-#       module.system-base-helm-releases 
-#     ]
+    depends_on = [ 
+      module.system-base-helm-releases 
+    ]
 
-# }
+}
 
 
-# module "llm-dev-spaces-helm-releases" {
+module "llm-dev-spaces-helm-releases" {
 
-#     count                   = local.release_configs["local_custom.apps.jupyter-lab-accelerated"] ? 1 : 0
+    count                   = local.release_configs["local_custom.apps.jupyter-lab-accelerated"] ? 1 : 0
 
-#     source                  = "./releases/apps/llm_dev_spaces"
-#     helm_chart_path         = local.helm_chart_dir
-#     abs_helm_chart_dir      = local.abs_helm_chart_dir
+    source                  = "./releases/apps/llm_dev_spaces"
+    helm_chart_path         = local.helm_chart_dir
+    abs_helm_chart_dir      = local.abs_helm_chart_dir
     
-#     script_dir              = local.script_dir
-#     release_settings        = local.release_settings
-#     release_configs         = local.release_configs
+    script_dir              = local.script_dir
+    release_settings        = local.release_settings
+    release_configs         = local.release_configs
 
-#     depends_on = [ 
-#       module.system-base-helm-releases 
-#     ]
+    depends_on = [ 
+      module.system-base-helm-releases 
+    ]
 
-# }
+}

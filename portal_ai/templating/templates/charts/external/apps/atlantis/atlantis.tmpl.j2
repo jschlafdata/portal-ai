@@ -1,10 +1,10 @@
 github:
-  user: 
-  token: 
-  secret: 
+  user: {{ ATLANTIS_GH_USER }}
+  token: {{ ATLANTIS_GH_TOKEN }}
+  secret: {{ ATLANTIS_WEBHOOK }}
   hostname: github.com
 
-orgAllowlist: 
+orgAllowlist: {{ ATLANTIS_ORG_ALLOW }}
 
 ingress:
   enabled: true
@@ -31,18 +31,9 @@ ingress:
      hosts:
        - {{ 'atlantis.' ~ dnsDomain }}
 
-repoConfig: |
-  ---
-  repos:
-  workflows:
-    default:
-      plan:
-        steps:
-        - init:
-            extra_args: ["-var", "environment=development"]
-        - plan:
-            extra_args: ["-var", "environment=development"]
-      apply:
-        steps:
-          - apply:
-              extra_args: ["-var", "environment=development"]
+serviceAccount:
+  create: true
+  mount: true
+  name: kops
+  annotations:
+    iam.amazonaws.com/role: "{{ iamPolicies['kops'] }}"

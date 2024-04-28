@@ -11,17 +11,18 @@
 **/.docusaurus/
 *.docusaurus
 
-
+# portal_ai/custom/*
 # Ignore all generated YAML configurations with users generated deployment settings
 
-portal_ai/configs/generated/*
-portal_ai/terraform/helm/configs/charts/**/values.yaml
-portal_ai/terraform/helm/configs/generated/*
-portal_ai/terraform/helm/configs/deployment_settings.yml
-portal_ai/terraform/*remote.tf
-portal_ai/terraform/aws_base/configs/generated/global_settings_base.yml
+# portal_ai/configs/generated/*
+# portal_ai/terraform/helm/configs/charts/**/values.yaml
+# portal_ai/terraform/helm/configs/generated/*
+# portal_ai/terraform/helm/configs/deployment_settings.yml
+# portal_ai/terraform/*remote.tf
+# portal_ai/terraform/aws_base/configs/generated/global_settings_base.yml
 
-
+./pcg-portal-ai/portal_ai/terraform/helm/configs/charts/external/apps/atlantis/values.yaml
+./portal_ai/terraform/helm/configs/charts/external/apps/atlantis/values.yaml
 
 **/node_modules/
 
@@ -34,7 +35,6 @@ portal_ai/terraform/aws_base/configs/generated/global_settings_base.yml
 *portal_ai.egg-info
 
 portal_ai/temp
-portal_ai/terraform/kops/data/*
 
 ./errored.tfstate
 # Ignore plan output files

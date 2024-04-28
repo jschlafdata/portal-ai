@@ -1,0 +1,115 @@
+networkCIDR: 174.64.0.0/16
+networkID: vpc-033146cf5a7c861ea
+awsRegion: us-west-2
+projectName: pcg
+natGatewayId: nat-03a9d759f8599f669
+dnsZone: principalcg
+dnsDomain: principalcg.cloud
+dnsZoneId: Z05055605F6PEGC7INCO
+vpnInternalNetworkIp: 10.8.0.0/24
+masterMachineType: t3a.medium
+nodeMachineType: t3.medium
+maxNodeSize: 1
+mixedInstancesPolicy:
+  instances:
+  - t3a.medium
+  - m7a.medium
+  - t3.medium
+  - t2.medium
+podIdentityReplicas: 1
+availabilityZones: None
+zones: 1
+kopsSshKeyName: id_ed25519_kops
+image: ami-005414fb846dc12d1
+gpuGroup:
+- machineType: g5.xlarge
+  igName: g5-xlarge
+  maxNodeSize: 1
+  gpus: 1
+- machineType: g5.2xlarge
+  igName: g5-2xlarge
+  maxNodeSize: 1
+  gpus: 1
+- machineType: g5.12xlarge
+  igName: g5-12xlarge
+  maxNodeSize: 1
+  gpus: 4
+gpuMixedInstancesPolicy:
+  instances:
+  - g3.8xlarge
+  - g4dn.xlarge
+  - g5.xlarge
+  - p3.2xlarge
+  igName: spot-group
+  gpus: 1
+  gpuMachineType: g5.xlarge
+  gpuMaxNodeSize: 1
+additionalDnsZones: None
+kopsStateStore: s3://kops-dev.principalcg.cloud
+configBase: s3://kops-dev.principalcg.cloud/k8s-dev.principalcg.cloud
+clusterName: k8s-dev.principalcg.cloud
+discoveryStore: s3://iam-http-dir-dev-principalcg-cloud
+subnets:
+  us-west-2a:
+    private:
+      cidr: 174.64.10.0/26
+      id: subnet-0461c87102d23fdfc
+    public:
+      cidr: 174.64.0.0/26
+      id: subnet-08ee241533f3abdb1
+  us-west-2b:
+    private:
+      cidr: 174.64.10.64/26
+      id: subnet-0914a346d9f80d211
+    public:
+      cidr: 174.64.0.64/26
+      id: subnet-067e749abf95cfa5a
+  us-west-2c:
+    private:
+      cidr: 174.64.10.128/26
+      id: subnet-0599436b798df07e1
+    public:
+      cidr: 174.64.0.128/26
+      id: subnet-081530784d46bdbe8
+  us-west-2d:
+    private:
+      cidr: 174.64.10.192/26
+      id: subnet-00819f30a13f29b97
+    public:
+      cidr: 174.64.0.192/26
+      id: subnet-07b4ce08116fa2863
+kopsIamConfigs:
+  iam:
+    allowContainerRegistry: true
+    useServiceAccountExternalPermissions: true
+    serviceAccountExternalPermissions:
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/efs-csi-controller-sa
+      name: efs-csi-controller-sa
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/aws-lb-controller
+      name: aws-lb-controller
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/ecr
+      name: ecr
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/kops
+      name: kops
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/external-dns
+      name: external-dns
+      namespace: default
+    - aws:
+        policyARNs:
+        - arn:aws:iam::730335480997:policy/awssm
+      name: awssm
+      namespace: default
