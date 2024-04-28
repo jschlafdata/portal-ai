@@ -8,6 +8,9 @@ resource "kubernetes_manifest" "service_monitor_crd" {
 
 
 resource "helm_release" "kube-state-metrics" {
+
+  count      = var.release_configs["external.monitoring.kube-state-metrics"] ? 1 : 0
+
   name       = "kube-state-metrics"
   namespace  = local.module_namespace
   repository = "https://prometheus-community.github.io/helm-charts"
@@ -32,6 +35,9 @@ resource "helm_release" "kube-state-metrics" {
 }
 
 resource "helm_release" "prometheus-node-exporter" {
+
+  count      = var.release_configs["external.monitoring.prometheus-node-exporter"] ? 1 : 0
+
   name       = "prometheus-node-exporter"
   namespace  = local.module_namespace
   repository = "https://prometheus-community.github.io/helm-charts"
@@ -59,6 +65,9 @@ resource "helm_release" "prometheus-node-exporter" {
 
 
 resource "helm_release" "prometheus" {
+
+  count      = var.release_configs["external.monitoring.prometheus"] ? 1 : 0
+
   name       = "prometheus"
   namespace  = local.module_namespace
   repository = "https://prometheus-community.github.io/helm-charts"
@@ -84,6 +93,9 @@ resource "helm_release" "prometheus" {
 
 
 resource "helm_release" "grafana" {
+
+  count      = var.release_configs["external.monitoring.grafana"] ? 1 : 0
+
   name       = "grafana"
   namespace  = local.module_namespace
   repository = "https://grafana.github.io/helm-charts"

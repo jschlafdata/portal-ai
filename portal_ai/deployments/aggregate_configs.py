@@ -21,6 +21,13 @@ from portal_ai.settings.load_settings import (
 
 from portal_ai.templating.yaml.kops_zones import KopsZones
 
+ATLANTIS_ENVS = [
+    "ATLANTIS_GH_USER",
+    "ATLANTIS_ORG_ALLOW",
+    "ATLANTIS_GH_TOKEN",
+    "ATLANTIS_WEBHOOK"
+]
+
 
 def save_cluster_config( cluster_config, 
                          instance_groups, 
@@ -41,9 +48,9 @@ def save_cluster_config( cluster_config,
 class HelmDeploymentManager:
     def __init__(self):
         self.logger = LoggerConfig.get_logger(__name__)
-
         self.loader = ConfigurationLoader(ConfigReader)
         self.deploment_configs = self.loader.generated_config_loader('aws_plus_global_base')['helm_deployments']
+        self.atlantis_secrets = {k:os.getenv(k, '') for k in ATLANTIS_ENVS}
         self.helm_values_path = 'portal_ai/configs/generated/helm_values_base.yml'
         self.global_values = YmlManager(self.helm_values_path).load()
         self.base_template_dir = 'portal_ai/templating/templates/charts'
@@ -96,7 +103,8 @@ class HelmDeploymentManager:
         
         if not self.has_subchart_values(chart_path):
             # No subcharts, render with global values
-            rendered_values = JinjaRender(self.global_values, render_tmpl_path).render_j2()
+            chart_input_vals = {**self.global_values, **self.atlantis_secrets}
+            rendered_values = JinjaRender(chart_input_vals, render_tmpl_path).render_j2()
             dest_file = os.path.join(dest_base_path, 'values.yaml')
             self.rendered_results[dest_file] = rendered_values
         else:
@@ -104,7 +112,7 @@ class HelmDeploymentManager:
             sub_chart_val_path = os.path.join(chart_path, 'subchart.values.yaml')
             sub_chart_values = YmlManager(sub_chart_val_path).load()['charts']
             for chart, vals in sub_chart_values.items():
-                chart_input_vals = {**vals, **self.global_values}
+                chart_input_vals = {**vals, **self.global_values, **self.atlantis_secrets}
                 rendered_values = JinjaRender(chart_input_vals, render_tmpl_path).render_j2()
 
                 sub_chart_path = f"{dest_base_path}/sub_charts/{chart}"

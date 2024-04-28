@@ -1,0 +1,12 @@
+aliasCommonName: '*.principalcg.cloud'
+commonName: principalcg-cloud
+dnsDomain: principalcg.cloud
+subdomains:
+- public
+- private
+- dev
+- stage
+- manage
+gitAdminEmail: john.schlafly@principalcg.com
+awsRegion: us-west-2
+tlsSecretName: wildcard-tls-cert-principalcg-cloud

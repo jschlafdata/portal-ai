@@ -74,9 +74,6 @@ def main():
             tag_values.append(taget_dict.get(item))
 
     tag_key = "kubernetes.io/service-name"
-    tag_values = [
-        "default/nginx-internal-ingress-nginx-controller"
-    ]
 
     elbv2_client = BotoS3(aws_profile, aws_region, action=None).get_boto_elbv2_client()
     all_target_groups_found = check_target_groups(tag_key, tag_values, elbv2_client, logger)

@@ -2,16 +2,8 @@ locals {
   module_namespace = "default"
 }
 
-
-# data "external" "update_alb_load_balancer" {
-#   program = ["sh", "-c", "cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.load_balancer"]
-# }
-
-# output "example" {
-#   value = data.external.update_alb_load_balancer.result
-# }
-
 resource "null_resource" "load_balancer" {
+
   triggers = {
     always_run = "${timestamp()}"
   }
@@ -20,7 +12,6 @@ resource "null_resource" "load_balancer" {
     command = "sh -c 'cd ../../../ && poetry run python -m portal_ai.terraform.helm.scripts.load_balancer'"
   }
 }
-
 
 resource "kubernetes_config_map" "python_script_config" {
   metadata {
@@ -35,7 +26,6 @@ resource "kubernetes_config_map" "python_script_config" {
     "kops_settings_base" = "${file("${var.generated_dir}/kops_settings_base.yml")}"
     "aws_plus_global_settings_base" = "${file("${var.generated_dir}/aws+global_settings_base.yml")}"
   }
-
 }
 
 
@@ -199,6 +189,5 @@ resource "helm_release" "atlantis" {
   wait          = true
   reset_values  = true
 
-  wait_for_jobs = true
-
 }
+

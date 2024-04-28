@@ -1,0 +1,19 @@
+namespace: default
+
+serviceAccounts:
+  - awssm
+  - pod-reader
+
+podReaderRole:
+  name: pod-reader
+
+podReaderRoleBinding:
+  name: pod-reader-binding
+  serviceAccountName: pod-reader
+
+secretManagerRole:
+  name: secret-manager-role
+
+secretManagerRoleBinding:
+  name: secret-manager-rolebinding
+  serviceAccountName: awssm

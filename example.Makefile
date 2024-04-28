@@ -1,7 +1,7 @@
 INITIAL_DIR := $(shell pwd)
-AWS_PROFILE := analyticsedge-dev
-AWS_START_URL := https://d-9067fc4734.awsapps.com/start#/
-DOMAIN := analyticsedge.net
+AWS_PROFILE := ## {{project}}-dev
+AWS_START_URL := ## {{ start url} }
+DOMAIN := ## {{ base project domain }}
 CLUSTER_NAME := k8s-dev.$(DOMAIN)
 KOPS_STATE := s3://kops-dev.$(DOMAIN)
 
@@ -28,9 +28,9 @@ deploy:
 	terraform init && \
 	terraform apply && \
 	cd $(INITIAL_DIR) && \
-	poetry run python -m portal_ai.deployments.aggregate_configs && \
-	./portal_ai/scripts/kops/create_cluster.sh $(AWS_PROFILE)
+	poetry run python -m portal_ai.deployments.aggregate_configs
 
+# portal_ai/scripts/kops/create_cluster.sh $(AWS_PROFILE)
 
 destroy:
 	$(call AWS_CONFIGURE_SSO,$(AWS_PROFILE),$(AWS_START_URL)) && \

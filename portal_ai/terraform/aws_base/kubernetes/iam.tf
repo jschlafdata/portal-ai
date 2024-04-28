@@ -44,26 +44,14 @@ resource "aws_iam_policy" "kops_policy" {
   path        = "/"
   description = "Allows KOPs to scale clusters"
 
+
   policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
         {
             "Effect": "Allow",
-            "Action": [
-                "ec2:*",
-                "route53:*",
-                "s3:*",
-                "iam:*",
-                "ec2:CreateVpc",
-                "ec2:DescribeVpcs",
-                "ec2:DeleteVpc",
-                "elasticloadbalancing:*",
-                "secretsmanager:CreateSecret",
-                "secretsmanager:UpdateSecret",
-                "secretsmanager:BatchGetSecretValue",
-                "secretsmanager:GetSecretValue"
-            ],
+            "Action": "*",
             "Resource": "*"
         }
     ]

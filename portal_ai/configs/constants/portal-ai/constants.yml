@@ -85,14 +85,14 @@ open_vpn_static_route_ip: "10.8.0.0/24"
 k8s_deployment_settings:
   smol_fry:
     masterMachineType: t3a.medium
-    nodeMachineType: m5.large
+    nodeMachineType: t3.medium
     podIdentityReplicas: 1
     mixedInstancesPolicy: 
       instances:
-      - m5.large
-      - m5a.large
-      - m6a.large
-      - m7a.large
+      - t3a.medium
+      - m7a.medium
+      - t3.medium
+      - t2.medium
     gpuMixedInstancesPolicy:
       instances:
       - g3.8xlarge

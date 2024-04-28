@@ -158,7 +158,6 @@ resource "helm_release" "reflector" {
 
 }
 
-
 resource "kubernetes_persistent_volume_claim" "efs_claim" {
   for_each = toset(local.namespaces)
 
@@ -182,6 +181,30 @@ resource "kubernetes_persistent_volume_claim" "efs_claim" {
       kubernetes_namespace.namespaces
   ]
 }
+
+resource "helm_release" "external-dns" {
+  name       = "external-dns"
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "external-dns"
+  version    = "6.36.1"
+
+  values = [
+    "${file("${var.helm_chart_path}/external/system/external-dns/values.yaml")}"
+  ]
+
+  dynamic "set" {
+    for_each = var.external_dns_requests
+    content {
+      name  = set.key
+      value = set.value
+    }
+  }
+
+  reset_values  = true
+  wait          = true
+
+}
+
 
 resource "helm_release" "nginx-internal" {
 
@@ -207,29 +230,6 @@ resource "helm_release" "nginx-internal" {
 
   wait          = true
   reset_values  = true
-
-}
-
-resource "helm_release" "external-dns" {
-  name       = "external-dns"
-  repository = "https://charts.bitnami.com/bitnami"
-  chart      = "external-dns"
-  version    = "6.36.1"
-
-  values = [
-    "${file("${var.helm_chart_path}/external/system/external-dns/values.yaml")}"
-  ]
-
-  dynamic "set" {
-    for_each = var.external_dns_requests
-    content {
-      name  = set.key
-      value = set.value
-    }
-  }
-
-  reset_values  = true
-  wait          = true
 
 }
 
@@ -272,4 +272,3 @@ resource "helm_release" "external-secrets" {
   reset_values  = true
 
 }
-
