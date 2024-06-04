@@ -1,8 +1,0 @@
-rds_token_path: {{"~/.ssh/" ~ project_name ~ "/rds.env"}}
-dns_domain: {{ dns.dns_domain }}
-vault_addr: {{ 'https://vault.' ~ dns.dns_domain }}
-git_public_key_path: {{"~/.ssh/" ~ project_name ~ "/id_ed25519_git.pub"}}
-git_private_key_path: {{"~/.ssh/" ~ project_name ~ "/id_ed25519_git"}}
-vault_key_path: {{"~/.ssh/" ~ project_name ~ "/vault_init_output.json"}}
-rds_username: {{ rds_username }}
-rds_instance_hostname: {{ rds_instance_hostname }}

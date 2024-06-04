@@ -1,5 +1,0 @@
-charts:
-  big-agi:
-    name: big-agi
-    ecrImage: ghcr.io/enricoros/big-agi
-    ingress_class_name: nginx-internal
