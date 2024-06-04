@@ -1,4 +1,0 @@
-apiVersion: v2
-name: default-roles
-description: A Helm chart for creating roles needed for pod operations.
-version: 0.3.0

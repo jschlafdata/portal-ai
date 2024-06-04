@@ -1,4 +1,0 @@
-apiVersion: v2
-name: TLS Reflections
-description: A Helm chart for mirroring tls certs across namespaces.
-version: 0.1.0

@@ -1,4 +1,0 @@
-apiVersion: v2
-name: mage-workspace
-description: A Helm chart for MageAI additional resource deployments.
-version: 0.1.0
