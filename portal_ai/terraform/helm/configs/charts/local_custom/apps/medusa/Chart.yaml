@@ -1,0 +1,4 @@
+apiVersion: v2
+name: medusa-helm
+description: A Helm chart for being sketch as fuck.
+version: 0.1.0

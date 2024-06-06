@@ -1,0 +1,111 @@
+g4dn:
+  details:
+  - gpuModel: NVIDIA T4 Tensor Core
+    vGPU: 16
+  instances:
+  - GPUs: 1
+    GiB: 16
+    name: g4dn.xlarge
+    vCPUs: 4
+    vGPU(GiB): 16
+  - GPUs: 1
+    GiB: 32
+    name: g4dn.2xlarge
+    vCPUs: 8
+    vGPU(GiB): 16
+  - GPUs: 4
+    GiB: 192
+    name: g4dn.12xlarge
+    vCPUs: 48
+    vGPU(GiB): 64
+g5:
+  details:
+  - gpuModel: NVIDIA A10G
+    vGPU: 24
+  instances:
+  - GPUs: 1
+    GiB: 16
+    name: g5.xlarge
+    vCPUs: 4
+    vGPU(GiB): 24
+  - GPUs: 1
+    GiB: 32
+    name: g5.2xlarge
+    vCPUs: 8
+    vGPU(GiB): 24
+  - GPUs: 4
+    GiB: 192
+    name: g5.12xlarge
+    vCPUs: 48
+    vGPU(GiB): 96
+p2:
+  details:
+  - gpuModel: NVIDIA Tesla K80
+    vGPU: 12
+  instances:
+  - GPUs: 1
+    GiB: 61
+    name: p2.xlarge
+    vCPUs: 4
+    vGPU(GiB): 12
+  - GPUs: 4
+    GiB: 488
+    name: p2.8xlarge
+    vCPUs: 32
+    vGPU(GiB): 96
+  - GPUs: 8
+    GiB: 732
+    name: p2.16xlarge
+    vCPUs: 64
+    vGPU(GiB): 192
+p3:
+  details:
+  - gpuModel: NVIDIA Tesla V100
+    vGPU: 16
+  instances:
+  - GPUs: 1
+    GiB: 61
+    name: p3.2xlarge
+    vCPUs: 8
+    vGPU(GiB): 16
+  - GPUs: 4
+    GiB: 244
+    name: p3.8xlarge
+    vCPUs: 32
+    vGPU(GiB): 64
+  - GPUs: 8
+    GiB: 488
+    name: p3.16xlarge
+    vCPUs: 64
+    vGPU(GiB): 128
+p3dn:
+  details:
+  - gpuModel: NVIDIA Tesla V100
+    vGPU: 256
+  instances:
+  - GPUs: 8
+    GiB: 768
+    name: p3dn.24xlarge
+    vCPUs: 96
+    vGPU(GiB): 256
+p4d:
+  details:
+  - gpuModel: NVIDIA A100
+    vGPU: 320
+  instances:
+  - GPUs: 8
+    GiB: 1152
+    name: p4d.24xlarge
+    vCPUs: 96
+    vGPU(GiB): 320
+p5:
+  details:
+  - gpuModel: NVIDIA H100
+    vGPU: 640
+  instances:
+  - GPUs: 8
+    GiB: 2048
+    name: p5.48xlarge
+    vCPUs: 192
+    vGPU(GiB): 640
+

@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: code-server.portal-ai.tools
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100m
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 1024m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1200"
+  labels:
+    app.kubernetes.io/instance: code-server
+    app.kubernetes.io/name: code-server
+    app.kubernetes.io/version: 0.9.16
+  name: code-server
+  namespace: de
+spec:
+  ingressClassName: nginx-external
+  rules:
+  - host: code-server.portal-ai.tools
+    http:
+      paths:
+      - backend:
+          service:
+            name: code-server
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - code-server.portal-ai.tools
+    secretName: wildcard-tls-cert-portal-ai-tools

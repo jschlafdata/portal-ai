@@ -1,0 +1,25 @@
+version: 1
+ingress_class_name: nginx-internal
+ingress:
+  domain_dns: {{ dnsDomain }}
+  tls_secret: {{ tlsSecretName }}
+deployment:
+  image: ghcr.io/nlmatics/nlm-ingestor:latest
+resources:
+  limits: null
+service_account_name: s3-manager
+service:
+  type: NodePort
+  port: 5001
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '1200'
+nodeSelector:
+  instance-group: null
+tolerations: null
+affinity: {}
+storage:
+  storageClassName: efs-dynamic-sc
+  storage: 100Gi
+  volume_handle: {{ efsVolumeHandle }}
+  access_mode: ReadWriteMany
+  aws_role: "{{ iamPolicies['efs-csi-controller-sa'] }}"

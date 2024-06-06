@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: code-server
+  name: code-server
+  namespace: de
+spec:
+  selector:
+    matchLabels:
+      app: code-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: code-server
+    spec:
+      serviceAccountName: s3-manager
+      containers:
+      - image: codercom/code-server:latest
+        imagePullPolicy: Always
+        name: code-server
+        env:
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: app_admin
+              name: eso-backend
+        volumeMounts:
+        - mountPath: /data
+          name: model
+        workingDir: /
+      nodeSelector:
+        instance-group: spot-memory-nodes-r5-xl-us-west-2b
+      tolerations:
+      - effect: NoSchedule
+        key: memory
+        operator: Equal
+        value: "true"
+      volumes:
+      - name: model
+        persistentVolumeClaim:
+          claimName: jupyter-lab-r5

@@ -1,0 +1,22 @@
+charts:
+  development:
+    name: mageai-dev-wkspc
+    workspace_name: development
+    ingress_class_name: nginx-internal
+    web_alias: dev
+    gitBranch: dev
+    dbtEnv: __$DEV
+  stage:
+    name: mageai-stage-wkspc
+    workspace_name: stage
+    ingress_class_name: nginx-internal
+    web_alias: stage
+    gitBranch: stage
+    dbtEnv: __$STAGE
+  production:
+    name: mageai-prod-wkspc
+    workspace_name: production
+    ingress_class_name: nginx-internal
+    web_alias: prod
+    gitBranch: prod
+    dbtEnv: ''

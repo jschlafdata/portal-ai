@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 1024m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100m
+    external-dns.alpha.kubernetes.io/hostname: comfyui-oahu-{{ .Release.Name }}.{{ .Values.ingress.domain_dns }}
+  labels:
+    app.kubernetes.io/instance: comfyui-oahu-{{ .Release.Name }}
+    app.kubernetes.io/name: comfyui-oahu-{{ .Release.Name }}
+    app.kubernetes.io/version: 0.9.16
+  name: comfyui-oahu-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  ingressClassName: {{ .Values.ingress_class_name }}
+  rules:
+  - host: comfyui-oahu-{{ .Release.Name }}.{{ .Values.ingress.domain_dns }}
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Release.Name }}-comfyui
+            port:
+              number: 8188
+  tls:
+  - hosts:
+    - comfyui-oahu-{{ .Release.Name }}.{{ .Values.ingress.domain_dns }}
+    secretName: {{ .Values.ingress.tls_secret }}
+

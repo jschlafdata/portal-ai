@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../current/pcg/360_prod"
+		},
+		{
+			"path": "../../current/pcg/dbt"
+		},
+		{
+			"path": "../../current/pcg/if_insurance"
+		},
+		{
+			"path": "../../current/pcg/optimize"
+		},
+		{
+			"path": "../../current/pcg/policies"
+		},
+		{
+			"path": "../../current/pcg/tuna"
+		}
+	],
+	"settings": {}
+}

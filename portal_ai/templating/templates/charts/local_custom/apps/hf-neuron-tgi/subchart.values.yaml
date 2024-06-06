@@ -1,0 +1,13 @@
+charts:
+  mistral-xl:
+    version: 1
+    neuroncore: 2
+    name: mistral-xl
+    gpuNodeGroup: inf-nodes-inf2-xl-us-west-2b
+    ingress_class_name: nginx-internal
+  mistral-8xl:
+    version: 1
+    neuroncore: 2
+    name: standard-2xl
+    gpuNodeGroup: inf-nodes-inf2-8xl-us-west-2b
+    ingress_class_name: nginx-internal

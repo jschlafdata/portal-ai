@@ -1,0 +1,10 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: ServiceAccountIAMPermissions
+metadata:
+  name: s3-manager-de
+spec:
+  serviceAccountName: s3-manager-de
+  namespace: de
+  aws:
+    policyARNs:
+    - arn:aws:iam::406622241617:policy/s3-manager

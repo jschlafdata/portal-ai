@@ -1,0 +1,4 @@
+apiVersion: v2
+name: huggingface-aws-neuron
+description: A Helm chart for deploying INF2 Neuron TGI endpoints
+version: 0.1.0

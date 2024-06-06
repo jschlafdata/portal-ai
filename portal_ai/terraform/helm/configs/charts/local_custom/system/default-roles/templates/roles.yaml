@@ -1,0 +1,13 @@
+{{- range .Values.serviceAccounts }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .name }}-role
+  namespace: {{ .namespace }}
+  annotations:
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: {{ $.Release.Name }}
+rules:
+{{ toYaml .rules | indent 2 }}
+{{- end }}

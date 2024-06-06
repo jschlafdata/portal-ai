@@ -1,0 +1,50 @@
+version: 1
+ingress_class_name: nginx-internal
+ingress:
+  domain_dns: {{ dnsDomain }}
+  tls_secret: {{ tlsSecretName }}
+
+deployment:
+  image: datawookie/medusa-proxy
+  replicas: 0
+webService:
+  enabled: true 
+  ingress_class_name: nginx-internal
+socksService:
+  enabled: true 
+  ingress_class_name: nginx-external
+nodeSelector:
+  instance-group: spot-memory-nodes-r5-l-us-west-2b
+tolerations:
+- key: memory
+  operator: Equal
+  value: 'true'
+  effect: NoSchedule
+beastHeads:
+  tors: 3
+medusaPorts:
+  application:
+    include: true
+    ports:
+    - port: 2090
+      name: web
+  socks:
+    include: true
+    ports:
+    - port: 1081
+      name: socks1
+  haproxy:
+    include: true
+    ports:
+    - port: 8800
+      name: urls
+    - port: 1080
+      name: socks0
+  http:
+    include: true
+    ports:
+    - 8888
+    - 8889
+    - 8890
+    - 8891
+    - 8892

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app.kubernetes.io/instance: {{ .Chart.Name }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Chart.Name }}
+      app.kubernetes.io/name: {{ .Release.Name }}
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}
+      labels:
+        app.kubernetes.io/instance: {{ .Chart.Name }}
+        app.kubernetes.io/name: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: {{ .Values.deployment.image }}
+          ports:
+          - containerPort: {{ .Values.service.port }}
+            name: neuronx-http
+      volumes:
+      - name: model
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-models

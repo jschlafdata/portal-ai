@@ -1,0 +1,35 @@
+charts:
+  coder-xl:
+    version: 1
+    name: coder-xl
+    gpuNodeGroup: spot-gpu-nodes-gxl-us-west-2b
+    gpuRequests: 1
+    ingress_class_name: nginx-internal
+    storageSize: 500Gi
+    models:
+    - deepseek-coder
+    - dolphincoder
+    - codeqwen
+  standard-2xl:
+    version: 1
+    name: standard-2xl
+    gpuNodeGroup: spot-gpu-nodes-g2xl-us-west-2b
+    gpuRequests: 1
+    ingress_class_name: nginx-internal
+    storageSize: 500Gi
+    models:
+    - mistral
+    - llama3
+    - dolphin-llama3
+    - openhermes
+    - mxbai-embed-large:335m
+    - calebfahlgren/natural-functions:Q8_0
+  dolphin-mixtral:
+    version: 1
+    name: dolphin-mixtral
+    gpuNodeGroup: spot-gpu-nodes-g12xl-us-west-2b
+    gpuRequests: 4
+    ingress_class_name: nginx-internal
+    storageSize: 1000Gi
+    models:
+    - dolphin-mixtral:8x22b

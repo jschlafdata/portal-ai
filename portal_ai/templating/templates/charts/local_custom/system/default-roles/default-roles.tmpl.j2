@@ -1,0 +1,24 @@
+namespace: default
+
+serviceAccounts:
+- name: s3-manager
+  namespace: default
+  serviceAccountName: s3-manager
+  rules:
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "watch"]
+- name: pod-reader
+  namespace: default
+  serviceAccountName: pod-reader
+  rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create", "get", "list", "watch", "delete", "update"]
+- name: secret-manager
+  namespace: default
+  serviceAccountName: awssm
+  rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create", "get", "list", "watch", "delete", "update"]

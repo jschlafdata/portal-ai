@@ -1,0 +1,22 @@
+
+version: 1
+ingress_class_name: nginx-external
+ingress:
+  domain_dns: {{ dnsDomain }}
+  tls_secret: {{ tlsSecretName }}
+
+service:
+  port: 2090
+env:
+  heads: "2"
+  tors: "3"
+
+deployment:
+  image: datawookie/medusa-proxy
+nodeSelector:
+  instance-group: {{ nodeSelector }}
+tolerations:
+- key: "memory"
+  operator: "Equal"
+  value: "true"
+  effect: "NoSchedule"

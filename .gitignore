@@ -21,7 +21,7 @@ portal_ai/terraform/helm/configs/deployment_settings.yml
 portal_ai/terraform/**remote.tf
 portal_ai/terraform/aws_base/configs/generated/global_settings_base.yml
 portal_ai/terraform/aws_base/remote.tf
-portal_ai/terraform/helm/remote.tf
+portal_ai/terraform/aws_base/remote.tf
 
 
 

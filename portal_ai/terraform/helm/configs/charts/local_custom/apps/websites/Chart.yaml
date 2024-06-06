@@ -1,0 +1,4 @@
+apiVersion: v2
+name: Custom Website Deployments
+description: A Helm chart for Kubernetes to create website deployments from images in ECR or external git repo.
+version: 0.1.0
