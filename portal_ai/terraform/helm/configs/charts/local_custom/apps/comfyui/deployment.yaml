@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comfyui
+  labels:
+    app: comfyui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: comfyui
+  template:
+    metadata:
+      labels:
+        app: comfyui
+    spec:
+      containers:
+      - name: comfyui-container
+        image: jschlafdata/portal-ai:comfyui-gpu
+        imagePullPolicy: Always
+        workingDir: /app
+        ports:
+        - containerPort: 8188
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+      nodeSelector:
+        instance-group: gpu-nodes-g6-xl-us-west-2b
+      tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists

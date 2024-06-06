@@ -1,0 +1,13 @@
+charts:
+  r5-xl:
+    version: 2
+    name: r5xl
+    nodeSelector: spot-memory-nodes-r5-l-us-west-2b
+    ingress_class_name: nginx-external
+    service_account_name: s3-manager
+  r5-2xl:
+    version: 2
+    name: r52xl
+    nodeSelector: spot-memory-nodes-r5-xl-us-west-2b
+    ingress_class_name: nginx-external
+    service_account_name: s3-manager

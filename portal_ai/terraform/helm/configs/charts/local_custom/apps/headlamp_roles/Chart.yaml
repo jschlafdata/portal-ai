@@ -1,0 +1,4 @@
+apiVersion: v2
+name: headlamp-roles
+description: A Helm chart for creating a persisted headlamp secret and role binding.
+version: 0.1.0

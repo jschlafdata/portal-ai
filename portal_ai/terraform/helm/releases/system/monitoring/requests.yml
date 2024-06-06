@@ -1,0 +1,36 @@
+kube_state_metrics:
+  replicas: 1
+  requests:
+    memory:
+      resources.requests.memory: 10Mi
+    cpu:
+      resources.requests.cpu: 10m
+
+prometheus_node_exporter:
+  requests:
+    memory:
+      resources.requests.memory: 10Mi
+    cpu:
+      resources.requests.cpu: 10m
+
+prometheus:
+  replicaCount: 1
+  requests:
+    memory:
+      server.resources.requests.memory: 10Mi
+      configmapReload.prometheus.resources.requests.memory: 10Mi
+    cpu:
+      server.resources.requests.cpu: 10m
+      configmapReload.prometheus.resources.requests.cpu: 10m
+
+grafana:
+  replicas: 1
+  requests:
+    memory:
+      resources.requests.memory: 10Mi
+      sidecar.resources.requests.memory: 10Mi
+      imageRenderer.resources.requests.memory: 10Mi
+    cpu:
+      resources.requests.cpu: 10m
+      sidecar.resources.requests.cpu: 10m
+      imageRenderer.resources.requests.cpu: 10m

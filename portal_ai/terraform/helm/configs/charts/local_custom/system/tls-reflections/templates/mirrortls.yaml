@@ -1,0 +1,12 @@
+{{- $tlsSecretName := .Values.tls_mirror.tlsSecretName -}}
+{{- range .Values.tls_mirror.namespaces }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $tlsSecretName }}
+  namespace: {{ . }}
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflects: {{ printf "default/%s" $tlsSecretName }}
+data:
+---
+{{- end }}

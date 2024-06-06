@@ -1,0 +1,18 @@
+charts:
+  mageai-workspaces:
+    sub_charts:
+    - development
+    - stage
+    - production
+  jupyter-memory-workspaces:
+    sub_charts:
+    - r5-2xl
+    - r5-xl
+  jupyter-lab-accelerated:
+    sub_charts:
+    - g6-xl
+    - g5-xl
+  websites:
+    sub_charts:
+      big-agi:
+        namespace: gpu

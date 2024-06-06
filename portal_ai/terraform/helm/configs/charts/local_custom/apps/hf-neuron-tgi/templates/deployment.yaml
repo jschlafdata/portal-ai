@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      schedulerName: {{ .Values.nueronScheduler.name }}
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.deployment.image }}
+        ports:
+        - containerPort: {{ .Values.ports.containerPort.port }}
+          name: {{ .Values.release_suffix }}
+        env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: eso-backend
+              key: hf_token
+        - name: HF_USER
+          value: "{{ .Values.hf_user }}"
+        - name: HF_NUM_CORES
+          value: "{{ .Values.env.HF_NUM_CORES }}"
+        - name: HF_BATCH_SIZE
+          value: "{{ .Values.env.HF_BATCH_SIZE }}"
+        - name: HF_SEQUENCE_LENGTH
+          value: "{{ .Values.env.HF_SEQUENCE_LENGTH }}"
+        - name: HF_AUTO_CAST_TYPE
+          value: "{{ .Values.env.HF_AUTO_CAST_TYPE }}"
+        - name: MAX_BATCH_SIZE
+          value: "{{ .Values.env.MAX_BATCH_SIZE }}"
+        - name: MAX_BATCH_TOTAL_TOKENS
+          value: "{{ .Values.env.MAX_BATCH_TOTAL_TOKENS }}"
+        - name: NEURON_RT_VISIBLE_CORES
+          value: "{{ .Values.env.NEURON_RT_VISIBLE_CORES }}"
+        - name: NEURON_RT_NUM_CORES
+          value: "{{ .Values.env.NEURON_RT_NUM_CORES }}"
+        volumeMounts:
+        - mountPath: /data
+          name: data
+        resources:
+          limits:
+            aws.amazon.com/neuroncore: 2
+        args:
+        - --model-id
+        - davidshtian/Mistral-7B-Instruct-v0.2-neuron-1x2048-2-cores-2.18
+        - --max-batch-size
+        - "1"
+        - --max-input-length
+        - "1000"
+        - --max-total-tokens
+        - "2048"
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pvc
+      tolerations:
+{{- if .Values.tolerations }}
+{{ toYaml .Values.tolerations | indent 8 }}
+{{- end }}
+      nodeSelector:
+{{- if .Values.nodeSelector }}
+{{ toYaml .Values.nodeSelector | indent 8 }}
+{{- end }}

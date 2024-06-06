@@ -1,0 +1,51 @@
+deployment:
+  image: ghcr.io/huggingface/neuronx-tgi:latest
+
+tolerations:
+- key: aws.amazon.com/neuron
+  operator: Exists
+  effect: NoSchedule
+
+storage:
+  storageClassName: efs-dynamic-sc
+  storage: 100Gi
+  volume_handle: {{ efsVolumeHandle }}
+  access_mode: ReadWriteMany
+
+ports:
+  containerPort:
+    name: http
+    port: 80
+    targetPort: 80
+service:
+  type: ClusterIP
+
+hf_user: {{ huggingfaceUser }}
+
+nodeSelector:
+  instance-group: {{ gpuNodeGroup }}
+
+nueronScheduler:
+  name: my-scheduler
+
+env:
+  HF_NUM_CORES: "2"
+  HF_BATCH_SIZE: "1"
+  HF_SEQUENCE_LENGTH: "2048"
+  HF_AUTO_CAST_TYPE: "bf16"
+  MAX_BATCH_SIZE: "1"
+  MAX_BATCH_TOTAL_TOKENS: "2048"
+  NEURON_RT_VISIBLE_CORES: "0-1"
+  NEURON_RT_NUM_CORES: "2"
+resources:
+  limits:
+    neuroncore: {{ neuroncore }}
+args:
+  - --model-id
+  - davidshtian/Mistral-7B-Instruct-v0.2-neuron-1x2048-2-cores-2.18
+  - --max-batch-size
+  - "1"
+  - --max-input-length
+  - "1000"
+  - --max-total-tokens
+  - "2048"

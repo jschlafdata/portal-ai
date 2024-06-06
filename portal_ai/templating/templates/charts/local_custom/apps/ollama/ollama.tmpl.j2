@@ -1,0 +1,126 @@
+replicaCount: 1
+
+image:
+  repository: ollama/ollama
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+ollama:
+  gpu:
+    enabled: true
+    type: 'nvidia'
+    number: {{ gpuRequests }}
+
+  models:
+  {% for model in models %}
+  - {{ model }}
+  {% endfor %}
+
+  insecure: false
+
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podLabels: {}
+
+podSecurityContext: {}
+securityContext: {}
+runtimeClassName: "nvidia"
+
+# Configure Service
+service:
+  type: ClusterIP
+  port: 11434
+  nodePort: 31434
+  annotations: {}
+
+ingress:
+  enabled: false
+  className: "nginx-internal"
+
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ name }}-ollama.{{ dnsDomain }}
+    meta.helm.sh/release-name: vault-ingress
+    meta.helm.sh/release-namespace: default
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "256k"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m"
+  hosts:
+    - host: {{ name }}-ollama.{{ dnsDomain }}
+      paths:
+        - path: /
+          pathType: Prefix
+
+  tls:
+  - hosts:
+        - {{ name }}-ollama.{{ dnsDomain }}
+    secretName: {{ tlsSecretName }}
+
+resources:
+  requests: {}
+  limits:
+    nvidia.com/gpu: {{ gpuRequests }}
+
+# Configure extra options for liveness probe
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
+livenessProbe:
+  # -- Enable livenessProbe
+  enabled: true
+  path: /
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+readinessProbe:
+  enabled: true
+  path: /
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 6
+  successThreshold: 1
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumes: []
+volumeMounts: []
+extraArgs: []
+extraEnv: []
+
+persistentVolume:
+  enabled: true
+  accessModes:
+  - ReadWriteOnce
+  annotations: {}
+  existingClaim: ''
+  size: {{ storageSize }}
+  storageClass: 'efs-dynamic-sc'
+  volumeMode: 'Filesystem'
+  subPath: 
+
+nodeSelector:
+  instance-group: {{ gpuNodeGroup }}
+
+affinity: {}
+
+updateStrategy:
+  type: ""
+
+initContainers: []

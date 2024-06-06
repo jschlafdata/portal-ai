@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace | quote }}
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 3000
+  selector:
+    app: {{ .Values.name }}

@@ -1,0 +1,89 @@
+efs_csi:
+  replicaCount: 1
+  requests:
+    memory:
+      sidecars.nodeDriverRegistrar.resources.requests.memory: 10Mi
+      sidecars.livenessProbe.resources.requests.memory: 10Mi
+      sidecars.csiProvisioner.resources.requests.memory: 10Mi
+      controller.resources.requests.memory: 10Mi
+      node.resources.requests.memory: 10Mi
+    cpu:
+      sidecars.nodeDriverRegistrar.resources.requests.cpu: 10m
+      sidecars.livenessProbe.resources.requests.cpu: 10m
+      sidecars.csiProvisioner.resources.requests.cpu: 10m
+      controller.resources.requests.cpu: 10m
+      node.resources.requests.cpu: 10m
+
+vault:
+  injector:
+    enabled: false
+  requests:
+    memory:
+      injector.resources.requests.memory: 10Mi
+      server.resources.requests.memory: 10Mi
+      csi.resources.requests.memory: 10Mi
+      csi.agent.resources.requests.memory: 10Mi
+      injector.agentDefaults.memRequest: 32Mi
+    cpu:
+      injector.resources.requests.cpu: 10m
+      server.resources.requests.cpu: 10m
+      csi.resources.requests.cpu: 10m
+      csi.agent.resources.requests.cpu: 10m
+      injector.agentDefaults.cpuRequest: 25m
+
+reflector:
+  requests:
+    memory:
+      resources.requests.memory: 10Mi
+    cpu:
+      resources.requests.cpu: 10m
+
+external_dns:
+  requests:
+    memory:
+      resources.requests.memory: 10Mi
+    cpu:
+      resources.requests.cpu: 10m
+
+nginx_internal:
+  replicaCount: 1
+  requests:
+    replicas:
+      controller.autoscaling.minReplicas: 2
+      controller.autoscaling.maxReplicas: 3
+    memory:
+      controller.resources.requests.memory: 10Mi
+      controller.admissionWebhooks.resources.requests.memory: 10Mi
+      controller.patchWebhookJob.resources.requests.memory: 10Mi
+    cpu:
+      controller.resources.requests.cpu: 10m
+      controller.admissionWebhooks.resources.requests.cpu: 10m
+      controller.patchWebhookJob.resources.requests.cpu: 10m
+
+nginx_external:
+  replicaCount: 1
+  requests:
+    replicas:
+      controller.autoscaling.minReplicas: 2
+      controller.autoscaling.maxReplicas: 3
+    memory:
+      controller.resources.requests.memory: 10Mi
+      controller.admissionWebhooks.resources.requests.memory: 10Mi
+      controller.patchWebhookJob.resources.requests.memory: 10Mi
+    cpu:
+      controller.resources.requests.cpu: 10m
+      controller.admissionWebhooks.resources.requests.cpu: 10m
+      controller.patchWebhookJob.resources.requests.cpu: 10m
+
+
+external_secrets:
+  replicaCount: 1
+  requests:
+    memory:
+      resources.requests.memory: 10Mi
+      webhook.resources.requests.memory: 10Mi
+      certController.resources.requests.memory: 10Mi
+    cpu:
+      resources.requests.cpu: 10m
+      webhook.resources.requests.cpu: 10m
+      certController.resources.requests.cpu: 10m

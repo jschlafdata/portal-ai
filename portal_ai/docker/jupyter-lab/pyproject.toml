@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "portal-ai-jupyter"
+version = "0.0.1"
+description = "Portal-AI is a tool for deploying AWS infrastructure to run GPU accelerated workflows and websites for LLMs."
+authors = ["Schlafdata <john@schlafdata.com>"]
+readme = "README.md"
+license = ""
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+pyyaml = "6.0.1"
+jinja2 = "3.1.3"
+boto3= "1.34.74"
+psycopg2-binary = "2.9.9"
+jupyterlab = "4.2.0"
+pandas = "2.2.2"
+numpy = "1.26.4"
+tabula-py = { version = "2.9.1", extras = ["jpype"] }
+pytesseract = "0.3.10"
+lxml = "5.2.2"
+PyMuPDF = "1.23.21"
+pillow = "10.3.0"
+llama-index = "0.10.37"
+llmsherpa = "0.1.4"
+pydantic = "2.7.1"
+bs4 = "0.0.2"
+
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"

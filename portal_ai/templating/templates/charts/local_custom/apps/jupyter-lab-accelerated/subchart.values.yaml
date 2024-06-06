@@ -1,0 +1,8 @@
+charts:
+  gxl:
+    version: 3
+    name: g6xl
+    gpuNodeGroup: spot-gpu-nodes-gxl-us-west-2b
+    gpuRequests: 1
+    ingress_class_name: nginx-external
+    service_account_name: s3-manager

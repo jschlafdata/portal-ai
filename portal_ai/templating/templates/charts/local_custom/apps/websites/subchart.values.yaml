@@ -1,0 +1,17 @@
+charts:
+  big-agi:
+    name: big-agi
+    image_loc: external
+    image_version: 
+    ecrImage: ghcr.io/enricoros/big-agi
+    namespace: gpu
+    ingress_class_name: nginx-external
+    port: 3000
+  docs:
+    name: docs
+    image_version: latest
+    image_loc: ecr
+    ecrImage: 471112846802.dkr.ecr.us-east-1.amazonaws.com/dev.portal-docs:latest
+    namespace: de
+    ingress_class_name: nginx-external
+    port: 3000

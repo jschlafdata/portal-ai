@@ -1,0 +1,130 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "headlamp.fullname" . }}
+  labels:
+    {{- include "headlamp.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "headlamp.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "headlamp.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "headlamp.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- with .Values.initContainers }}
+      initContainers:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.registry}}/{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{ if or .Values.config.oidc .Values.env }}
+          env:
+            {{- with .Values.config.oidc }}
+            {{- if or .clientID (not .secret.create) }}
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .secret.name }}
+                  key: clientID
+            {{- end }}
+            {{- if or .clientSecret (not .secret.create) }}
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .secret.name }}
+                  key: clientSecret
+            {{- end }}
+            {{- if or .issuerURL (not .secret.create) }}
+            - name: OIDC_ISSUER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .secret.name }}
+                  key: issuerURL
+            {{- end }}
+            {{- if or .scopes (not .secret.create) }}
+            - name: OIDC_SCOPES
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .secret.name }}
+                  key: scopes
+            {{- end }}
+            {{- end }}
+            {{- if .Values.env }}
+            {{- toYaml .Values.env | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          args:
+            - "-in-cluster"
+            {{- with .Values.config.pluginsDir}}
+            - "-plugins-dir={{ . }}"
+            {{- end }}
+            {{- if or .Values.config.oidc.clientID (not .Values.config.oidc.secret.create) }}
+            - "-oidc-client-id=$(OIDC_CLIENT_ID)"
+            {{- end }}
+            {{- if or .Values.config.oidc.clientSecret (not .Values.config.oidc.secret.create) }}
+            - "-oidc-client-secret=$(OIDC_CLIENT_SECRET)"
+            {{- end }}
+            {{- if or .Values.config.oidc.issuerURL (not .Values.config.oidc.secret.create) }}
+            - "-oidc-idp-issuer-url=$(OIDC_ISSUER_URL)"
+            {{- end }}
+            {{- if or .Values.config.oidc.scopes (not .Values.config.oidc.secret.create) }}
+            - "-oidc-scopes=$(OIDC_SCOPES)"
+            {{- end }}
+            {{- with .Values.config.baseURL }}
+            - "-base-url={{ . }}"
+            {{- end }}
+            {{- with .Values.config.extraArgs }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 4466
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: "{{ .Values.config.baseURL }}/"
+              port: http
+          readinessProbe:
+            httpGet:
+              path: "{{ .Values.config.baseURL }}/"
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.volumes}}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

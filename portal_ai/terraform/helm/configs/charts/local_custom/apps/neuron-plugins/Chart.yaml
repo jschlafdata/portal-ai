@@ -1,0 +1,4 @@
+apiVersion: v2
+name: aws-neoron-operators
+description: A Helm chart for deployments that detect neuron instances
+version: 0.1.0

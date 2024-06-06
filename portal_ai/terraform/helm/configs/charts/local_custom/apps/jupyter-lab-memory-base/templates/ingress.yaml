@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 1024m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100m
+    external-dns.alpha.kubernetes.io/hostname: {{ .Release.Name }}.{{ .Values.ingress.domain_dns }}
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/version: 0.9.16
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.namespace }}
+spec:
+  ingressClassName: {{ .Values.ingress_class_name }}
+  rules:
+  - host: {{ .Release.Name }}.{{ .Values.ingress.domain_dns }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ .Release.Name }}
+            port:
+              number: {{ .Values.service.port }}
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - {{ .Release.Name }}.{{ .Values.ingress.domain_dns }}
+    secretName: {{ .Values.ingress.tls_secret }}
+

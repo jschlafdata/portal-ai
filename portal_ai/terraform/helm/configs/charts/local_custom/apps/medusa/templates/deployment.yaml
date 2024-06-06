@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app.kubernetes.io/instance: {{ .Chart.Name }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Chart.Name }}
+      app.kubernetes.io/name: {{ .Release.Name }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}
+      labels:
+        app.kubernetes.io/instance: {{ .Chart.Name }}
+        app.kubernetes.io/name: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.deployment.image }}
+        securityContext:
+          runAsUser: 0
+        ports:
+          {{- if .Values.medusaPorts.application.include }}
+          {{- range .Values.medusaPorts.application.ports }}
+          - containerPort: {{ .port }}
+            name: {{ .name }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.medusaPorts.haproxy.include }}
+          {{- range .Values.medusaPorts.haproxy.ports }}
+          - containerPort: {{ .port }}
+            name: {{ .name }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.medusaPorts.http.include }}
+          {{- range $index, $port := .Values.medusaPorts.http.ports }}
+          - containerPort: {{ $port }}
+            name: http{{ $index }}
+          {{- end }}
+          {{- end }}
+        env:
+        - name: HEADS
+          value: "{{ len .Values.medusaPorts.http.ports }}"
+        - name: TORS
+          value: {{ .Values.beastHeads.tors | quote }}
+      tolerations:
+{{- if .Values.tolerations }}
+{{ toYaml .Values.tolerations | indent 8 }}
+{{- end }}
+      nodeSelector:
+{{- if .Values.nodeSelector }}
+{{ toYaml .Values.nodeSelector | indent 8 }}
+{{- end }}
+

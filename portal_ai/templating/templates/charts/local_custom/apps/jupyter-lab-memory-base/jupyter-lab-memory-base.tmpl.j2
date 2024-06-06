@@ -1,0 +1,31 @@
+version: 3
+ingress_class_name: nginx-external
+ingress:
+  domain_dns: {{ dnsDomain }}
+  tls_secret: {{ tlsSecretName }}
+deployment:
+  image: jschlafdata/portal-ai:jupyter-base-1.0
+resources:
+  limits: null
+service_account_name: s3-manager
+service:
+  type: NodePort
+  port: 8889
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '1200'
+nodeSelector:
+  instance-group: {{ nodeSelector }}
+tolerations:
+- key: "memory"
+  operator: "Equal"
+  value: "true"
+  effect: "NoSchedule"
+affinity: {}
+pvc:
+  Name: jupyter-lab-r5
+storage:
+  storageClassName: efs-dynamic-sc
+  storage: 100Gi
+  volume_handle: {{ efsVolumeHandle }}
+  access_mode: ReadWriteMany
+  aws_role: "{{ iamPolicies['efs-csi-controller-sa'] }}"

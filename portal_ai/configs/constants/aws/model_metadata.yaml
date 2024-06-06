@@ -1,0 +1,1092 @@
+gpt2:
+  openai-community/gpt2:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 1024
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: gpt2
+    max_position_embeddings: null
+    seq_length: null
+    hidden_size: null
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 1024
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: gpt2
+    max_position_embeddings: null
+    seq_length: null
+    hidden_size: null
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 16
+    sequence_length: 1024
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: gpt2
+    max_position_embeddings: null
+    seq_length: null
+    hidden_size: null
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 1024
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: gpt2
+    max_position_embeddings: null
+    seq_length: null
+    hidden_size: null
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 1024
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: gpt2
+    max_position_embeddings: null
+    seq_length: null
+    hidden_size: null
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 16
+    sequence_length: 1024
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: gpt2
+    max_position_embeddings: null
+    seq_length: null
+    hidden_size: null
+llama-variants:
+  abacusai/Smaug-72B-v0.1:
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 32768
+    seq_length: 32768
+    hidden_size: 8192
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 32768
+    seq_length: 32768
+    hidden_size: 8192
+  01-ai/Yi-34B-200K:
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 200000
+    seq_length: null
+    hidden_size: 7168
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 200000
+    seq_length: null
+    hidden_size: 7168
+  defog/sqlcoder-7b-2:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 16384
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 16384
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 16384
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 16384
+    seq_length: null
+    hidden_size: 4096
+  m-a-p/OpenCodeInterpreter-DS-6.7B:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 16384
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 16384
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 16384
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 16384
+    seq_length: null
+    hidden_size: 4096
+  gorilla-llm/gorilla-openfunctions-v2:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 4096
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 4096
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 4096
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 4096
+    seq_length: null
+    hidden_size: 4096
+  m-a-p/ChatMusician:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 2048
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 2048
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 2048
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 2048
+    seq_length: null
+    hidden_size: 4096
+  LargeWorldModel/LWM-Text-Chat-1M:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 1048576
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 1048576
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 1048576
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 1048576
+    seq_length: null
+    hidden_size: 4096
+  HuggingFaceTB/cosmo-1b:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 2048
+    seq_length: null
+    hidden_size: 2048
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 2048
+    seq_length: null
+    hidden_size: 2048
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 2048
+    seq_length: null
+    hidden_size: 2048
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama-variants
+    max_position_embeddings: 2048
+    seq_length: null
+    hidden_size: 2048
+llama2:
+  meta-llama/Llama-2-13b-chat-hf:
+  - instance: inf2.24xlarge
+    accelerators: 6
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 12
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.24xlarge
+    accelerators: 6
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 12
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.24xlarge
+    accelerators: 6
+    batch_size: 8
+    sequence_length: 4096
+    num_cores: 12
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.24xlarge
+    accelerators: 6
+    batch_size: 16
+    sequence_length: 4096
+    num_cores: 12
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.24xlarge
+    accelerators: 6
+    batch_size: 32
+    sequence_length: 4096
+    num_cores: 12
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 8
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 16
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 32
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  meta-llama/Llama-2-70b-chat-hf:
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  meta-llama/Llama-2-7b-chat-hf:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama2
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+llama3:
+  meta-llama/Meta-Llama-3-70B:
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama3
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.48xlarge
+    accelerators: 12
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 24
+    auto_cast_type: fp16
+    model_group: llama3
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  meta-llama/Meta-Llama-3-8B:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama3
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama3
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 8
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama3
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama3
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama3
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 8
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: llama3
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+mistral:
+  mistralai/Mistral-7B-Instruct-v0.2:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  mistralai/Mistral-7B-Instruct-v0.1:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+mistral-variants:
+  HuggingFaceH4/zephyr-7b-beta:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  NousResearch/Genstruct-7B:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  BioMistral/BioMistral-7B:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  NousResearch/Hermes-2-Pro-Mistral-7B:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  NousResearch/Nous-Hermes-2-Mistral-7B-DPO:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  ibm/merlinite-7b:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  mlabonne/AlphaMonarch-7B:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: fp16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  teknium/OpenHermes-2.5-Mistral-7B:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  TencentARC/Mistral_Pro_8B_v0.1:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 32768
+    seq_length: null
+    hidden_size: 4096
+  openchat/openchat-3.5-0106:
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 8192
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.8xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 8192
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 1
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 8192
+    seq_length: null
+    hidden_size: 4096
+  - instance: inf2.xlarge
+    accelerators: 1
+    batch_size: 4
+    sequence_length: 4096
+    num_cores: 2
+    auto_cast_type: bf16
+    model_group: mistral-variants
+    max_position_embeddings: 8192
+    seq_length: null
+    hidden_size: 4096

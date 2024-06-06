@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-neuron-scheduler
+  namespace: kube-system
+  labels:
+    app: neuron-scheduler
+    component: k8s-neuron-scheduler
+spec:
+  ports:
+  - port: 12345
+    name: http
+    targetPort: 12345
+  selector:
+    # select app=ingress-nginx pods
+    app: neuron-scheduler
+    component: k8s-neuron-scheduler   

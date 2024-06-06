@@ -1,0 +1,26 @@
+## constants
+storage: 10Gi
+access_mode: ReadWriteMany
+mage_prefix: "mage-data"
+pod_index: "0"
+
+workspace_name: {{ workspace_name }}
+dnsDomain: {{ dnsDomain }}
+tlsSecretName: {{ tlsSecretName }}
+ingress_class_name: {{ ingress_class_name }}
+
+efsVolumeHandle: {{ efsVolumeHandle }}
+iam_role: {{ iamPolicies.kops }}
+web_alias: {{ web_alias }}
+service:
+  port: 6789
+
+name: {{ name }}
+path: {{ '/' ~ workspace_name }}
+
+awsRegion: {{ awsRegion }}
+gitAdminEmail: {{ gitAdminEmail }}
+gitAdminUsername: {{ gitAdminUsername }}
+mageGitRepoLink: {{ mageGitRepoLink }}
+gitBranch: {{ gitBranch }}
+dbtEnv: {{ dbtEnv }}
